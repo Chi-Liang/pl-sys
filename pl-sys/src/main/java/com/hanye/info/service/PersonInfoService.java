@@ -1,11 +1,7 @@
 package com.hanye.info.service;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -14,18 +10,11 @@ import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 
 import com.hanye.info.convert.BeanConverter;
-import com.hanye.info.model.Category;
-import com.hanye.info.model.Member;
 import com.hanye.info.model.PersonInfo;
-import com.hanye.info.model.User;
-import com.hanye.info.model.Video;
 import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.PersonInfoRepository;
 import com.hanye.info.repository.VideoRepository;
-import com.hanye.info.vo.MemberVO;
 import com.hanye.info.vo.PersonInfoVO;
-import com.hanye.info.vo.UserVO;
-import com.hanye.info.vo.VideoVO;
 
 @Service
 public class PersonInfoService {
