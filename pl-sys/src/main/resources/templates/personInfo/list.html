@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{defaultLayout}">
+
+<head>
+<title>個人資料查詢</title>
+<link th:href="@{/css/dataTables/dataTables.bootstrap.css}"
+	rel="stylesheet">
+<link th:href="@{/css/dataTables/dataTables.responsive.css}"
+	rel="stylesheet">
+<script th:src="@{/js/dataTables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/dataTables/dataTables.bootstrap.min.js}"></script>
+
+<script>
+	$(document).ready(function() {
+		$('#personInfo-list').DataTable({
+			responsive : true
+		});
+	});
+	
+	function toQuery(queryMid) {
+		$("#queryMid").val(queryMid);
+		$("#toQueryForm").submit();
+	}
+
+</script>
+
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-flmid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">個人資料查詢</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">個人資料查詢</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<div class="table-responsive">
+								<table class="table table-striped table-bordered table-hover"
+									id="personInfo-list">
+									<thead>
+										<tr>
+											<th>姓名</th>
+											<th>通訊電話</th>
+											<th>信箱</th>
+											<th>通訊地址</th>
+											<th>服務公司</th>
+											<th>職位</th>
+											<th>查詢</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="odd gradeX" th:each="personInfo : ${personInfoList}">
+											<td th:text="${personInfo.name}"></td>
+											<td th:text="${personInfo.phone}"></td>
+											<td th:text="${personInfo.email}"></td>
+											<td th:text="${personInfo.communicationAddress}"></td>
+											<td th:text="${personInfo.company}"></td>
+											<td th:text="${personInfo.position}"></td>
+											<td>
+												<button class="btn btn-success" th:onclick="toQuery([[${personInfo.mid}]])">查詢</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<p th:if="${pageError}" style="color: red" th:text="${errorMsg}"></p>
+		</div>
+		<form th:action="@{/auth/personInfo/query}" id="toQueryForm">
+			<input type="hidden" id="queryMid" name="mid"/>
+		</form>
+	</div>
+</body>
+</html>

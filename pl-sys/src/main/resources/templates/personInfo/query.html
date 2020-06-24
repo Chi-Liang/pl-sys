@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{defaultLayout}">
+
+<head>
+<title>個人資料查詢</title>
+<link th:href="@{/css/dataTables/dataTables.bootstrap.css}"
+	rel="stylesheet">
+<link th:href="@{/css/dataTables/dataTables.responsive.css}"
+	rel="stylesheet">
+<script th:src="@{/js/dataTables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/dataTables/dataTables.bootstrap.min.js}"></script>
+
+<script>
+	$(document).ready(function() {
+		$('#personInfo-list').DataTable({
+			responsive : true
+		});
+	});
+
+</script>
+
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-flmid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">個人資料查詢</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">個人資料查詢</div>
+						<form th:object="${personInfoList}" >
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table class="table table-striped table-bordered table-hover"
+										id="personInfo-list-query"  >
+										<thead>
+											<tr>
+												<th>姓名</th>
+												<th>身份證字號</th>
+												<th>生日</th>
+												<th>通訊電話</th>
+												<th>信箱</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="odd gradeX" >
+												<td th:text="*{name}"></td>
+												<td th:text="*{taxId}"></td>
+												<td th:text="*{birthday}"></td>
+												<td th:text="*{phone}"></td>
+												<td th:text="*{email}"></td>
+											</tr>
+										</tbody>
+										<thead>
+											<tr>
+												<th>戶籍地址</th>
+												<th>通訊地址</th>
+												<th>服務公司</th>
+												<th>職位</th>
+												<th>年資</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="odd gradeX" >
+												<td th:text="*{residenceAddress}"></td>
+												<td th:text="*{communicationAddress}"></td>
+												<td th:text="*{company}"></td>
+												<td th:text="*{position}"></td>
+												<td th:text="*{seniority}"></td>
+											</tr>
+										</tbody>
+										<thead>
+											<tr>
+												<th>工作地點</th>
+												<th>月收入</th>
+												<th>基金投資</th>
+												<th>股票投資</th>
+												<th>保險</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="odd gradeX" >
+												<td th:text="*{workspace}"></td>
+												<td th:text="*{monthlySalary}"></td>
+												<td th:text="*{fundInvestment}"></td>
+												<td th:text="*{stockInvestment}"></td>
+												<td th:text="*{insurance}"></td>
+											</tr>
+										</tbody>
+										<thead>
+											<tr>
+												<th>其他收入</th>
+												<th>存摺平均餘額</th>
+												<th>扣繳憑單</th>
+												<th>薪資轉帳</th>
+												<th>勞保</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="odd gradeX" >
+												<td th:text="*{otherIncome}"></td>
+												<td th:text="*{averageBalance}"></td>
+												<td>
+													<input type="radio" th:field="*{withholdVoucher}" th:value="1" th:text="有" />
+													<input type="radio" th:field="*{withholdVoucher}" th:value="0" th:text="無" />
+												</td>
+												<td>
+													<input type="radio" th:field="*{payrollTransfer}" th:value="1" th:text="有" />
+													<input type="radio" th:field="*{payrollTransfer}" th:value="0" th:text="無" />
+												</td>
+												<td>
+													<input type="radio" th:field="*{laborProtection}" th:value="1" th:text="有" />
+													<input type="radio" th:field="*{laborProtection}" th:value="0" th:text="無" />
+												</td>
+											</tr>
+										</tbody>
+										
+										
+										<thead>
+											<tr>
+												<th>名下不動產</th>
+												<th>其他貸款</th>
+												
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="odd gradeX" >
+												<td>
+													<input type="radio" th:field="*{realEstate}" th:value="1" th:text="有"   />
+													<input type="radio" th:field="*{realEstate}" th:value="0" th:text="無"   />
+												</td>
+												<td>
+													<div class="checkbox" >
+	                                        			<label>
+	                                        			<input type="checkbox" th:field="*{studentLoan}" th:value="1" th:text="學貸"   />
+	                                        			</label>
+	                                        			<label>
+	                                        			<input type="checkbox" th:field="*{carLoan}" th:value="1" th:text="車貸"   />
+	                                        			</label>
+	                                        			<label>
+	                                        			<input type="checkbox" th:field="*{housingLoan}" th:value="1" th:text="房貸" />
+	                                        			</label>
+	                                        			<label>
+	                                        			<input type="checkbox" th:field="*{creditLoan}" th:value="1" th:text="信貸" />
+	                                        			</label>
+	                                        			<label>
+	                                        			<input type="checkbox" th:field="*{otherLoans}" th:value="1" th:text="其他" />
+	                                        			</label>
+                                        			</div>
+												</td>
+												
+											</tr>
+										</tbody>
+										
+										
+									</table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<p th:if="${pageError}" style="color: red" th:text="${errorMsg}"></p>
+		</div>
+		
+	</div>
+</body>
+</html>
