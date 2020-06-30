@@ -8,6 +8,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.model.PersonInfo;
@@ -46,6 +47,7 @@ public class PersonInfoService {
 		PersonInfo personInfo = personInfoRepository.findById(mid).get();
 		PersonInfoVO personInfoVO = new PersonInfoVO();
 		entityToVo.copy(personInfo, personInfoVO, new BeanConverter());
+		editOtherLoansStr(personInfoVO);
 		return personInfoVO;
 	}
 	
@@ -53,5 +55,45 @@ public class PersonInfoService {
 		PersonInfo personInfo = new PersonInfo();
 		voToEntity.copy(personInfoVO, personInfo, null);
 		personInfoRepository.save(personInfo);
+	}
+	
+	private void editOtherLoansStr(PersonInfoVO personInfoVO) {
+		String otherLoansStr = "";
+		if("1".equals(personInfoVO.getStudentLoan())) {
+			otherLoansStr += "學貸";
+		}
+		if("1".equals(personInfoVO.getCarLoan())) {
+			if(StringUtils.isEmpty(otherLoansStr)) {
+				otherLoansStr += "車貸";
+			}else {
+				otherLoansStr += "、車貸";
+			}
+		}
+		if("1".equals(personInfoVO.getHousingLoan())) {
+			if(StringUtils.isEmpty(otherLoansStr)) {
+				otherLoansStr += "房貸";
+			}else {
+				otherLoansStr += "、房貸";
+			}
+		}
+		if("1".equals(personInfoVO.getCreditLoan())) {
+			if(StringUtils.isEmpty(otherLoansStr)) {
+				otherLoansStr += "信貸";
+			}else {
+				otherLoansStr += "、信貸";
+			}
+		}
+		if("1".equals(personInfoVO.getOtherLoans())) {
+			if(StringUtils.isEmpty(otherLoansStr)) {
+				otherLoansStr += "其他";
+			}else {
+				otherLoansStr += "、 其他";
+			}
+		}
+		
+		if(StringUtils.isEmpty(otherLoansStr)) {
+			otherLoansStr = "無";
+		}
+		personInfoVO.setOtherLoansStr(otherLoansStr);
 	}
 }
