@@ -106,17 +106,18 @@
 											<tr class="odd gradeX" >
 												<td th:text="*{otherIncome}"></td>
 												<td th:text="*{averageBalance}"></td>
-												<td>
-													<input type="radio" th:field="*{withholdVoucher}" th:value="1" th:text="有" />
-													<input type="radio" th:field="*{withholdVoucher}" th:value="0" th:text="無" />
+												<td th:switch="*{withholdVoucher}">
+													<p th:case="'1'">有</p>
+													<p th:case="'0'">無</p>
 												</td>
-												<td>
-													<input type="radio" th:field="*{payrollTransfer}" th:value="1" th:text="有" />
-													<input type="radio" th:field="*{payrollTransfer}" th:value="0" th:text="無" />
+												
+												<td th:switch="*{payrollTransfer}">
+													<p th:case="'1'">有</p>
+													<p th:case="'0'">無</p>
 												</td>
-												<td>
-													<input type="radio" th:field="*{laborProtection}" th:value="1" th:text="有" />
-													<input type="radio" th:field="*{laborProtection}" th:value="0" th:text="無" />
+												<td th:switch="*{laborProtection}">
+													<p th:case="'1'">有</p>
+													<p th:case="'0'">無</p>
 												</td>
 											</tr>
 										</tbody>
@@ -131,34 +132,28 @@
 										</thead>
 										<tbody>
 											<tr class="odd gradeX" >
-												<td>
-													<input type="radio" th:field="*{realEstate}" th:value="1" th:text="有"   />
-													<input type="radio" th:field="*{realEstate}" th:value="0" th:text="無"   />
+												<td th:switch="*{realEstate}">
+													<p th:case="'1'">有</p>
+													<p th:case="'0'">無</p>
 												</td>
-												<td>
-													<div class="checkbox" >
-	                                        			<label>
-	                                        			<input type="checkbox" th:field="*{studentLoan}" th:value="1" th:text="學貸"   />
-	                                        			</label>
-	                                        			<label>
-	                                        			<input type="checkbox" th:field="*{carLoan}" th:value="1" th:text="車貸"   />
-	                                        			</label>
-	                                        			<label>
-	                                        			<input type="checkbox" th:field="*{housingLoan}" th:value="1" th:text="房貸" />
-	                                        			</label>
-	                                        			<label>
-	                                        			<input type="checkbox" th:field="*{creditLoan}" th:value="1" th:text="信貸" />
-	                                        			</label>
-	                                        			<label>
-	                                        			<input type="checkbox" th:field="*{otherLoans}" th:value="1" th:text="其他" />
-	                                        			</label>
-                                        			</div>
-												</td>
-												
+												<td>	
+                                        		 	<label th:if="*{studentLoan} == '1'" th:text="學貸">
+                                        			</label>
+                                        			<label th:if="*{carLoan} == '1'" th:text="車貸">
+                                        			</label>
+                                        			<label th:if="*{housingLoan} == '1'" th:text="房貸">
+                                        			</label>
+                                        			<label th:if="*{creditLoan} == '1'" th:text="信貸">
+                                        			</label>
+                                        			<label th:if="*{otherLoans} == '1'" th:text="其他">
+                                        			</label>
+                                        			<label th:if="*{studentLoan} == '0' and *{carLoan} == '0' and *{housingLoan} == '0' 
+                                        							and *{creditLoan} == '0' and *{otherLoans} == '0' " th:text="無">
+                                        			</label>
+                                        			
+                                        		</td>
 											</tr>
 										</tbody>
-										
-										
 									</table>
 								</div>
 							</div>
