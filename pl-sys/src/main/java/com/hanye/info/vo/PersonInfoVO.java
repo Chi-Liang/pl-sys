@@ -59,6 +59,9 @@ public class PersonInfoVO {
 	//其他  
 	private String otherLoans;
 	
+	//其他貸款  
+	private String otherLoansStr;
+	
 	public String getMid() {
 		return mid;
 	}
@@ -273,6 +276,14 @@ public class PersonInfoVO {
 
 	public void setCreditLoan(String creditLoan) {
 		this.creditLoan = creditLoan;
+	}
+
+	public String getOtherLoansStr() {
+		return otherLoansStr;
+	}
+
+	public void setOtherLoansStr(String otherLoansStr) {
+		this.otherLoansStr = otherLoansStr;
 	}
 	
 }

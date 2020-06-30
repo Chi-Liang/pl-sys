@@ -136,22 +136,7 @@
 													<p th:case="'1'">有</p>
 													<p th:case="'0'">無</p>
 												</td>
-												<td>	
-                                        		 	<label th:if="*{studentLoan} == '1'" th:text="學貸">
-                                        			</label>
-                                        			<label th:if="*{carLoan} == '1'" th:text="車貸">
-                                        			</label>
-                                        			<label th:if="*{housingLoan} == '1'" th:text="房貸">
-                                        			</label>
-                                        			<label th:if="*{creditLoan} == '1'" th:text="信貸">
-                                        			</label>
-                                        			<label th:if="*{otherLoans} == '1'" th:text="其他">
-                                        			</label>
-                                        			<label th:if="*{studentLoan} == '0' and *{carLoan} == '0' and *{housingLoan} == '0' 
-                                        							and *{creditLoan} == '0' and *{otherLoans} == '0' " th:text="無">
-                                        			</label>
-                                        			
-                                        		</td>
+                                        		 <td th:text="*{otherLoansStr}"></td>
 											</tr>
 										</tbody>
 									</table>
