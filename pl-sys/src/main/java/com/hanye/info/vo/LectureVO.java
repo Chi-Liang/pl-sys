@@ -1,21 +1,30 @@
 package com.hanye.info.vo;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+
 public class LectureVO {
+	private Long id;
+	private String formName;
+	private String formLink;
 	
-	private Long cid;
-	private String name;
-	public Long getCid() {
-		return cid;
+	public Long getId() {
+		return id;
 	}
-	public void setCid(Long cid) {
-		this.cid = cid;
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getFormName() {
+		return formName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFormName(String formName) {
+		this.formName = formName;
 	}
-	
+	public String getFormLink() {
+		return formLink;
+	}
+	public void setFormLink(String formLink) {
+		this.formLink = formLink;
+	}
 	
 }

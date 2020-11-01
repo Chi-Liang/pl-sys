@@ -11,30 +11,31 @@ import org.hibernate.annotations.Nationalized;
 
 @Entity
 public class Lecture {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long cid;
-
-	@Basic
-	@Nationalized
+	private Long id;
+	
 	@Column(length = 50)
-	private String name;
+	private String formName;
 
-	public Long getCid() {
-		return cid;
+	@Column(length = 200)
+	private String formLink;
+
+	public String getFormName() {
+		return formName;
 	}
 
-	public void setCid(Long cid) {
-		this.cid = cid;
+	public void setFormName(String formName) {
+		this.formName = formName;
 	}
 
-	public String getName() {
-		return name;
+	public String getFormLink() {
+		return formLink;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFormLink(String formLink) {
+		this.formLink = formLink;
 	}
 
 }
