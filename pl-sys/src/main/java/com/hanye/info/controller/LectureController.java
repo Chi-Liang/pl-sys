@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -14,6 +16,8 @@ import com.hanye.info.service.MemberService;
 import com.hanye.info.service.KnowledgeArticleService;
 import com.hanye.info.service.LectureService;
 import com.hanye.info.service.VideoService;
+import com.hanye.info.vo.CategoryVO;
+import com.hanye.info.vo.LectureVO;
 import com.hanye.info.vo.MemberVO;
 
 @Controller
@@ -40,11 +44,40 @@ public class LectureController {
 		return "lecture/list";
 	}
 	
-	@GetMapping("/query")
-	public String edit(@RequestParam String formName, Model model) {
-		model.addAttribute("lectureList", lectureService.findFormName(formName));
+	@GetMapping("/add")
+	public String add(Model model) {
+		LectureVO lecture = new LectureVO();
+		model.addAttribute("lecture", lecture);
 		
-		return "lecture/query";
+		return "lecture/add";
 	}
-
+	
+	@PostMapping("/addSubmit")
+	public String addSubmit(@ModelAttribute LectureVO lectureDTO) {	
+		lectureService.saveCategory(lectureDTO);
+		
+		return "forward:/auth/lecture/list";
+	}
+	
+	@GetMapping("/edit")
+	public String edit(@RequestParam Long id, Model model) {
+		model.addAttribute("lecture", lectureService.findCategory(id));
+		
+		return "lecture/edit";
+	}
+	
+	@PostMapping("/editSubmit")
+	public String editSubmit(@ModelAttribute LectureVO lectureDTO) {	
+		lectureService.editCategory(lectureDTO);
+		
+		return "forward:/auth/lecture/list";
+	}
+	
+	@PostMapping("/delSubmit")
+	public String delSubmit(@RequestParam Long id) {
+		lectureService.deleteCategory(id);
+		
+		return "forward:/auth/lecture/list";
+	}
+	
 }

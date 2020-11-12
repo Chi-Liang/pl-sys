@@ -18,9 +18,23 @@
 		});
 	});
 	
-	function toQuery(queryCid) {
-		$("#queryFormName").val(queryCid);
-		$("#toQueryForm").submit();
+	function toAdd() {
+		$("#toAddForm").submit();
+	}
+	
+	function toEdit(editId) {
+		$("#editId").val(editId);
+		$("#toEditForm").submit();
+	}
+	
+	function deleteCategory(delId){
+	    if(confirm("確定刪除此筆資料?")){
+	        $("#delId").val(delId);
+	        $("#delForm").submit();
+	    }else{
+	        return ;
+	    }
+
 	}
 
 </script>
@@ -61,7 +75,10 @@
 										<tr class="odd gradeX" th:each="latestInfo : ${latestInfoList}">
 											<td th:text="${latestInfo.title}"></td>
 											<td th:text="${latestInfo.createDate}"></td>
-											<td th:text="${latestInfo.Detail}"></td>
+											<td>
+												<button class="btn btn-success" th:onclick="toEdit([[${latestInfo.lid}]])">編輯</button>
+												<button class="btn btn-danger" th:onclick="deleteCategory([[${latestInfo.lid}]])">刪除</button>
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -72,8 +89,12 @@
 			</div>
 			<p th:if="${pageError}" style="color: red" th:text="${errorMsg}"></p>
 		</div>
-		<form th:action="@{/auth/lecture/query}" id="toQueryForm">
-			<input type="hidden" id="queryFormName" name="formName"/>
+		<form th:action="@{/auth/latestInfo/add}" id="toAddForm"></form>
+		<form th:action="@{/auth/latestInfo/edit}" id="toEditForm">
+			<input type="hidden" id="editId" name="id"/>
+		</form>
+		<form th:action="@{/auth/latestInfo/delSubmit}" id="delForm" method="post">
+			<input type="hidden" id="delId" name="id"/>
 		</form>
 	</div>
 </body>

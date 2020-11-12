@@ -19,9 +19,23 @@
 		});
 	});
 	
-	function toQuery(queryCid) {
-		$("#queryFormName").val(queryCid);
-		$("#toQueryForm").submit();
+	function toAdd() {
+		$("#toAddForm").submit();
+	}
+	
+	function toEdit(editId) {
+		$("#editId").val(editId);
+		$("#toEditForm").submit();
+	}
+	
+	function deleteCategory(delId){
+	    if(confirm("確定刪除此筆資料?")){
+	        $("#delId").val(delId);
+	        $("#delForm").submit();
+	    }else{
+	        return ;
+	    }
+
 	}
 
 </script>
@@ -41,10 +55,7 @@
 						<div class="panel-heading">報名講座</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
-							<p th:if="${pageError}">
-								<button type="button" class="btn btn-primary" id="add-btn" disabled>新增</button>
-							</p>
-							<p th:unless="${pageError}">
+							<p>
 								<button type="button" class="btn btn-primary" id="add-btn"
 									onclick="toAdd()">新增</button>
 							</p>
@@ -61,7 +72,12 @@
 										<tr class="odd gradeX" th:each="lecture : ${lectureList}">
 											<td th:text="${lecture.formName}"></td>
 											<td th:text="${lecture.formLink}"></td>
+											<td>
+												<button class="btn btn-success" th:onclick="toEdit([[${lecture.id}]])">編輯</button>
+												<button class="btn btn-danger" th:onclick="deleteCategory([[${lecture.id}]])">刪除</button>
+											</td>
 										</tr>
+										
 									</tbody>
 								</table>
 							</div>
@@ -71,8 +87,12 @@
 			</div>
 			<p th:if="${pageError}" style="color: red" th:text="${errorMsg}"></p>
 		</div>
-		<form th:action="@{/auth/lecture/query}" id="toQueryForm">
-			<input type="hidden" id="queryFormName" name="formName"/>
+		<form th:action="@{/auth/lecture/add}" id="toAddForm"></form>
+		<form th:action="@{/auth/lecture/edit}" id="toEditForm">
+			<input type="hidden" id="editId" name="id"/>
+		</form>
+		<form th:action="@{/auth/lecture/delSubmit}" id="delForm" method="post">
+			<input type="hidden" id="delId" name="id"/>
 		</form>
 	</div>
 </body>

@@ -11,82 +11,65 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.hanye.info.convert.BeanConverter;
-import com.hanye.info.exception.PLException;
-import com.hanye.info.exception.PLExceptionCode;
-import com.hanye.info.model.Category;
+import com.hanye.info.model.ContactUs;
 import com.hanye.info.model.KnowledgeArticle;
+import com.hanye.info.model.LatestInfo;
 import com.hanye.info.model.Lecture;
-import com.hanye.info.model.Member;
 import com.hanye.info.model.OnlineCourse;
 import com.hanye.info.model.PersonInfo;
-import com.hanye.info.model.Video;
 import com.hanye.info.repository.CategoryRepository;
+import com.hanye.info.repository.ContactUsRepository;
 import com.hanye.info.repository.KnowledgeArticleRepository;
+import com.hanye.info.repository.LatestInfoRepository;
 import com.hanye.info.repository.LectureRepository;
 import com.hanye.info.repository.PersonInfoRepository;
 import com.hanye.info.repository.VideoRepository;
-import com.hanye.info.vo.CategoryVO;
+import com.hanye.info.vo.ContactUsVO;
 import com.hanye.info.vo.KnowledgeArticleVO;
+import com.hanye.info.vo.LatestInfoVO;
 import com.hanye.info.vo.LectureVO;
 import com.hanye.info.vo.OnlineCourseVO;
 import com.hanye.info.vo.PersonInfoVO;
 
 @Service
-public class LectureService {
+public class ContactUsService {
 	
 	@Autowired
 	private VideoRepository videoRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
 	@Autowired
-	private LectureRepository lectureRepository;
+	private ContactUsRepository contactUsRepository;
 	
 	
-	private static BeanCopier voToEntity = BeanCopier.create(LectureVO.class, Lecture.class, false);
-	private static BeanCopier entityToVo = BeanCopier.create(Lecture.class, LectureVO.class, true);
+	private static BeanCopier voToEntity = BeanCopier.create(ContactUsVO.class, ContactUs.class, false);
+	private static BeanCopier entityToVo = BeanCopier.create(ContactUs.class, ContactUsVO.class, true);
 	
-	public List<LectureVO> findAll() {
-		List<Lecture> lectureList = 
-				StreamSupport.stream(lectureRepository.findAll().spliterator(), false).collect(Collectors.toList());
-		List<LectureVO> voList = new ArrayList<LectureVO>();
-		for(Lecture lecture:lectureList) {
-			LectureVO vo = new LectureVO();
-			entityToVo.copy(lecture, vo, new BeanConverter());
+	public List<ContactUsVO> findAll() {
+		List<ContactUs> latestNewsList = 
+				StreamSupport.stream(contactUsRepository.findAll().spliterator(), false).collect(Collectors.toList());
+		List<ContactUsVO> voList = new ArrayList<ContactUsVO>();
+		for(ContactUs latestNews:latestNewsList) {
+			ContactUsVO vo = new ContactUsVO();
+			entityToVo.copy(latestNews, vo, new BeanConverter());
 			voList.add(vo);
 		}
 		return voList;
 	}
 	
-//	public LectureVO findFormName(String formName) {
-//		Lecture lecture = lectureRepository.findById(formName).get();
-//		LectureVO lectureVO = new LectureVO();
-//		entityToVo.copy(lecture, lectureVO, new BeanConverter());
-//		return lectureVO;
+	public ContactUsVO findMember(Long lid) {
+		ContactUs contactUs = contactUsRepository.findById(lid).get();
+		ContactUsVO contactUsVO = new ContactUsVO();
+		entityToVo.copy(contactUs, contactUsVO, new BeanConverter());
+		return contactUsVO;
+	}
+//	
+//	public void editPersonInfo(PersonInfoVO personInfoVO) {
+//		PersonInfo personInfo = new PersonInfo();
+//		voToEntity.copy(personInfoVO, personInfo, null);
+//		personInfoRepository.save(personInfo);
 //	}
-	
-	public void saveCategory(LectureVO lectureVO) {
-		Lecture lecture = new Lecture();
-		voToEntity.copy(lectureVO, lecture, null);
-		lectureRepository.save(lecture);
-	}
-	
-	public LectureVO findCategory(Long id) {
-		Lecture lecture = lectureRepository.findById(id).get();
-		LectureVO lectureVO = new LectureVO();
-		entityToVo.copy(lecture, lectureVO, new BeanConverter());
-		
-		return lectureVO;
-	}
-	
-	public void editCategory(LectureVO lectureVO) {
-		Lecture lecture = lectureRepository.findById(lectureVO.getId()).get();
-		lecture.setFormLink(lectureVO.getFormLink());
-		lecture.setFormName(lectureVO.getFormName());
-		lectureRepository.save(lecture);
-	}
-	public void deleteCategory(Long id) {
-		lectureRepository.deleteById(id);
-	}
+//	
 //	private void editOtherLoansStr(PersonInfoVO personInfoVO) {
 //		String otherLoansStr = "";
 //		if("1".equals(personInfoVO.getStudentLoan())) {

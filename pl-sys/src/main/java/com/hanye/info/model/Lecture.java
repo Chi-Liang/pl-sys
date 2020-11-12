@@ -21,6 +21,14 @@ public class Lecture {
 
 	@Column(length = 200)
 	private String formLink;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getFormName() {
 		return formName;
