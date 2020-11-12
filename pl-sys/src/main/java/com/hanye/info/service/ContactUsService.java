@@ -1,20 +1,26 @@
 package com.hanye.info.service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.hanye.info.convert.BeanConverter;
+import com.hanye.info.model.Category;
 import com.hanye.info.model.ContactUs;
 import com.hanye.info.model.KnowledgeArticle;
 import com.hanye.info.model.LatestInfo;
 import com.hanye.info.model.Lecture;
+import com.hanye.info.model.Member;
 import com.hanye.info.model.OnlineCourse;
 import com.hanye.info.model.PersonInfo;
 import com.hanye.info.repository.CategoryRepository;
@@ -28,8 +34,10 @@ import com.hanye.info.vo.ContactUsVO;
 import com.hanye.info.vo.KnowledgeArticleVO;
 import com.hanye.info.vo.LatestInfoVO;
 import com.hanye.info.vo.LectureVO;
+import com.hanye.info.vo.MemberVO;
 import com.hanye.info.vo.OnlineCourseVO;
 import com.hanye.info.vo.PersonInfoVO;
+import com.hanye.info.vo.ReturnVO;
 
 @Service
 public class ContactUsService {
@@ -63,50 +71,16 @@ public class ContactUsService {
 		entityToVo.copy(contactUs, contactUsVO, new BeanConverter());
 		return contactUsVO;
 	}
-//	
-//	public void editPersonInfo(PersonInfoVO personInfoVO) {
-//		PersonInfo personInfo = new PersonInfo();
-//		voToEntity.copy(personInfoVO, personInfo, null);
-//		personInfoRepository.save(personInfo);
-//	}
-//	
-//	private void editOtherLoansStr(PersonInfoVO personInfoVO) {
-//		String otherLoansStr = "";
-//		if("1".equals(personInfoVO.getStudentLoan())) {
-//			otherLoansStr += "學貸";
-//		}
-//		if("1".equals(personInfoVO.getCarLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "車貸";
-//			}else {
-//				otherLoansStr += "、車貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getHousingLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "房貸";
-//			}else {
-//				otherLoansStr += "、房貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getCreditLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "信貸";
-//			}else {
-//				otherLoansStr += "、信貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getOtherLoans())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "其他";
-//			}else {
-//				otherLoansStr += "、 其他";
-//			}
-//		}
-//		
-//		if(StringUtils.isEmpty(otherLoansStr)) {
-//			otherLoansStr = "無";
-//		}
-//		personInfoVO.setOtherLoansStr(otherLoansStr);
-//	}
+
+	public ReturnVO addContactUs(ContactUsVO contactUsVO) {
+		ContactUs contactUs = new ContactUs();
+		voToEntity.copy(contactUsVO, contactUs, null);
+		contactUs.setDetail(contactUsVO.getDetail());
+		contactUs.setTitle(contactUsVO.getTitle());
+		contactUs.setCreateDate(new Date());
+		Set<Category> categories = new HashSet<Category>();
+		contactUsRepository.save(contactUs);
+		return new ReturnVO("Y", "成功");
+	}
+	
 }

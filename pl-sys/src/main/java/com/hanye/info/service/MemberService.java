@@ -21,7 +21,7 @@ import com.hanye.info.model.Category;
 import com.hanye.info.model.Member;
 import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.MemberRepository;
-import com.hanye.info.vo.AddMemberVO;
+import com.hanye.info.vo.ReturnVO;
 import com.hanye.info.vo.LoginVO;
 import com.hanye.info.vo.MemberVO;
 
@@ -130,19 +130,19 @@ public class MemberService {
 			return new LoginVO("N");
 	}
 	
-	public AddMemberVO addMember(MemberVO memberVO) {
+	public ReturnVO addMember(MemberVO memberVO) {
 		List<Member> memberList = 
 				StreamSupport.stream(memberRepository.findAll().spliterator(), false).collect(Collectors.toList());
 		for(Member member:memberList) {
 			if(StringUtils.equals(member.getMid(),memberVO.getMid())) {
-				return new AddMemberVO("N", PLExceptionCode.DUPLICATE_ACCOUNT.getMsg());
+				return new ReturnVO("N", PLExceptionCode.DUPLICATE_ACCOUNT.getMsg());
 			}
 			if(StringUtils.equals(member.getEmail(),memberVO.getEmail())) {
-				return new AddMemberVO("N", PLExceptionCode.DUPLICATE_EMAIL.getMsg());
+				return new ReturnVO("N", PLExceptionCode.DUPLICATE_EMAIL.getMsg());
 			}
 		}
 		saveMember(memberVO);
-		return new AddMemberVO("Y", "成功");
+		return new ReturnVO("Y", "成功");
 	}
 	
 
