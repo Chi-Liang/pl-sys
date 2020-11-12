@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
-public class LatestInfo {
+public class ContactUs {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

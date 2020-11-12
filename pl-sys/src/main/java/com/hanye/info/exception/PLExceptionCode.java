@@ -6,7 +6,9 @@ public enum PLExceptionCode {
     CATEGORY_IS_USED(600, "影片群組已使用，無法刪除"),
     CATEGORY_NOT_FOUND(601, "無影片群組，請先建立影片群組，再執行新增作業"),
     LOGIN_AGAIN(888, "請重新登入"),
-    SYSTEM_ERROR(999, "系統錯誤");
+    SYSTEM_ERROR(999, "系統錯誤"),
+    DUPLICATE_ACCOUNT(666, "帳號重複"),
+    DUPLICATE_EMAIL(777, "email重複");
 
     private int code;
     private String msg;

@@ -14,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.thymeleaf.util.StringUtils;
 import com.hanye.info.convert.BeanConverter;
+import com.hanye.info.exception.PLExceptionCode;
 import com.hanye.info.model.Category;
 import com.hanye.info.model.Member;
 import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.MemberRepository;
+import com.hanye.info.vo.AddMemberVO;
 import com.hanye.info.vo.LoginVO;
 import com.hanye.info.vo.MemberVO;
 
@@ -78,12 +80,13 @@ public class MemberService {
 		member.setPwd(new BCryptPasswordEncoder().encode(member.getPwd()));
 		member.setCreateDate(new Date());
 		Set<Category> categories = new HashSet<Category>();
-		for(Long answer:memberVO.getCategories()) {
-			Category category = categoryRepository.findById(answer).get();
-			categories.add(category);
+		if(memberVO.getCategories() != null) {
+			for(Long answer:memberVO.getCategories()) {
+				Category category = categoryRepository.findById(answer).get();
+				categories.add(category);
+			}
 		}
 		member.setCategories(categories);
-
 		memberRepository.save(member);
 	}
 	
@@ -125,6 +128,21 @@ public class MemberService {
 			return new LoginVO("Y");
 		else
 			return new LoginVO("N");
+	}
+	
+	public AddMemberVO addMember(MemberVO memberVO) {
+		List<Member> memberList = 
+				StreamSupport.stream(memberRepository.findAll().spliterator(), false).collect(Collectors.toList());
+		for(Member member:memberList) {
+			if(StringUtils.equals(member.getMid(),memberVO.getMid())) {
+				return new AddMemberVO("N", PLExceptionCode.DUPLICATE_ACCOUNT.getMsg());
+			}
+			if(StringUtils.equals(member.getEmail(),memberVO.getEmail())) {
+				return new AddMemberVO("N", PLExceptionCode.DUPLICATE_EMAIL.getMsg());
+			}
+		}
+		saveMember(memberVO);
+		return new AddMemberVO("Y", "成功");
 	}
 	
 

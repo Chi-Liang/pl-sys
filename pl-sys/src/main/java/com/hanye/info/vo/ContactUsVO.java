@@ -2,11 +2,12 @@ package com.hanye.info.vo;
 
 import java.util.Date;
 
-public class LatestInfoVO {
+public class ContactUsVO {
 	private Long lid;
 	private String title;
 	private String detail;
 	private String createDate;
+	
 	public Long getLid() {
 		return lid;
 	}
@@ -31,5 +32,6 @@ public class LatestInfoVO {
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
+	
 	
 }

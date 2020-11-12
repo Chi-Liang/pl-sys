@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,6 +17,8 @@ import com.hanye.info.service.KnowledgeArticleService;
 import com.hanye.info.service.LatestInfoService;
 import com.hanye.info.service.LectureService;
 import com.hanye.info.service.VideoService;
+import com.hanye.info.vo.LatestInfoVO;
+import com.hanye.info.vo.LectureVO;
 import com.hanye.info.vo.MemberVO;
 
 @Controller
@@ -41,11 +45,40 @@ public class LatestInfoController {
 		return "latestInfo/list";
 	}
 	
-//	@GetMapping("/query")
-//	public String edit(@RequestParam String formName, Model model) {
-//		model.addAttribute("lectureList", lectureService.findFormName(formName));
-//		
-//		return "lecture/query";
-//	}
+	@GetMapping("/add")
+	public String add(Model model) {
+		LatestInfoVO latestInfo = new LatestInfoVO();
+		model.addAttribute("latestInfo", latestInfo);
+		
+		return "latestInfo/add";
+	}
+	
+	@PostMapping("/addSubmit")
+	public String addSubmit(@ModelAttribute LatestInfoVO latestInfoDTO) {	
+		latestInfoService.saveCategory(latestInfoDTO);
+		
+		return "forward:/auth/latestInfo/list";
+	}
+	
+	@GetMapping("/edit")
+	public String edit(@RequestParam Long id, Model model) {
+		model.addAttribute("latestInfo", latestInfoService.findCategory(id));
+		
+		return "latestInfo/edit";
+	}
+	
+	@PostMapping("/editSubmit")
+	public String editSubmit(@ModelAttribute LatestInfoVO latestInfoDTO) {	
+		latestInfoService.editCategory(latestInfoDTO);
+		
+		return "forward:/auth/latestInfo/list";
+	}
+	
+	@PostMapping("/delSubmit")
+	public String delSubmit(@RequestParam Long id) {
+		latestInfoService.deleteCategory(id);
+		
+		return "forward:/auth/latestInfo/list";
+	}
 
 }

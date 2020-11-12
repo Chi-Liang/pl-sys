@@ -1,6 +1,7 @@
 package com.hanye.info.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -44,7 +45,7 @@ public class LatestInfoService {
 	
 	public List<LatestInfoVO> findAll() {
 		List<LatestInfo> latestNewsList = 
-				StreamSupport.stream(latestInfoRepository.findAll().spliterator(), false).collect(Collectors.toList());
+				StreamSupport.stream(latestInfoRepository.findAllOrderByCreateDate().spliterator(), false).collect(Collectors.toList());
 		List<LatestInfoVO> voList = new ArrayList<LatestInfoVO>();
 		for(LatestInfo latestNews:latestNewsList) {
 			LatestInfoVO vo = new LatestInfoVO();
@@ -54,56 +55,28 @@ public class LatestInfoService {
 		return voList;
 	}
 	
-//	public LectureVO findFormName(String formName) {
-//		Lecture lecture = latestNewsRepository.findById(formName).get();
-//		LectureVO lectureVO = new LectureVO();
-//		entityToVo.copy(lecture, lectureVO, new BeanConverter());
-//		return lectureVO;
-//	}
-//	
-//	public void editPersonInfo(PersonInfoVO personInfoVO) {
-//		PersonInfo personInfo = new PersonInfo();
-//		voToEntity.copy(personInfoVO, personInfo, null);
-//		personInfoRepository.save(personInfo);
-//	}
-//	
-//	private void editOtherLoansStr(PersonInfoVO personInfoVO) {
-//		String otherLoansStr = "";
-//		if("1".equals(personInfoVO.getStudentLoan())) {
-//			otherLoansStr += "學貸";
-//		}
-//		if("1".equals(personInfoVO.getCarLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "車貸";
-//			}else {
-//				otherLoansStr += "、車貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getHousingLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "房貸";
-//			}else {
-//				otherLoansStr += "、房貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getCreditLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "信貸";
-//			}else {
-//				otherLoansStr += "、信貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getOtherLoans())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "其他";
-//			}else {
-//				otherLoansStr += "、 其他";
-//			}
-//		}
-//		
-//		if(StringUtils.isEmpty(otherLoansStr)) {
-//			otherLoansStr = "無";
-//		}
-//		personInfoVO.setOtherLoansStr(otherLoansStr);
-//	}
+	public void saveCategory(LatestInfoVO latestInfoVO) {
+		LatestInfo latestInfo = new LatestInfo();
+		voToEntity.copy(latestInfoVO, latestInfo, null);
+		latestInfo.setCreateDate(new Date());
+		latestInfoRepository.save(latestInfo);
+	}
+	
+	public LatestInfoVO findCategory(Long id) {
+		LatestInfo latestInfo = latestInfoRepository.findById(id).get();
+		LatestInfoVO latestInfoVO = new LatestInfoVO();
+		entityToVo.copy(latestInfo, latestInfoVO, new BeanConverter());
+		
+		return latestInfoVO;
+	}
+	
+	public void editCategory(LatestInfoVO latestInfoVO) {
+		LatestInfo latestInfo = latestInfoRepository.findById(latestInfoVO.getLid()).get();
+		latestInfo.setTitle(latestInfoVO.getTitle());
+		latestInfo.setDetail(latestInfoVO.getDetail());
+		latestInfoRepository.save(latestInfo);
+	}
+	public void deleteCategory(Long id) {
+		latestInfoRepository.deleteById(id);
+	}
 }
