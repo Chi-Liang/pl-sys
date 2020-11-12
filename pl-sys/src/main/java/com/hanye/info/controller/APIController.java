@@ -17,13 +17,15 @@ import org.thymeleaf.util.StringUtils;
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.model.LatestInfo;
 import com.hanye.info.service.CategoryService;
+import com.hanye.info.service.ContactUsService;
 import com.hanye.info.service.LatestInfoService;
 import com.hanye.info.service.LectureService;
 import com.hanye.info.service.MemberService;
 import com.hanye.info.service.PersonInfoService;
 import com.hanye.info.service.VideoService;
-import com.hanye.info.vo.AddMemberVO;
+import com.hanye.info.vo.ReturnVO;
 import com.hanye.info.vo.CategoryVO;
+import com.hanye.info.vo.ContactUsVO;
 import com.hanye.info.vo.LatestInfoVO;
 import com.hanye.info.vo.LectureVO;
 import com.hanye.info.vo.LoginVO;
@@ -53,6 +55,9 @@ public class APIController {
 	
 	@Autowired
 	private LectureService lectureService;
+	
+	@Autowired
+	private ContactUsService contactUsService;
 	
 	@GetMapping("/category/list")
 	public List<CategoryVO> findCategoryByMember(@RequestParam String mid) {
@@ -93,7 +98,7 @@ public class APIController {
 	}
 	
 	@PostMapping("/member/addMember")
-	public AddMemberVO addMember(@RequestBody MemberVO memberVO) {
+	public ReturnVO addMember(@RequestBody MemberVO memberVO) {
 		return memberService.addMember(memberVO);
 	}
 	
@@ -105,6 +110,11 @@ public class APIController {
 	@GetMapping("/lecture/list")
 	public List<LectureVO> findLecture() {
 		return lectureService.findAll();
+	}
+	
+	@PostMapping("/contactUs/addContactUs")
+	public ReturnVO addContactUs(@RequestBody ContactUsVO contactUsVO) {
+		return contactUsService.addContactUs(contactUsVO);
 	}
 	
 }

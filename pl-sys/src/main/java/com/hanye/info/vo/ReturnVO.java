@@ -1,10 +1,10 @@
 package com.hanye.info.vo;
 
-public class AddMemberVO {
+public class ReturnVO {
 	private String result;
 	private String msg;
 	
-	public AddMemberVO(String result, String msg) {
+	public ReturnVO(String result, String msg) {
 		super();
 		this.result = result;
 		this.msg = msg;
