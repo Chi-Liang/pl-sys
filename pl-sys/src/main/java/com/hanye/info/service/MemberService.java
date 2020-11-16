@@ -103,7 +103,8 @@ public class MemberService {
 		member.setEmail(memberVO.getEmail());
 		member.setAddress(memberVO.getAddress());
 		member.setUpdateDate(new Date());
-		
+		member.setPoints(memberVO.getPoints());
+		member.setFreeOrPaid(memberVO.getFreeOrPaid());
 		memberRepository.save(member);
 	}
 	
@@ -141,6 +142,8 @@ public class MemberService {
 				return new ReturnVO("N", PLExceptionCode.DUPLICATE_EMAIL.getMsg());
 			}
 		}
+		memberVO.setFreeOrPaid("0");
+		memberVO.setPoints("50");
 		saveMember(memberVO);
 		return new ReturnVO("Y", "成功");
 	}
