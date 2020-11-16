@@ -81,6 +81,7 @@
 											<th>影片群組</th>
 											<th>建立日期</th>
 											<th>修改日期</th>
+											<th>免費/付費</th>
 											<th>操作</th>
 										</tr>
 									</thead>
@@ -94,6 +95,11 @@
 											<td th:text="${member.categoryNames}"></td>
 											<td th:text="${member.createDate}"></td>
 											<td th:text="${member.updateDate}"></td>
+											<td th:switch="${member.freeOrPaid}">
+													<p th:case="0">免費</p>
+													<p th:case="1">付費</p>
+											</td>
+											
 											<td>
 												<button class="btn btn-success" th:onclick="toEdit([[${member.mid}]])">編輯</button>
 												<button class="btn btn-warning" th:onclick="toChangePwd([[${member.mid}]])">密碼變更</button>

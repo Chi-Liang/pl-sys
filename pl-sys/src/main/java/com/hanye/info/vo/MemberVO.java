@@ -12,6 +12,8 @@ public class MemberVO {
 	private String updateDate;
 	private Long[] categories;
 	private String categoryNames;
+	private String freeOrPaid;
+	private String points;
 
 	public String getMid() {
 		return mid;
@@ -92,7 +94,22 @@ public class MemberVO {
 	public void setCategoryNames(String categoryNames) {
 		this.categoryNames = categoryNames;
 	}
-	
+
+	public String getFreeOrPaid() {
+		return freeOrPaid;
+	}
+
+	public void setFreeOrPaid(String freeOrPaid) {
+		this.freeOrPaid = freeOrPaid;
+	}
+
+	public String getPoints() {
+		return points;
+	}
+
+	public void setPoints(String points) {
+		this.points = points;
+	}
 	
 	
 }

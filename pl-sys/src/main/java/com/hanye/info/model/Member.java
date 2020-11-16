@@ -54,7 +54,12 @@ public class Member {
             inverseJoinColumns = @JoinColumn(
                     name = "category_id", referencedColumnName = "cid"))
 	private Set<Category> categories = new HashSet<Category>();
-
+	
+	@Column(length = 1)
+	private String freeOrPaid;
+	@Column(length = 10)
+	private String points;
+	
 	public String getMid() {
 		return mid;
 	}
@@ -127,5 +132,20 @@ public class Member {
 		this.categories = categories;
 	}
 
+	public String getFreeOrPaid() {
+		return freeOrPaid;
+	}
+
+	public void setFreeOrPaid(String freeOrPaid) {
+		this.freeOrPaid = freeOrPaid;
+	}
+
+	public String getPoints() {
+		return points;
+	}
+
+	public void setPoints(String points) {
+		this.points = points;
+	}
 
 }
