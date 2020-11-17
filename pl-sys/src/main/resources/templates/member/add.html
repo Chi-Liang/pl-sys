@@ -7,6 +7,13 @@
 <title>註冊會員新增</title>
 <script type="text/javascript">
 	$(document).ready(function() {
+		
+		jQuery.validator.addMethod("positiveinteger", function(value, element) {
+			var aint=parseInt(value);
+			return aint>=0&& (aint+"")==value;
+		}, "Please enter a valid number.");
+		
+		
 		$("#memberForm").validate({
 			rules : {
 				mid : {
@@ -20,7 +27,14 @@
 				},
 				email : {
 					email : true
+				},
+				points : {
+					positiveinteger : true
+				},
+				freeOrPaid :{
+					required : true
 				}
+				
 			},
 			messages : {
 				mid : {
@@ -34,11 +48,19 @@
 				},
 				email : {
 					email : "格式錯誤"
+				},
+				points : {
+					positiveinteger:"請輸入大於或等於零整數"
+				},
+				freeOrPaid : {
+					required : "此欄位必填"
 				}
 			},
 			errorPlacement: function(error, element) {
 				if (element.attr("type") == "checkbox") {
 					element.closest('label').append(error);
+			    } else if(element.attr("type") == "radio"){
+			    	element.closest('p').append(error);
 			    } else {
 		            error.insertAfter(element);
 		        }
@@ -111,7 +133,25 @@
 												th:field="*{address}">
 											<p class="help-block"></p>
 										</div>
-
+										<div class="form-group">
+											<label>點數</label> <input class="form-control"
+												th:field="*{points}">
+											<p class="help-block"></p>
+										</div>
+										<div class="form-group">
+											<label>免費/付費</label>
+											<div class="radio">
+											<p>
+												<label> <input type="radio" name="freeOrPaid"
+													value="0" th:field="*{freeOrPaid}"> 免費</input>
+												</label>
+												 <label> <input type="radio" name="freeOrPaid"
+													value="1" th:field="*{freeOrPaid}"> 付費</input>
+												</label>
+											</p>	
+											</div>
+										</div>
+										
 										<button type="submit" class="btn btn-default">Submit</button>
 										<button type="reset" class="btn btn-default">Reset</button>
 									</form>
