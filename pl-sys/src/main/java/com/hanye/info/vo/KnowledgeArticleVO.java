@@ -2,20 +2,26 @@ package com.hanye.info.vo;
 
 public class KnowledgeArticleVO {
 	
-	private Long cid;
-	private String name;
-	public Long getCid() {
-		return cid;
+	private Long lid;
+	private String title;
+	private String detail;
+	public Long getLid() {
+		return lid;
 	}
-	public void setCid(Long cid) {
-		this.cid = cid;
+	public void setLid(Long lid) {
+		this.lid = lid;
 	}
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	
+	public String getDetail() {
+		return detail;
+	}
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 	
 }
