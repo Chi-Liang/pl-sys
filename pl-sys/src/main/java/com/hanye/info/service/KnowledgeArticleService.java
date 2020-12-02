@@ -1,6 +1,7 @@
 package com.hanye.info.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -12,12 +13,14 @@ import org.springframework.util.StringUtils;
 
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.model.KnowledgeArticle;
+import com.hanye.info.model.LatestInfo;
 import com.hanye.info.model.PersonInfo;
 import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.KnowledgeArticleRepository;
 import com.hanye.info.repository.PersonInfoRepository;
 import com.hanye.info.repository.VideoRepository;
 import com.hanye.info.vo.KnowledgeArticleVO;
+import com.hanye.info.vo.LatestInfoVO;
 import com.hanye.info.vo.PersonInfoVO;
 
 @Service
@@ -46,56 +49,28 @@ public class KnowledgeArticleService {
 		return voList;
 	}
 	
-	public KnowledgeArticleVO findMember(Long cid) {
-		KnowledgeArticle knowledgeArticle = knowledgeArticleRepository.findById(cid).get();
-		KnowledgeArticleVO personInfoVO = new KnowledgeArticleVO();
-		entityToVo.copy(knowledgeArticle, personInfoVO, new BeanConverter());
-		return personInfoVO;
+	public void saveCategory(KnowledgeArticleVO KnowledgeArticleVO) {
+		KnowledgeArticle KnowledgeArticle = new KnowledgeArticle();
+		voToEntity.copy(KnowledgeArticleVO, KnowledgeArticle, null);
+		knowledgeArticleRepository.save(KnowledgeArticle);
 	}
-//	
-//	public void editPersonInfo(PersonInfoVO personInfoVO) {
-//		PersonInfo personInfo = new PersonInfo();
-//		voToEntity.copy(personInfoVO, personInfo, null);
-//		personInfoRepository.save(personInfo);
-//	}
-//	
-//	private void editOtherLoansStr(PersonInfoVO personInfoVO) {
-//		String otherLoansStr = "";
-//		if("1".equals(personInfoVO.getStudentLoan())) {
-//			otherLoansStr += "學貸";
-//		}
-//		if("1".equals(personInfoVO.getCarLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "車貸";
-//			}else {
-//				otherLoansStr += "、車貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getHousingLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "房貸";
-//			}else {
-//				otherLoansStr += "、房貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getCreditLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "信貸";
-//			}else {
-//				otherLoansStr += "、信貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getOtherLoans())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "其他";
-//			}else {
-//				otherLoansStr += "、 其他";
-//			}
-//		}
-//		
-//		if(StringUtils.isEmpty(otherLoansStr)) {
-//			otherLoansStr = "無";
-//		}
-//		personInfoVO.setOtherLoansStr(otherLoansStr);
-//	}
+	
+	public KnowledgeArticleVO findCategory(Long id) {
+		KnowledgeArticle knowledgeArticle = knowledgeArticleRepository.findById(id).get();
+		KnowledgeArticleVO knowledgeArticleVO = new KnowledgeArticleVO();
+		entityToVo.copy(knowledgeArticle, knowledgeArticleVO, new BeanConverter());
+		
+		return knowledgeArticleVO;
+	}
+	
+	public void editCategory(KnowledgeArticleVO knowledgeArticleVO) {
+		KnowledgeArticle knowledgeArticle = knowledgeArticleRepository.findById(knowledgeArticleVO.getLid()).get();
+		knowledgeArticle.setTitle(knowledgeArticleVO.getTitle());
+		knowledgeArticle.setDetail(knowledgeArticleVO.getDetail());
+		knowledgeArticleRepository.save(knowledgeArticle);
+	}
+	public void deleteCategory(Long id) {
+		knowledgeArticleRepository.deleteById(id);
+	}
+	
 }

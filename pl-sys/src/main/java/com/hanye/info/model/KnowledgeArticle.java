@@ -1,40 +1,47 @@
 package com.hanye.info.model;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Nationalized;
 
 @Entity
 public class KnowledgeArticle {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long cid;
+	private Long lid;
+	
+	@Column(length = 100)
+	private String title;
+	
+	@Column(length = 1000)
+	private String detail;
 
-	@Basic
-	@Nationalized
-	@Column(length = 50)
-	private String name;
-
-	public Long getCid() {
-		return cid;
+	public Long getLid() {
+		return lid;
 	}
 
-	public void setCid(Long cid) {
-		this.cid = cid;
+	public void setLid(Long lid) {
+		this.lid = lid;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 
 }
