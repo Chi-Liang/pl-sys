@@ -19,18 +19,26 @@ import com.hanye.info.model.LatestInfo;
 import com.hanye.info.service.CategoryService;
 import com.hanye.info.service.ContactUsService;
 import com.hanye.info.service.LatestInfoService;
+import com.hanye.info.service.LectureQueryService;
 import com.hanye.info.service.LectureService;
 import com.hanye.info.service.MemberService;
 import com.hanye.info.service.PersonInfoService;
 import com.hanye.info.service.VideoService;
 import com.hanye.info.vo.ReturnVO;
+import com.hanye.info.vo.ReturnVideoVO;
+import com.hanye.info.vo.VideoListVO;
 import com.hanye.info.vo.CategoryVO;
+import com.hanye.info.vo.CheckMemberVO;
 import com.hanye.info.vo.ContactUsVO;
 import com.hanye.info.vo.LatestInfoVO;
+import com.hanye.info.vo.LectureQueryVO;
 import com.hanye.info.vo.LectureVO;
 import com.hanye.info.vo.LoginVO;
 import com.hanye.info.vo.MemberVO;
 import com.hanye.info.vo.PersonInfoVO;
+import com.hanye.info.vo.ReturnCategoryVO;
+import com.hanye.info.vo.ReturnLectureVO;
+import com.hanye.info.vo.ReturnPersonInfoVO;
 import com.hanye.info.vo.VideoVO;
 
 
@@ -59,42 +67,36 @@ public class APIController {
 	@Autowired
 	private ContactUsService contactUsService;
 	
-	@GetMapping("/category/list")
-	public List<CategoryVO> findCategoryByMember(@RequestParam String mid) {
+	@Autowired
+	private LectureQueryService lectureQueryService;
+	
+	@PostMapping("/category/list")
+	public ReturnCategoryVO findCategoryByMember(@RequestBody CheckMemberVO checkMemberVO) {
 		
-		return categoryService.findCategoryByMember(mid);
+		return categoryService.findCategoryByMember(checkMemberVO.getMid());
 	}
 	
-	@GetMapping("/member/check")
-	public LoginVO checkMember(@RequestParam String mid, @RequestParam String pwd) {
-		return memberService.checkMember(mid, pwd);
+	@PostMapping("/member/check")
+	public LoginVO checkMember(@RequestBody CheckMemberVO checkMemberVO) {
+		return memberService.checkMember(checkMemberVO);
 	}
 	
-	@GetMapping("/video/list")
-	public VideoVO findVideoByCategory(@RequestParam Long cid) {
+	@PostMapping("/video/list")
+	public ReturnVideoVO findVideoByCategory(@RequestBody VideoListVO videoListVO) {
 		
-		return videoService.findVedioByCategory(cid);
+		return videoService.findVedioByCategory(videoListVO.getCid());
 	}
 	
 	@PostMapping("/personInfo/insertOrUpdate")
-	public String personInfo(@RequestBody PersonInfoVO personInfoVO) {
-		personInfoService.editPersonInfo(personInfoVO);
+	public LoginVO personInfo(@RequestBody PersonInfoVO personInfoVO) {
+		return personInfoService.editPersonInfo(personInfoVO);
 		
-		return "success";
 	}
 	
-	@GetMapping("/personInfo/byMember")
-	public PersonInfoVO findPersonInfoByMember(@RequestParam String mid) {
-		List<PersonInfoVO> personInfoVOList = personInfoService.findAll();
-		PersonInfoVO personInfo = new PersonInfoVO();
-		for (PersonInfoVO personInfoVO : personInfoVOList) {
-			if( StringUtils.equals(mid, personInfoVO.getMid())) {
-				personInfo = personInfoVO;
-				break;
-			}
-		}
+	@PostMapping("/personInfo/byMember")
+	public ReturnPersonInfoVO findPersonInfoByMember(@RequestBody CheckMemberVO checkMemberVO) {
+		return personInfoService.findMid(checkMemberVO.getMid());
 		
-		return personInfo;
 	}
 	
 	@PostMapping("/member/addMember")
@@ -102,14 +104,15 @@ public class APIController {
 		return memberService.addMember(memberVO);
 	}
 	
-	@GetMapping("/latestInfo/list")
-	public List<LatestInfoVO> findLatestInfo() {
-		return latestInfoService.findAll();
+	@PostMapping("/lecture/list")
+	public ReturnLectureVO findLectureList() {
+		return lectureService.findAll();
 	}
 	
-	@GetMapping("/lecture/list")
-	public List<LectureVO> findLecture() {
-		return lectureService.findAll();
+	@PostMapping("/lecture/save")
+	public LoginVO lectureSave(@RequestBody LectureQueryVO lectureQueryVO) {
+		return lectureQueryService.save(lectureQueryVO);
+		
 	}
 	
 	@PostMapping("/contactUs/addContactUs")

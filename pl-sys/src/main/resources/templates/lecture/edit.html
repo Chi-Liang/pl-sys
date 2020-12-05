@@ -5,27 +5,48 @@
 
 <head>
 <title>報名講座編輯</title>
+
+<link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet">
+<link th:href="@{/css/jquery-ui-timepicker-addon.css}" rel="stylesheet">
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<script th:src="@{/js/jquery-ui-timepicker-addon.min.js}"></script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
-		 $("#lectureForm").validate({
-             rules: {
-             	formName: {
-                     required: true
-                 },
-                 formLink: {
-                     required: true
-                 }
-             },
-             messages : {
-             	formName: {
-                     required: "此欄位必填"
-                 },
-                 formLink: {
-                     required: "此欄位必填"
-                 }
-             }
-
+		$("#lectureForm").validate({
+            rules: {
+            	startTime: {
+                    required: true
+                },
+                endTime: {
+                    required: true
+                },
+                session: {
+                    required: true
+                }
+            },
+            messages : {
+            	startTime: {
+                    required: "此欄位必填"
+                },
+                endTime: {
+                    required: "此欄位必填"
+                },
+                session: {
+                    required: "此欄位必填"
+                }
+            }
+            
          });
+		
+		$('#startdate,#endDate').datetimepicker({
+			 "dateFormat": "yy/mm/dd",
+             "timeFormat": "HH:mm",
+			 "yearRange":"-10:+10",
+			 "changeMonth": true,
+			 "changeYear": true
+          //"timeFormat": "HH:mm:ss"
+        });
 	});
 </script>
 </head>
@@ -44,12 +65,23 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-12">
-									<form id="lectureForm" role="form" th:action="@{/auth/lecture/addSubmit}" th:object="${lecture}" method="post">
+									<form id="lectureForm" role="form" th:action="@{/auth/lecture/editSubmit}" th:object="${lecture}" method="post">
 										<div class="form-group">
-											<label>表單名稱</label> <input class="form-control" th:field="*{formName}">
+											<label>開始時間</label> <input class="form-control" id="startdate" th:field="*{startTime}">
 											<p class="help-block"></p>
-											<label>url</label> <input class="form-control" th:field="*{formLink}">
+											<label>結束時間</label> <input class="form-control" id="endDate" th:field="*{endTime}">
 											<p class="help-block"></p>
+											<select th:field="*{session}">
+												<option th:value="''" th:text="''"></option>
+											    <option th:value="'台北平日場'" th:text="台北平日場"></option>
+											    <option th:value="'台北假日場'" th:text="台北假日場"></option>
+											    <option th:value="'台中平日場'" th:text="台中平日場"></option>
+											    <option th:value="'台中假日場'" th:text="台中假日場"></option>
+											    <option th:value="'台南平日場'" th:text="台南平日場"></option>
+											    <option th:value="'台南平日場'" th:text="台南平日場"></option>
+											    <option th:value="'高雄平日場'" th:text="高雄平日場"></option>
+											    <option th:value="'高雄假日場'" th:text="高雄假日場"></option>
+											</select>
 										</div>
 										<input type="hidden" th:field="*{id}">
 										<button type="submit" class="btn btn-default" >Submit</button>

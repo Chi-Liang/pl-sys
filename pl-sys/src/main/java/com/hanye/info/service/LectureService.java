@@ -1,6 +1,9 @@
 package com.hanye.info.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -30,6 +33,7 @@ import com.hanye.info.vo.KnowledgeArticleVO;
 import com.hanye.info.vo.LectureVO;
 import com.hanye.info.vo.OnlineCourseVO;
 import com.hanye.info.vo.PersonInfoVO;
+import com.hanye.info.vo.ReturnLectureVO;
 
 @Service
 public class LectureService {
@@ -45,28 +49,28 @@ public class LectureService {
 	private static BeanCopier voToEntity = BeanCopier.create(LectureVO.class, Lecture.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(Lecture.class, LectureVO.class, true);
 	
-	public List<LectureVO> findAll() {
-		List<Lecture> lectureList = 
-				StreamSupport.stream(lectureRepository.findAll().spliterator(), false).collect(Collectors.toList());
-		List<LectureVO> voList = new ArrayList<LectureVO>();
-		for(Lecture lecture:lectureList) {
-			LectureVO vo = new LectureVO();
-			entityToVo.copy(lecture, vo, new BeanConverter());
-			voList.add(vo);
+	public ReturnLectureVO findAll() {
+		
+		try {
+			List<Lecture> lectureList = 
+					StreamSupport.stream(lectureRepository.findAll().spliterator(), false).collect(Collectors.toList());
+			List<LectureVO> voList = new ArrayList<LectureVO>();
+			for(Lecture lecture:lectureList) {
+				LectureVO vo = new LectureVO();
+				entityToVo.copy(lecture, vo, new BeanConverter());
+				voList.add(vo);
+			}
+			return new ReturnLectureVO("success","",voList);
+		} catch (Exception e) {
+			return new ReturnLectureVO("fail",e.getMessage(),null);
 		}
-		return voList;
+		
 	}
-	
-//	public LectureVO findFormName(String formName) {
-//		Lecture lecture = lectureRepository.findById(formName).get();
-//		LectureVO lectureVO = new LectureVO();
-//		entityToVo.copy(lecture, lectureVO, new BeanConverter());
-//		return lectureVO;
-//	}
 	
 	public void saveCategory(LectureVO lectureVO) {
 		Lecture lecture = new Lecture();
 		voToEntity.copy(lectureVO, lecture, null);
+		setTime(lecture,lectureVO);
 		lectureRepository.save(lecture);
 	}
 	
@@ -80,50 +84,22 @@ public class LectureService {
 	
 	public void editCategory(LectureVO lectureVO) {
 		Lecture lecture = lectureRepository.findById(lectureVO.getId()).get();
-		lecture.setFormLink(lectureVO.getFormLink());
-		lecture.setFormName(lectureVO.getFormName());
+		setTime(lecture,lectureVO);
+		lecture.setSession(lectureVO.getSession());
 		lectureRepository.save(lecture);
 	}
 	public void deleteCategory(Long id) {
 		lectureRepository.deleteById(id);
 	}
-//	private void editOtherLoansStr(PersonInfoVO personInfoVO) {
-//		String otherLoansStr = "";
-//		if("1".equals(personInfoVO.getStudentLoan())) {
-//			otherLoansStr += "學貸";
-//		}
-//		if("1".equals(personInfoVO.getCarLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "車貸";
-//			}else {
-//				otherLoansStr += "、車貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getHousingLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "房貸";
-//			}else {
-//				otherLoansStr += "、房貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getCreditLoan())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "信貸";
-//			}else {
-//				otherLoansStr += "、信貸";
-//			}
-//		}
-//		if("1".equals(personInfoVO.getOtherLoans())) {
-//			if(StringUtils.isEmpty(otherLoansStr)) {
-//				otherLoansStr += "其他";
-//			}else {
-//				otherLoansStr += "、 其他";
-//			}
-//		}
-//		
-//		if(StringUtils.isEmpty(otherLoansStr)) {
-//			otherLoansStr = "無";
-//		}
-//		personInfoVO.setOtherLoansStr(otherLoansStr);
-//	}
+	
+	private void setTime(Lecture lecture,LectureVO lectureVO) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm" );
+			lecture.setStartTime(sdf.parse(lectureVO.getStartTime()));
+			lecture.setEndTime(sdf.parse(lectureVO.getEndTime()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
