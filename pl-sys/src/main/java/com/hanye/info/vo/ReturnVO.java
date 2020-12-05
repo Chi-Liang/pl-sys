@@ -2,12 +2,12 @@ package com.hanye.info.vo;
 
 public class ReturnVO {
 	private String result;
-	private String msg;
+	private String message;
 	
-	public ReturnVO(String result, String msg) {
+	public ReturnVO(String result, String message) {
 		super();
 		this.result = result;
-		this.msg = msg;
+		this.message = message;
 	}
 	public String getResult() {
 		return result;
@@ -15,11 +15,11 @@ public class ReturnVO {
 	public void setResult(String result) {
 		this.result = result;
 	}
-	public String getMsg() {
-		return msg;
+	public String getMessage() {
+		return message;
 	}
-	public void setMsg(String msg) {
-		this.msg = msg;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 }

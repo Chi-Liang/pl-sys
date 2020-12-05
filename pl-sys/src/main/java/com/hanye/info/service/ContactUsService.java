@@ -73,14 +73,20 @@ public class ContactUsService {
 	}
 
 	public ReturnVO addContactUs(ContactUsVO contactUsVO) {
-		ContactUs contactUs = new ContactUs();
-		voToEntity.copy(contactUsVO, contactUs, null);
-		contactUs.setDetail(contactUsVO.getDetail());
-		contactUs.setTitle(contactUsVO.getTitle());
-		contactUs.setCreateDate(new Date());
-		Set<Category> categories = new HashSet<Category>();
-		contactUsRepository.save(contactUs);
-		return new ReturnVO("Y", "成功");
+		try {
+			ContactUs contactUs = new ContactUs();
+			voToEntity.copy(contactUsVO, contactUs, null);
+			contactUs.setDetail(contactUsVO.getDetail());
+			contactUs.setTitle(contactUsVO.getTitle());
+			contactUs.setCreateDate(new Date());
+			Set<Category> categories = new HashSet<Category>();
+			contactUsRepository.save(contactUs);
+			return new ReturnVO("success", "");
+			
+		}catch (Exception e) {
+			return new ReturnVO("fail", "");
+		}
+		
 	}
 	
 }

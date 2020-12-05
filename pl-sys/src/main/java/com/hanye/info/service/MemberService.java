@@ -22,6 +22,7 @@ import com.hanye.info.model.Member;
 import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.MemberRepository;
 import com.hanye.info.vo.ReturnVO;
+import com.hanye.info.vo.CheckMemberVO;
 import com.hanye.info.vo.LoginVO;
 import com.hanye.info.vo.MemberVO;
 
@@ -120,33 +121,43 @@ public class MemberService {
 		memberRepository.deleteById(mid);
 	}
 	
-	public LoginVO checkMember(String mid, String pwd) {
-		Optional<Member> member = memberRepository.findById(mid);
-		if(member.isEmpty()) return new LoginVO("N");
+	public LoginVO checkMember(CheckMemberVO checkMemberVO) {
+		try {
+			Optional<Member> member = memberRepository.findById(checkMemberVO.getMid());
+			if(member.isEmpty()) return new LoginVO("fail","帳號不存在");
+			
+			if(new BCryptPasswordEncoder().matches(
+					checkMemberVO.getPwd().toString(), member.get().getPwd()))
+				return new LoginVO("success","");
+			else
+				return new LoginVO("fail","帳號或密碼輸入錯誤");
+		}catch(Exception e) {
+			return new LoginVO("fail",e.getMessage());
+		}
 		
-		if(new BCryptPasswordEncoder().matches(
-                pwd.toString(), member.get().getPwd()))
-			return new LoginVO("Y");
-		else
-			return new LoginVO("N");
 	}
 	
 	public ReturnVO addMember(MemberVO memberVO) {
-		List<Member> memberList = 
-				StreamSupport.stream(memberRepository.findAll().spliterator(), false).collect(Collectors.toList());
-		for(Member member:memberList) {
-			if(StringUtils.equals(member.getMid(),memberVO.getMid())) {
-				return new ReturnVO("N", PLExceptionCode.DUPLICATE_ACCOUNT.getMsg());
+		
+		try {
+			List<Member> memberList = 
+					StreamSupport.stream(memberRepository.findAll().spliterator(), false).collect(Collectors.toList());
+			for(Member member:memberList) {
+				if(StringUtils.equals(member.getMid(),memberVO.getMid())) {
+					return new ReturnVO("fail", PLExceptionCode.DUPLICATE_ACCOUNT.getMsg());
+				}
+				if(StringUtils.equals(member.getEmail(),memberVO.getEmail())) {
+					return new ReturnVO("fail", PLExceptionCode.DUPLICATE_EMAIL.getMsg());
+				}
 			}
-			if(StringUtils.equals(member.getEmail(),memberVO.getEmail())) {
-				return new ReturnVO("N", PLExceptionCode.DUPLICATE_EMAIL.getMsg());
-			}
+			memberVO.setFreeOrPaid("0");
+			memberVO.setPoints("50");
+			saveMember(memberVO);
+			return new ReturnVO("success", "");
+			
+		}catch (Exception e) {
+			return new ReturnVO("fail", e.getMessage());
 		}
-		memberVO.setFreeOrPaid("0");
-		memberVO.setPoints("50");
-		saveMember(memberVO);
-		return new ReturnVO("Y", "成功");
 	}
-	
 
 }

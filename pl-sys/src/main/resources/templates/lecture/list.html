@@ -4,7 +4,7 @@
 	layout:decorate="~{defaultLayout}">
 
 <head>
-<title>報名講座</title>
+<title>報名講座-日期時間維護</title>
 <link th:href="@{/css/dataTables/dataTables.bootstrap.css}"
 	rel="stylesheet">
 <link th:href="@{/css/dataTables/dataTables.responsive.css}"
@@ -46,13 +46,13 @@
 		<div class="container-flmid">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">報名講座</h1>
+					<h1 class="page-header">報名講座-日期時間維護</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-heading">報名講座</div>
+						<div class="panel-heading">報名講座-日期時間維護</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
 							<p>
@@ -64,14 +64,16 @@
 									id="lecture-list">
 									<thead>
 										<tr>
-											<th>表單名稱</th>
-											<th>url</th>
+											<th>開始時間</th>
+											<th>結束時間</th>
+											<th>場次</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr class="odd gradeX" th:each="lecture : ${lectureList}">
-											<td th:text="${lecture.formName}"></td>
-											<td th:text="${lecture.formLink}"></td>
+											<td th:text="${lecture.startTime}"></td>
+											<td th:text="${lecture.endTime}"></td>
+											<td th:text="${lecture.session}"></td>
 											<td>
 												<button class="btn btn-success" th:onclick="toEdit([[${lecture.id}]])">編輯</button>
 												<button class="btn btn-danger" th:onclick="deleteCategory([[${lecture.id}]])">刪除</button>

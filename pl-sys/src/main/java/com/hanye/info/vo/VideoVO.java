@@ -1,7 +1,7 @@
 package com.hanye.info.vo;
 
 public class VideoVO {
-
+	
 	private Long vid;
 	private String title;
 	private String subtitle;

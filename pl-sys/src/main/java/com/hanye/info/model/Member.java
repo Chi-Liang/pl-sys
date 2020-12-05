@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -59,6 +60,7 @@ public class Member {
 	private String freeOrPaid;
 	@Column(length = 10)
 	private String points;
+	
 	
 	public String getMid() {
 		return mid;
@@ -148,4 +150,5 @@ public class Member {
 		this.points = points;
 	}
 
+	
 }

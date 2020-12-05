@@ -21,6 +21,8 @@ import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.MemberRepository;
 import com.hanye.info.repository.VideoRepository;
 import com.hanye.info.vo.CategoryVO;
+import com.hanye.info.vo.LoginVO;
+import com.hanye.info.vo.ReturnCategoryVO;
 
 @Service
 public class CategoryService {
@@ -85,16 +87,22 @@ public class CategoryService {
 		categoryRepository.deleteById(cid);
 	}
 	
-	public List<CategoryVO> findCategoryByMember(String mid) {
-		Member member = memberRepository.findById(mid).get();
-		List<CategoryVO> voList = new ArrayList<CategoryVO>();
-		Set<Category> categories = member.getCategories();
-		for(Category category:categories) {
-			CategoryVO vo = new CategoryVO();
-			entityToVo.copy(category, vo, new BeanConverter());
-			voList.add(vo);
+	public ReturnCategoryVO findCategoryByMember(String mid) {
+		try {
+			Member member = memberRepository.findById(mid).get();
+			List<CategoryVO> voList = new ArrayList<CategoryVO>();
+			Set<Category> categories = member.getCategories();
+			for(Category category:categories) {
+				CategoryVO vo = new CategoryVO();
+				entityToVo.copy(category, vo, new BeanConverter());
+				voList.add(vo);
+			}
+			
+			return new ReturnCategoryVO("success","",voList);
+			
+		}catch(Exception e) {
+			return new ReturnCategoryVO("fail",e.getMessage(),null);
 		}
 		
-		return voList;
 	}
 }

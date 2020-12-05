@@ -15,7 +15,9 @@ import com.hanye.info.model.PersonInfo;
 import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.PersonInfoRepository;
 import com.hanye.info.repository.VideoRepository;
+import com.hanye.info.vo.LoginVO;
 import com.hanye.info.vo.PersonInfoVO;
+import com.hanye.info.vo.ReturnPersonInfoVO;
 
 @Service
 public class PersonInfoService {
@@ -43,6 +45,34 @@ public class PersonInfoService {
 		return voList;
 	}
 	
+	public ReturnPersonInfoVO findMid(String mid) {
+		
+		try {
+			List<PersonInfoVO> personInfoVOList = findAll();
+			PersonInfoVO personInfo = null;
+			if(StringUtils.isEmpty(mid)) {
+				throw new RuntimeException("帳號為空");
+			}
+			
+			for (PersonInfoVO personInfoVO : personInfoVOList) {
+				if(mid.equals(personInfoVO.getMid()) ) {
+					personInfo = personInfoVO;
+					break;
+				}
+			}
+			if(personInfo == null) {
+				throw new RuntimeException("找不到個人資訊");
+			}
+			
+			return new ReturnPersonInfoVO("success","",personInfo);
+		}catch (Exception e) {
+			
+			return new ReturnPersonInfoVO("fail",e.getMessage(),null);
+		}
+		
+	}
+	
+	
 	public PersonInfoVO findMember(String mid) {
 		PersonInfo personInfo = personInfoRepository.findById(mid).get();
 		PersonInfoVO personInfoVO = new PersonInfoVO();
@@ -51,10 +81,15 @@ public class PersonInfoService {
 		return personInfoVO;
 	}
 	
-	public void editPersonInfo(PersonInfoVO personInfoVO) {
-		PersonInfo personInfo = new PersonInfo();
-		voToEntity.copy(personInfoVO, personInfo, null);
-		personInfoRepository.save(personInfo);
+	public LoginVO editPersonInfo(PersonInfoVO personInfoVO) {
+		try {
+			PersonInfo personInfo = new PersonInfo();
+			voToEntity.copy(personInfoVO, personInfo, null);
+			personInfoRepository.save(personInfo);
+			return new LoginVO("success","");
+		}catch (Exception e) {
+			return new LoginVO("fail",e.getMessage());
+		}
 	}
 	
 	private void editOtherLoansStr(PersonInfoVO personInfoVO) {

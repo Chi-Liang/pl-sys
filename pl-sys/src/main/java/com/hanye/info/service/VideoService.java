@@ -14,6 +14,7 @@ import com.hanye.info.model.Category;
 import com.hanye.info.model.Video;
 import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.VideoRepository;
+import com.hanye.info.vo.ReturnVideoVO;
 import com.hanye.info.vo.VideoVO;
 
 @Service
@@ -73,15 +74,19 @@ public class VideoService {
 		videoRepository.deleteById(vid);
 	}
 	
-	public VideoVO findVedioByCategory(Long cid) {
-		Category category = categoryRepository.findById(cid).get();
-		Video video = (Video)category.getVideos().toArray()[0];
-		VideoVO vo = new VideoVO();
-		entityToVo.copy(video, vo, new BeanConverter());
-		vo.setCid(cid);
-		vo.setCname(category.getName());
+	public ReturnVideoVO findVedioByCategory(Long cid) {
 		
-		return vo;
+		try {
+			Category category = categoryRepository.findById(cid).get();
+			Video video = (Video)category.getVideos().toArray()[0];
+			VideoVO vo = new VideoVO();
+			entityToVo.copy(video, vo, new BeanConverter());
+			vo.setCid(cid);
+			vo.setCname(category.getName());
+			return new ReturnVideoVO("success","",vo);
+		}catch (Exception e) {
+			return new ReturnVideoVO("fail",e.getMessage(),null);
+		}
 	}
 	
 }
