@@ -13,8 +13,8 @@ import com.hanye.info.model.LectureQuery;
 
 @Repository
 public interface LectureQueryRepository extends JpaRepository<LectureQuery, Long> {
-	List<LectureQuery> findByMid(String mid);
+	//List<LectureQuery> findByMid(String mid);
 	
-//	@Query("SELECT a,id,a.mid,a.name,a.lineId,a.email,a.phone FROM LectureQuery a,Member b where a.mid=b.mid ")
-//	List<LectureQuery> findDistinctMid();
+	@Query("SELECT a FROM LectureQuery a ORDER BY a.createDate")
+	List<LectureQuery> findAllOrderByCreateDate();
 }

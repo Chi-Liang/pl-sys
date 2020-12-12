@@ -9,6 +9,10 @@ public class LectureQueryVO {
 		private String email;
 		private String phone;
 		private String session;
+		private String nextTime;
+		private String news;
+		private String createDate;
+		
 		public Long getId() {
 			return id;
 		}
@@ -50,6 +54,24 @@ public class LectureQueryVO {
 		}
 		public void setSession(String session) {
 			this.session = session;
+		}
+		public String getNextTime() {
+			return nextTime;
+		}
+		public void setNextTime(String nextTime) {
+			this.nextTime = nextTime;
+		}
+		public String getNews() {
+			return news;
+		}
+		public void setNews(String news) {
+			this.news = news;
+		}
+		public String getCreateDate() {
+			return createDate;
+		}
+		public void setCreateDate(String createDate) {
+			this.createDate = createDate;
 		}
 		
 		

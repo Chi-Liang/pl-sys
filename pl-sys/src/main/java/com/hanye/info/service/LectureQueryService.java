@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -55,7 +56,7 @@ public class LectureQueryService {
 	
 	public List<LectureQueryVO> findAll() {
 		List<LectureQuery> lectureQueryList = 
-				StreamSupport.stream(lectureQueryRepository.findAll().spliterator(), false).collect(Collectors.toList());
+				StreamSupport.stream(lectureQueryRepository.findAllOrderByCreateDate().spliterator(), false).collect(Collectors.toList());
 		List<LectureQueryVO> voList = new ArrayList<LectureQueryVO>();
 		for(LectureQuery lectureQuery:lectureQueryList) {
 			LectureQueryVO vo = new LectureQueryVO();
@@ -65,21 +66,18 @@ public class LectureQueryService {
 		return voList;
 	}
 	
-	public List<LectureQueryVO> findMember(String mid) {
-		List<LectureQuery> lectureQueryList = lectureQueryRepository.findByMid(mid);
-		List<LectureQueryVO> voList = new ArrayList<LectureQueryVO>();
-		for(LectureQuery lectureQuery:lectureQueryList) {
-			LectureQueryVO vo = new LectureQueryVO();
-			entityToVo.copy(lectureQuery, vo, new BeanConverter());
-			voList.add(vo);
-		}
-		return voList;
+	public LectureQueryVO findId(Long id) {
+		LectureQuery lectureQuery = lectureQueryRepository.findById(id).get();
+		LectureQueryVO lectureQueryVO = new LectureQueryVO();
+		entityToVo.copy(lectureQuery, lectureQueryVO, new BeanConverter());
+		return lectureQueryVO;
 	}
 	
 	public LoginVO save(LectureQueryVO lectureQueryVO) {
 		try {
 			LectureQuery lectureQuery = new LectureQuery();
 			voToEntity.copy(lectureQueryVO, lectureQuery, null);
+			lectureQuery.setCreateDate(new Date());
 			lectureQueryRepository.save(lectureQuery);
 			return new LoginVO("success","");
 		}catch (Exception e) {

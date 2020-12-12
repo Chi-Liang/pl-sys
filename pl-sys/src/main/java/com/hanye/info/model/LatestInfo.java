@@ -27,7 +27,10 @@ public class LatestInfo {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
 	private Date createDate;
-
+	
+	@Column(length = 1000)
+	private String fileName;
+	
 	public Long getLid() {
 		return lid;
 	}
@@ -60,4 +63,12 @@ public class LatestInfo {
 		this.createDate = createDate;
 	}
 
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
 }

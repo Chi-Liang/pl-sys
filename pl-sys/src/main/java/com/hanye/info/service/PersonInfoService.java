@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.hanye.info.convert.BeanConverter;
+import com.hanye.info.model.Member;
 import com.hanye.info.model.PersonInfo;
 import com.hanye.info.repository.CategoryRepository;
+import com.hanye.info.repository.MemberRepository;
 import com.hanye.info.repository.PersonInfoRepository;
 import com.hanye.info.repository.VideoRepository;
 import com.hanye.info.vo.LoginVO;
@@ -28,7 +30,8 @@ public class PersonInfoService {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private PersonInfoRepository personInfoRepository;
-	
+	@Autowired
+	private MemberRepository memberRepository;
 	
 	private static BeanCopier voToEntity = BeanCopier.create(PersonInfoVO.class, PersonInfo.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(PersonInfo.class, PersonInfoVO.class, true);
@@ -63,10 +66,10 @@ public class PersonInfoService {
 			if(personInfo == null) {
 				throw new RuntimeException("找不到個人資訊");
 			}
-			
+			Member member = memberRepository.findById(mid).get();
+			personInfo.setPoints(member.getPoints());
 			return new ReturnPersonInfoVO("success","",personInfo);
 		}catch (Exception e) {
-			
 			return new ReturnPersonInfoVO("fail",e.getMessage(),null);
 		}
 		

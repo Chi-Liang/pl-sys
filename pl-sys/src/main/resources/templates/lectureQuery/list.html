@@ -20,8 +20,8 @@
 		});
 	});
 
-	function toQuery(queryMid) {
-		$("#queryMid").val(queryMid);
+	function toQuery(queryId) {
+		$("#queryId").val(queryId);
 		$("#toQueryForm").submit();
 	}
 	
@@ -48,18 +48,31 @@
 									<thead>
 										<tr>
 											<th>帳號</th>
-											<th>名稱</th>
-											<th>操作</th>
+											<th>姓名</th>
+											<th>電話</th>
+											<th>LINE ID</th>
+											<th>E-Mail</th>
+											<th>報名時間</th>
+											<th>場次</th>
+											<th>我對此房地產的課有興趣，但這次來不及，請下次再通知我</th>
+											<th>請問從哪裡得知消息? 誰介紹你的?</th>
+											<!-- <th>操作</th> -->
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="odd gradeX" th:each="member : ${lectureQueryList}">
-											<td th:text="${member.mid}"></td>
-											<td th:text="${member.name}"></td>
-											
-											<td>
-												<button class="btn btn-success" th:onclick="toQuery([[${member.mid}]])">查詢</button>
-											</td>
+										<tr class="odd gradeX" th:each="lectureQuery : ${lectureQueryList}">
+											<td th:text="${lectureQuery.mid}"></td>
+											<td th:text="${lectureQuery.name}"></td>
+											<td th:text="${lectureQuery.phone}"></td>
+											<td th:text="${lectureQuery.lineId}"></td>
+											<td th:text="${lectureQuery.email}"></td>
+											<td th:text="${lectureQuery.createDate}"></td>
+											<td th:text="${lectureQuery.session}"></td>
+											<td th:text="${lectureQuery.nextTime}"></td>
+											<td th:text="${lectureQuery.news}"></td>
+											<!-- <td>
+												<button class="btn btn-success" th:onclick="toQuery([[${lectureQuery.id}]])">查詢</button>
+											</td> -->
 										</tr>
 									</tbody>
 								</table>
@@ -71,7 +84,7 @@
 			<p th:if="${pageError}" style="color: red" th:text="${errorMsg}"></p>
 		</div>
 		<form th:action="@{/auth/lectureQuery/query}" id="toQueryForm">
-			<input type="hidden" id="queryMid" name="mid"/>
+			<input type="hidden" id="queryId" name="id"/>
 		</form>
 	</div>
 </body>

@@ -25,6 +25,7 @@ import com.hanye.info.vo.ReturnVO;
 import com.hanye.info.vo.CheckMemberVO;
 import com.hanye.info.vo.LoginVO;
 import com.hanye.info.vo.MemberVO;
+import com.hanye.info.vo.ReturnLoginVO;
 
 @Service
 public class MemberService {
@@ -121,18 +122,24 @@ public class MemberService {
 		memberRepository.deleteById(mid);
 	}
 	
-	public LoginVO checkMember(CheckMemberVO checkMemberVO) {
+	public ReturnLoginVO checkMember(CheckMemberVO checkMemberVO) {
 		try {
 			Optional<Member> member = memberRepository.findById(checkMemberVO.getMid());
-			if(member.isEmpty()) return new LoginVO("fail","帳號不存在");
+			if(member.isEmpty()) return new ReturnLoginVO("fail","帳號不存在",null);
 			
 			if(new BCryptPasswordEncoder().matches(
-					checkMemberVO.getPwd().toString(), member.get().getPwd()))
-				return new LoginVO("success","");
+					checkMemberVO.getPwd().toString(), member.get().getPwd())) {
+				MemberVO memberVO = new MemberVO();
+				memberVO.setMid(member.get().getMid());
+				memberVO.setName(member.get().getName());
+				memberVO.setEmail(member.get().getEmail());
+				memberVO.setTel(member.get().getTel());
+				return new ReturnLoginVO("success","",memberVO);
+			}
 			else
-				return new LoginVO("fail","帳號或密碼輸入錯誤");
+				return new ReturnLoginVO("fail","帳號或密碼輸入錯誤",null);
 		}catch(Exception e) {
-			return new LoginVO("fail",e.getMessage());
+			return new ReturnLoginVO("fail",e.getMessage(),null);
 		}
 		
 	}

@@ -41,23 +41,41 @@
 										id="lectureQuery-list-query"  >
 										<thead>
 											<tr>
+												<th>帳號</th>
 												<th>姓名</th>
 												<th>電話</th>
 												<th>LINE ID</th>
 												<th>E-Mail</th>
+												<th>報名時間</th>
 												<th>場次</th>
+												<th>我對此房地產的課有興趣，但這次來不及，請下次再通知我</th>
+												<th>請問從哪裡得知消息? 誰介紹你的?</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr class="odd gradeX" th:each="lectureQuery : ${lectureQueryList}" >
-												<td th:text="${lectureQuery.name}"></td>
-												<td th:text="${lectureQuery.phone}"></td>
-												<td th:text="${lectureQuery.lineId}"></td>
-												<td th:text="${lectureQuery.email}"></td>
-												<td th:text="${lectureQuery.session}"></td>
+											<tr class="odd gradeX" >
+												<td th:text="*{mid}"></td>
+												<td th:text="*{name}"></td>
+												<td th:text="*{phone}"></td>
+												<td th:text="*{lineId}"></td>
+												<td th:text="*{email}"></td>
+												<td th:text="*{createDate}"></td>
+												<td th:text="*{session}"></td>
+												<td th:text="*{nextTime}"></td>
+												<td th:text="*{news}"></td>
 											</tr>
-										</tr>
-											
+										</tbody>
+										<thead>
+											<tr>
+												<th>我對此房地產的課有興趣，但這次來不及，請下次再通知我</th>
+												<th>請問從哪裡得知消息? 誰介紹你的?</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="odd gradeX" >
+												<td th:text="*{nextTime}"></td>
+												<td th:text="*{news}"></td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
