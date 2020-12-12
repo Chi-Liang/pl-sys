@@ -1,8 +1,11 @@
 package com.hanye.info.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.model.KnowledgeArticle;
@@ -74,8 +78,34 @@ public class LatestInfoService {
 		LatestInfo latestInfo = latestInfoRepository.findById(latestInfoVO.getLid()).get();
 		latestInfo.setTitle(latestInfoVO.getTitle());
 		latestInfo.setDetail(latestInfoVO.getDetail());
+		MultipartFile file = latestInfoVO.getFile();
+		String fileName = uploadPicture(file);
+		if(!StringUtils.isEmpty(fileName)) {
+			latestInfo.setFileName(fileName);
+		}
 		latestInfoRepository.save(latestInfo);
 	}
+	
+	private String uploadPicture(MultipartFile file) {
+		if (file.isEmpty()) {
+			return "";
+		}
+		String fileName = file.getOriginalFilename(); // 檔名
+		String suffixName = fileName.substring(fileName.lastIndexOf(".")); // 字尾名
+		String filePath = "C:\\image\\"; // 上傳後的路徑
+		fileName = UUID.randomUUID() + suffixName; // 新檔名
+		File dest = new File(filePath + fileName);
+		if (!dest.getParentFile().exists()) {
+			dest.getParentFile().mkdirs();
+		}
+		try {
+			file.transferTo(dest);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileName;
+	} 
+	
 	public void deleteCategory(Long id) {
 		latestInfoRepository.deleteById(id);
 	}

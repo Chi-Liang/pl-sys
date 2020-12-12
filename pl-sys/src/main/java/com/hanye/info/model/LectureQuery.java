@@ -1,5 +1,6 @@
 package com.hanye.info.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class LectureQuery {
@@ -36,6 +41,16 @@ public class LectureQuery {
 	
 	@Column(length = 100)
 	private String session;
+	
+	@Column(length = 100)
+	private String nextTime;
+	
+	@Column(length = 1000)
+	private String news;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
+	private Date createDate;
 	
 	public Long getId() {
 		return id;
@@ -92,6 +107,29 @@ public class LectureQuery {
 	public void setSession(String session) {
 		this.session = session;
 	}
-	
+
+	public String getNextTime() {
+		return nextTime;
+	}
+
+	public void setNextTime(String nextTime) {
+		this.nextTime = nextTime;
+	}
+
+	public String getNews() {
+		return news;
+	}
+
+	public void setNews(String news) {
+		this.news = news;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 	
 }

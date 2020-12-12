@@ -2,11 +2,14 @@ package com.hanye.info.vo;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class LatestInfoVO {
 	private Long lid;
 	private String title;
 	private String detail;
 	private String createDate;
+	private MultipartFile file;
 	public Long getLid() {
 		return lid;
 	}
@@ -30,6 +33,12 @@ public class LatestInfoVO {
 	}
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
+	}
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 	
 }

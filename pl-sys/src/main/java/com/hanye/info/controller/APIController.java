@@ -1,16 +1,23 @@
 package com.hanye.info.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.util.StringUtils;
 
@@ -38,6 +45,7 @@ import com.hanye.info.vo.MemberVO;
 import com.hanye.info.vo.PersonInfoVO;
 import com.hanye.info.vo.ReturnCategoryVO;
 import com.hanye.info.vo.ReturnLectureVO;
+import com.hanye.info.vo.ReturnLoginVO;
 import com.hanye.info.vo.ReturnPersonInfoVO;
 import com.hanye.info.vo.VideoVO;
 
@@ -77,7 +85,7 @@ public class APIController {
 	}
 	
 	@PostMapping("/member/check")
-	public LoginVO checkMember(@RequestBody CheckMemberVO checkMemberVO) {
+	public ReturnLoginVO checkMember(@RequestBody CheckMemberVO checkMemberVO) {
 		return memberService.checkMember(checkMemberVO);
 	}
 	
@@ -119,5 +127,32 @@ public class APIController {
 	public ReturnVO addContactUs(@RequestBody ContactUsVO contactUsVO) {
 		return contactUsService.addContactUs(contactUsVO);
 	}
+	
+	@RequestMapping(value = "/getPhoto/{imgUrl}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getPhoto(@PathVariable("imgUrl") String imgUrl) {
+		File file = new File("C:/image/" + imgUrl );
+		FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		byte[] bytes = null;
+		try {
+			bytes = new byte[inputStream.available()];
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			inputStream.read(bytes, 0, inputStream.available());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bytes;
+	} 
 	
 }

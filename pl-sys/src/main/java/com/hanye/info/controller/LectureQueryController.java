@@ -35,14 +35,14 @@ public class LectureQueryController {
 			model.addAttribute("errorMsg", PLExceptionCode.DATA_NOT_FOUND.getMsg());
 		}
 		model.addAttribute("pageError", pageError);
-		model.addAttribute("lectureQueryList", memberService.findAll());
+		model.addAttribute("lectureQueryList", lectureQueryService.findAll());
 
 		return "lectureQuery/list";
 	}
 	
 	@GetMapping("/query")
-	public String edit(@RequestParam String mid, Model model) {
-		model.addAttribute("lectureQueryList", lectureQueryService.findMember(mid));
+	public String edit(@RequestParam Long id, Model model) {
+		model.addAttribute("lectureQueryList", lectureQueryService.findId(id));
 		
 		return "lectureQuery/query";
 	}
