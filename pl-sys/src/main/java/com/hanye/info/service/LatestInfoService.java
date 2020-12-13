@@ -32,6 +32,7 @@ import com.hanye.info.vo.LatestInfoVO;
 import com.hanye.info.vo.LectureVO;
 import com.hanye.info.vo.OnlineCourseVO;
 import com.hanye.info.vo.PersonInfoVO;
+import com.hanye.info.vo.ReturnLatestInfoVO;
 
 @Service
 public class LatestInfoService {
@@ -47,22 +48,36 @@ public class LatestInfoService {
 	private static BeanCopier voToEntity = BeanCopier.create(LatestInfoVO.class, LatestInfo.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(LatestInfo.class, LatestInfoVO.class, true);
 	
-	public List<LatestInfoVO> findAll() {
-		List<LatestInfo> latestNewsList = 
-				StreamSupport.stream(latestInfoRepository.findAllOrderByCreateDate().spliterator(), false).collect(Collectors.toList());
-		List<LatestInfoVO> voList = new ArrayList<LatestInfoVO>();
-		for(LatestInfo latestNews:latestNewsList) {
-			LatestInfoVO vo = new LatestInfoVO();
-			entityToVo.copy(latestNews, vo, new BeanConverter());
-			voList.add(vo);
+	public ReturnLatestInfoVO findAll() {
+		
+		try {
+			List<LatestInfo> latestNewsList = 
+					StreamSupport.stream(latestInfoRepository.findAllOrderByCreateDate().spliterator(), false).collect(Collectors.toList());
+			List<LatestInfoVO> voList = new ArrayList<LatestInfoVO>();
+			for(LatestInfo latestNews:latestNewsList) {
+				LatestInfoVO vo = new LatestInfoVO();
+				entityToVo.copy(latestNews, vo, new BeanConverter());
+				voList.add(vo);
+			}
+			
+			return new ReturnLatestInfoVO("success","",voList);
+			
+		}catch (Exception e) {
+			return new ReturnLatestInfoVO("fail",e.getMessage(),null);
 		}
-		return voList;
+		
 	}
 	
 	public void saveCategory(LatestInfoVO latestInfoVO) {
 		LatestInfo latestInfo = new LatestInfo();
 		voToEntity.copy(latestInfoVO, latestInfo, null);
 		latestInfo.setCreateDate(new Date());
+		MultipartFile file = latestInfoVO.getFile();
+		String fileName = uploadPicture(file);
+		if(!StringUtils.isEmpty(fileName)) {
+//			latestInfo.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+			latestInfo.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+		}
 		latestInfoRepository.save(latestInfo);
 	}
 	
@@ -93,7 +108,7 @@ public class LatestInfoService {
 		String fileName = file.getOriginalFilename(); // 檔名
 		String suffixName = fileName.substring(fileName.lastIndexOf(".")); // 字尾名
 		String filePath = "C:\\image\\"; // 上傳後的路徑
-		fileName = UUID.randomUUID() + suffixName; // 新檔名
+		fileName = UUID.randomUUID() + fileName; // 新檔名
 		File dest = new File(filePath + fileName);
 		if (!dest.getParentFile().exists()) {
 			dest.getParentFile().mkdirs();

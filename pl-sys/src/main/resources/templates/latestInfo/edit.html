@@ -56,6 +56,8 @@
 											<textarea rows="10" cols="80" th:field="*{detail}" >
     										</textarea>
 											<p class="help-block"></p>
+											<label>已上傳圖片:</label>
+											<input class="form-control" type="text" th:value="*{fileName}" disabled="disabled" >
 											<label>選擇圖片:</label>
 											<input type="file" name="file" />
 										</div>
