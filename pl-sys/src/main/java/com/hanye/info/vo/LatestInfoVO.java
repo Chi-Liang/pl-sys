@@ -10,6 +10,7 @@ public class LatestInfoVO {
 	private String detail;
 	private String createDate;
 	private MultipartFile file;
+	private String fileName;
 	public Long getLid() {
 		return lid;
 	}
@@ -39,6 +40,12 @@ public class LatestInfoVO {
 	}
 	public void setFile(MultipartFile file) {
 		this.file = file;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 }

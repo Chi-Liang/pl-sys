@@ -30,6 +30,7 @@ import com.hanye.info.service.LectureQueryService;
 import com.hanye.info.service.LectureService;
 import com.hanye.info.service.MemberService;
 import com.hanye.info.service.PersonInfoService;
+import com.hanye.info.service.UploadPictureService;
 import com.hanye.info.service.VideoService;
 import com.hanye.info.vo.ReturnVO;
 import com.hanye.info.vo.ReturnVideoVO;
@@ -44,6 +45,7 @@ import com.hanye.info.vo.LoginVO;
 import com.hanye.info.vo.MemberVO;
 import com.hanye.info.vo.PersonInfoVO;
 import com.hanye.info.vo.ReturnCategoryVO;
+import com.hanye.info.vo.ReturnLatestInfoVO;
 import com.hanye.info.vo.ReturnLectureVO;
 import com.hanye.info.vo.ReturnLoginVO;
 import com.hanye.info.vo.ReturnPersonInfoVO;
@@ -77,6 +79,9 @@ public class APIController {
 	
 	@Autowired
 	private LectureQueryService lectureQueryService;
+	
+	@Autowired
+	private UploadPictureService uploadPictureService;
 	
 	@PostMapping("/category/list")
 	public ReturnCategoryVO findCategoryByMember(@RequestBody CheckMemberVO checkMemberVO) {
@@ -117,6 +122,11 @@ public class APIController {
 		return lectureService.findAll();
 	}
 	
+	@PostMapping("/latestInfo/list")
+	public ReturnLatestInfoVO findLatestInfoList() {
+		return latestInfoService.findAll();
+	}
+	
 	@PostMapping("/lecture/save")
 	public LoginVO lectureSave(@RequestBody LectureQueryVO lectureQueryVO) {
 		return lectureQueryService.save(lectureQueryVO);
@@ -131,28 +141,7 @@ public class APIController {
 	@RequestMapping(value = "/getPhoto/{imgUrl}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public byte[] getPhoto(@PathVariable("imgUrl") String imgUrl) {
-		File file = new File("C:/image/" + imgUrl );
-		FileInputStream inputStream = null;
-		try {
-			inputStream = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		byte[] bytes = null;
-		try {
-			bytes = new byte[inputStream.available()];
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			inputStream.read(bytes, 0, inputStream.available());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return bytes;
+		return uploadPictureService.uploadPicture(imgUrl);
 	} 
 	
 }

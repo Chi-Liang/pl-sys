@@ -54,7 +54,7 @@ public class LatestInfoController {
 			model.addAttribute("errorMsg", PLExceptionCode.DATA_NOT_FOUND.getMsg());
 		}
 		model.addAttribute("pageError", pageError);
-		model.addAttribute("latestInfoList", latestInfoService.findAll());
+		model.addAttribute("latestInfoList", latestInfoService.findAll().getLatestInfoVOList());
 
 		return "latestInfo/list";
 	}
