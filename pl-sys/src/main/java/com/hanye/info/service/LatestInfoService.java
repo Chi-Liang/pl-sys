@@ -96,7 +96,8 @@ public class LatestInfoService {
 		MultipartFile file = latestInfoVO.getFile();
 		String fileName = uploadPicture(file);
 		if(!StringUtils.isEmpty(fileName)) {
-			latestInfo.setFileName(fileName);
+			latestInfo.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+//			latestInfo.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
 		}
 		latestInfoRepository.save(latestInfo);
 	}
