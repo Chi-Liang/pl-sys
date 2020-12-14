@@ -25,6 +25,7 @@ import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.model.LatestInfo;
 import com.hanye.info.service.CategoryService;
 import com.hanye.info.service.ContactUsService;
+import com.hanye.info.service.KnowledgeArticleService;
 import com.hanye.info.service.LatestInfoService;
 import com.hanye.info.service.LectureQueryService;
 import com.hanye.info.service.LectureService;
@@ -45,6 +46,7 @@ import com.hanye.info.vo.LoginVO;
 import com.hanye.info.vo.MemberVO;
 import com.hanye.info.vo.PersonInfoVO;
 import com.hanye.info.vo.ReturnCategoryVO;
+import com.hanye.info.vo.ReturnKnowledgeArticleVO;
 import com.hanye.info.vo.ReturnLatestInfoVO;
 import com.hanye.info.vo.ReturnLectureVO;
 import com.hanye.info.vo.ReturnLoginVO;
@@ -79,6 +81,9 @@ public class APIController {
 	
 	@Autowired
 	private LectureQueryService lectureQueryService;
+	
+	@Autowired
+	private KnowledgeArticleService knowledgeArticleService;
 	
 	@Autowired
 	private UploadPictureService uploadPictureService;
@@ -125,6 +130,11 @@ public class APIController {
 	@PostMapping("/latestInfo/list")
 	public ReturnLatestInfoVO findLatestInfoList() {
 		return latestInfoService.findAll();
+	}
+	
+	@PostMapping("/knowledgeArticle/list")
+	public ReturnKnowledgeArticleVO findKnowledgeArticleList() {
+		return knowledgeArticleService.findAll();
 	}
 	
 	@PostMapping("/lecture/save")

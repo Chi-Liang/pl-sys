@@ -67,11 +67,14 @@
 									<thead>
 										<tr>
 											<th>文章標題</th>
+											<th>日期</th>
+											<th>操作</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr class="odd gradeX" th:each="knowledgeArticle : ${knowledgeArticleList}">
 											<td th:text="${knowledgeArticle.title}"></td>
+											<td th:text="${knowledgeArticle.createDate}"></td>
 											<td>
 												<button class="btn btn-success" th:onclick="toEdit([[${knowledgeArticle.lid}]])">編輯</button>
 												<button class="btn btn-danger" th:onclick="deleteCategory([[${knowledgeArticle.lid}]])">刪除</button>
