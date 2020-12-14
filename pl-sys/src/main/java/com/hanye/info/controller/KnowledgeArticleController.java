@@ -38,7 +38,7 @@ public class KnowledgeArticleController {
 			model.addAttribute("errorMsg", PLExceptionCode.DATA_NOT_FOUND.getMsg());
 		}
 		model.addAttribute("pageError", pageError);
-		model.addAttribute("knowledgeArticleList", knowledgeArticleService.findAll());
+		model.addAttribute("knowledgeArticleList", knowledgeArticleService.findAll().getKnowledgeArticleVOList());
 
 		return "knowledgeArticle/list";
 	}

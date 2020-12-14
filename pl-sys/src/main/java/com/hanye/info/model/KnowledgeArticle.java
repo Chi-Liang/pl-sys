@@ -1,10 +1,16 @@
 package com.hanye.info.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @Entity
@@ -19,6 +25,13 @@ public class KnowledgeArticle {
 	
 	@Column(length = 1000)
 	private String detail;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
+	private Date createDate;
+	
+	@Column(length = 1000)
+	private String fileName;
 
 	public Long getLid() {
 		return lid;
@@ -44,4 +57,20 @@ public class KnowledgeArticle {
 		this.detail = detail;
 	}
 
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
 }
