@@ -44,7 +44,7 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-12">
-									<form id="knowledgeArticleForm" role="form" th:action="@{/auth/knowledgeArticle/addSubmit}" th:object="${knowledgeArticle}" method="post"
+									<form id="knowledgeArticleForm" role="form" th:action="@{/auth/knowledgeArticle/editSubmit}" th:object="${knowledgeArticle}" method="post"
 									          enctype="multipart/form-data">
 										<div class="form-group">
 											<label>文章標題</label> <input class="form-control" th:field="*{title}">

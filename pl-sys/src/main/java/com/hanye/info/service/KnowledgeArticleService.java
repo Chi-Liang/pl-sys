@@ -46,7 +46,7 @@ public class KnowledgeArticleService {
 	public ReturnKnowledgeArticleVO findAll() {
 		try {
 			List<KnowledgeArticle> knowledgeArticleList = 
-					StreamSupport.stream(knowledgeArticleRepository.findAll().spliterator(), false).collect(Collectors.toList());
+					StreamSupport.stream(knowledgeArticleRepository.findAllOrderByCreateDate().spliterator(), false).collect(Collectors.toList());
 			List<KnowledgeArticleVO> voList = new ArrayList<KnowledgeArticleVO>();
 			for(KnowledgeArticle knowledgeArticle:knowledgeArticleList) {
 				KnowledgeArticleVO vo = new KnowledgeArticleVO();
