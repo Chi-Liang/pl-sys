@@ -46,6 +46,9 @@
 									<thead>
 										<tr>
 											<th>標題</th>
+											<th>姓名</th>
+											<th>電話</th>
+											<th>電子信箱</th>
 											<th>日期</th>
 											<th>操作</th>
 										</tr>
@@ -53,8 +56,10 @@
 									<tbody>
 										<tr class="odd gradeX" th:each="contactUs : ${contactUsList}">
 											<td th:text="${contactUs.title}"></td>
+											<td th:text="${contactUs.name}"></td>
+											<td th:text="${contactUs.phone}"></td>
+											<td th:text="${contactUs.email}"></td>
 											<td th:text="${contactUs.createDate}"></td>
-											<!-- <td th:text="${contactUs.detail}"></td> -->
 											<td>
 												<button class="btn btn-success" th:onclick="toQuery([[${contactUs.lid}]])">查詢</button>
 											</td>

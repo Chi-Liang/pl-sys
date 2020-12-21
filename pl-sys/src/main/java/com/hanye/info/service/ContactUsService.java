@@ -76,8 +76,8 @@ public class ContactUsService {
 		try {
 			ContactUs contactUs = new ContactUs();
 			voToEntity.copy(contactUsVO, contactUs, null);
-			contactUs.setDetail(contactUsVO.getDetail());
-			contactUs.setTitle(contactUsVO.getTitle());
+//			contactUs.setDetail(contactUsVO.getDetail());
+//			contactUs.setTitle(contactUsVO.getTitle());
 			contactUs.setCreateDate(new Date());
 			Set<Category> categories = new HashSet<Category>();
 			contactUsRepository.save(contactUs);
