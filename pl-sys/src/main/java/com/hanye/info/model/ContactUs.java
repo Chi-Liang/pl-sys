@@ -27,6 +27,15 @@ public class ContactUs {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
 	private Date createDate;
+	
+	@Column(length = 50)
+	private String phone;
+	
+	@Column(length = 50)
+	private String name;
+	
+	@Column(length = 50)
+	private String email;
 
 	public Long getLid() {
 		return lid;
@@ -60,4 +69,28 @@ public class ContactUs {
 		this.createDate = createDate;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 }
