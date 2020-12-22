@@ -12,6 +12,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -152,6 +153,12 @@ public class APIController {
 	@ResponseBody
 	public byte[] getPhoto(@PathVariable("imgUrl") String imgUrl) {
 		return uploadPictureService.uploadPicture(imgUrl);
-	} 
+	}
+	
+	@PostMapping("/changePassword")
+	public ReturnVO changePassword(@RequestBody MemberVO memberDTO) {
+		return memberService.changeMemberPwd(memberDTO);
+		
+	}
 	
 }
