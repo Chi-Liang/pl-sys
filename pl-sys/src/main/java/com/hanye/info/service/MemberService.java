@@ -110,12 +110,16 @@ public class MemberService {
 		memberRepository.save(member);
 	}
 	
-	public void changeMemberPwd(MemberVO memberVO) {
-		Member member = memberRepository.findById(memberVO.getMid()).get();
-		member.setPwd(new BCryptPasswordEncoder().encode(memberVO.getPwd()));
-		member.setUpdateDate(new Date());
-		
-		memberRepository.save(member);
+	public ReturnVO changeMemberPwd(MemberVO memberVO) {
+		try {
+			Member member = memberRepository.findById(memberVO.getMid()).get();
+			member.setPwd(new BCryptPasswordEncoder().encode(memberVO.getPwd()));
+			member.setUpdateDate(new Date());
+			memberRepository.save(member);
+			return new ReturnVO("success","");
+		}catch(Exception e) {
+			return new ReturnVO("fail","");
+		}
 	}
 	
 	public void deleteMember(String mid) {
