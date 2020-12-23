@@ -49,7 +49,6 @@ public class LatestInfoService {
 	private static BeanCopier entityToVo = BeanCopier.create(LatestInfo.class, LatestInfoVO.class, true);
 	
 	public ReturnLatestInfoVO findAll() {
-		
 		try {
 			List<LatestInfo> latestNewsList = 
 					StreamSupport.stream(latestInfoRepository.findAllOrderByCreateDate().spliterator(), false).collect(Collectors.toList());
@@ -57,15 +56,15 @@ public class LatestInfoService {
 			for(LatestInfo latestNews:latestNewsList) {
 				LatestInfoVO vo = new LatestInfoVO();
 				entityToVo.copy(latestNews, vo, new BeanConverter());
+				vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoLatestInfo/" + vo.getLid());
+//				vo.setPictureUrl("http://localhost:8080/api/getPhotoLatestInfo/" + vo.getLid());
 				voList.add(vo);
 			}
-			
 			return new ReturnLatestInfoVO("success","",voList);
 			
 		}catch (Exception e) {
 			return new ReturnLatestInfoVO("fail",e.getMessage(),null);
 		}
-		
 	}
 	
 	public void saveCategory(LatestInfoVO latestInfoVO) {
@@ -73,7 +72,16 @@ public class LatestInfoService {
 		voToEntity.copy(latestInfoVO, latestInfo, null);
 		latestInfo.setCreateDate(new Date());
 		MultipartFile file = latestInfoVO.getFile();
-		String fileName = uploadPicture(file);
+		String fileName = "" ;
+		try {
+			if(!file.isEmpty()) {
+				latestInfo.setPicture(file.getBytes());
+				fileName = uploadPicture(file);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		if(!StringUtils.isEmpty(fileName)) {
 			latestInfo.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
 //			latestInfo.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
@@ -94,7 +102,15 @@ public class LatestInfoService {
 		latestInfo.setTitle(latestInfoVO.getTitle());
 		latestInfo.setDetail(latestInfoVO.getDetail());
 		MultipartFile file = latestInfoVO.getFile();
-		String fileName = uploadPicture(file);
+		String fileName = "" ;
+		try {
+			if(!file.isEmpty()) {
+				latestInfo.setPicture(file.getBytes());
+				fileName = uploadPicture(file);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if(!StringUtils.isEmpty(fileName)) {
 			latestInfo.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
 //			latestInfo.setFileName("http://localhost:8080/api/getPhoto/" + fileName);

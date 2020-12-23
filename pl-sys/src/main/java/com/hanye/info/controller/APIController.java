@@ -155,6 +155,18 @@ public class APIController {
 		return uploadPictureService.uploadPicture(imgUrl);
 	}
 	
+	@RequestMapping(value = "/getPhotoLatestInfo/{lid}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getPhotoLatestInfo(@PathVariable("lid") Long lid) {
+		return latestInfoService.findCategory(lid).getPicture();
+	}
+	
+	@RequestMapping(value = "/getPhotoKnowledgeArticle/{lid}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getPhotoKnowledgeArticle(@PathVariable("lid") Long lid) {
+		return knowledgeArticleService.findCategory(lid).getPicture();
+	}
+	
 	@PostMapping("/changePassword")
 	public ReturnVO changePassword(@RequestBody MemberVO memberDTO) {
 		return memberService.changeMemberPwd(memberDTO);
