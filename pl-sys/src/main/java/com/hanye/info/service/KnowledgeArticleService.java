@@ -51,6 +51,8 @@ public class KnowledgeArticleService {
 			for(KnowledgeArticle knowledgeArticle:knowledgeArticleList) {
 				KnowledgeArticleVO vo = new KnowledgeArticleVO();
 				entityToVo.copy(knowledgeArticle, vo, new BeanConverter());
+				vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoKnowledgeArticle/" + vo.getLid());
+//				vo.setPictureUrl("http://localhost:8080/api/getPhotoKnowledgeArticle/" + vo.getLid());
 				voList.add(vo);
 			}
 			return new ReturnKnowledgeArticleVO("success","",voList);
@@ -64,7 +66,17 @@ public class KnowledgeArticleService {
 		voToEntity.copy(KnowledgeArticleVO, KnowledgeArticle, null);
 		KnowledgeArticle.setCreateDate(new Date());
 		MultipartFile file = KnowledgeArticleVO.getFile();
-		String fileName = uploadPicture(file);
+		String fileName = "";
+		
+		try {
+			if(!file.isEmpty()) {
+				KnowledgeArticle.setPicture(file.getBytes());
+				fileName = uploadPicture(file);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		if(!StringUtils.isEmpty(fileName)) {
 			KnowledgeArticle.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
 //			KnowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
@@ -85,7 +97,15 @@ public class KnowledgeArticleService {
 		knowledgeArticle.setTitle(knowledgeArticleVO.getTitle());
 		knowledgeArticle.setDetail(knowledgeArticleVO.getDetail());
 		MultipartFile file = knowledgeArticleVO.getFile();
-		String fileName = uploadPicture(file);
+		String fileName = "";
+		try {
+			if(!file.isEmpty()) {
+				knowledgeArticle.setPicture(file.getBytes());
+				fileName = uploadPicture(file);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if(!StringUtils.isEmpty(fileName)) {
 			knowledgeArticle.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
 //			knowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + fileName);

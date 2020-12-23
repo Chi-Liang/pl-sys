@@ -11,6 +11,8 @@ public class LatestInfoVO {
 	private String createDate;
 	private MultipartFile file;
 	private String fileName;
+	private byte[] picture;
+	private String pictureUrl;
 	public Long getLid() {
 		return lid;
 	}
@@ -46,6 +48,18 @@ public class LatestInfoVO {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public byte[] getPicture() {
+		return picture;
+	}
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+	public String getPictureUrl() {
+		return pictureUrl;
+	}
+	public void setPictureUrl(String pictureUrl) {
+		this.pictureUrl = pictureUrl;
 	}
 	
 }
