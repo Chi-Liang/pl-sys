@@ -29,9 +29,11 @@ public class VideoService {
 	
 	@Autowired
 	private VideoRepository videoRepository;
-	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private UploadPictureService uploadPictureService;
+	
 	
 	private static BeanCopier voToEntity = BeanCopier.create(VideoVO.class, Video.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(Video.class, VideoVO.class, true);
@@ -70,7 +72,7 @@ public class VideoService {
 		try {
 			if(!file.isEmpty()) {
 				video.setPicture(file.getBytes());
-				fileName = uploadPicture(file);
+				fileName = uploadPictureService.uploadPicture(file);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,7 +99,7 @@ public class VideoService {
 		try {
 			if(!file.isEmpty()) {
 				video.setPicture(file.getBytes());
-				fileName = uploadPicture(file);
+				fileName = uploadPictureService.uploadPicture(file);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,8 +124,10 @@ public class VideoService {
 			entityToVo.copy(video, vo, new BeanConverter());
 			vo.setCid(cid);
 			vo.setCname(category.getName());
-			vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoVideo/" + vo.getVid());
-//			vo.setPictureUrl("http://localhost:8080/api/getPhotoVideo/" + vo.getVid());
+			if(vo.getPicture() != null) {
+				vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoVideo/" + vo.getVid());
+//				vo.setPictureUrl("http://localhost:8080/api/getPhotoVideo/" + vo.getVid());
+			}
 			return new ReturnVideoVO("success","",vo);
 		}catch (Exception e) {
 			return new ReturnVideoVO("fail",e.getMessage(),null);
@@ -136,25 +140,5 @@ public class VideoService {
 		entityToVo.copy(video, videoVO, new BeanConverter());
 		return videoVO;
 	}
-	
-	private String uploadPicture(MultipartFile file) {
-		if (file.isEmpty()) {
-			return "";
-		}
-		String fileName = file.getOriginalFilename(); // 檔名
-		String suffixName = fileName.substring(fileName.lastIndexOf(".")); // 字尾名
-		String filePath = "C:\\image\\"; // 上傳後的路徑
-		fileName = UUID.randomUUID() + fileName; // 新檔名
-		File dest = new File(filePath + fileName);
-		if (!dest.getParentFile().exists()) {
-			dest.getParentFile().mkdirs();
-		}
-		try {
-			file.transferTo(dest);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return fileName;
-	} 
 	
 }

@@ -152,7 +152,7 @@ public class APIController {
 	@RequestMapping(value = "/getPhoto/{imgUrl}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public byte[] getPhoto(@PathVariable("imgUrl") String imgUrl) {
-		return uploadPictureService.uploadPicture(imgUrl);
+		return uploadPictureService.getPhoto(imgUrl);
 	}
 	
 	@RequestMapping(value = "/getPhotoLatestInfo/{lid}", produces = MediaType.IMAGE_JPEG_VALUE)

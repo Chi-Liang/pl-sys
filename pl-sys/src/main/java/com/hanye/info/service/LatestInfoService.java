@@ -43,6 +43,8 @@ public class LatestInfoService {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private LatestInfoRepository latestInfoRepository;
+	@Autowired
+	private UploadPictureService uploadPictureService;
 	
 	
 	private static BeanCopier voToEntity = BeanCopier.create(LatestInfoVO.class, LatestInfo.class, false);
@@ -56,8 +58,10 @@ public class LatestInfoService {
 			for(LatestInfo latestNews:latestNewsList) {
 				LatestInfoVO vo = new LatestInfoVO();
 				entityToVo.copy(latestNews, vo, new BeanConverter());
-				vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoLatestInfo/" + vo.getLid());
-//				vo.setPictureUrl("http://localhost:8080/api/getPhotoLatestInfo/" + vo.getLid());
+				if(vo.getPicture() != null) {
+					vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoLatestInfo/" + vo.getLid());
+//					vo.setPictureUrl("http://localhost:8080/api/getPhotoLatestInfo/" + vo.getLid());
+				}
 				voList.add(vo);
 			}
 			return new ReturnLatestInfoVO("success","",voList);
@@ -76,7 +80,7 @@ public class LatestInfoService {
 		try {
 			if(!file.isEmpty()) {
 				latestInfo.setPicture(file.getBytes());
-				fileName = uploadPicture(file);
+				fileName = uploadPictureService.uploadPicture(file);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,7 +110,7 @@ public class LatestInfoService {
 		try {
 			if(!file.isEmpty()) {
 				latestInfo.setPicture(file.getBytes());
-				fileName = uploadPicture(file);
+				fileName = uploadPictureService.uploadPicture(file);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,26 +121,6 @@ public class LatestInfoService {
 		}
 		latestInfoRepository.save(latestInfo);
 	}
-	
-	private String uploadPicture(MultipartFile file) {
-		if (file.isEmpty()) {
-			return "";
-		}
-		String fileName = file.getOriginalFilename(); // 檔名
-		String suffixName = fileName.substring(fileName.lastIndexOf(".")); // 字尾名
-		String filePath = "C:\\image\\"; // 上傳後的路徑
-		fileName = UUID.randomUUID() + fileName; // 新檔名
-		File dest = new File(filePath + fileName);
-		if (!dest.getParentFile().exists()) {
-			dest.getParentFile().mkdirs();
-		}
-		try {
-			file.transferTo(dest);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return fileName;
-	} 
 	
 	public void deleteCategory(Long id) {
 		latestInfoRepository.deleteById(id);
