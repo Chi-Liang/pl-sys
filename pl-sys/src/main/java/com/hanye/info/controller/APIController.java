@@ -167,6 +167,12 @@ public class APIController {
 		return knowledgeArticleService.findCategory(lid).getPicture();
 	}
 	
+	@RequestMapping(value = "/getPhotoVideo/{vid}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getPhotoVideo(@PathVariable("vid") Long vid) {
+		return videoService.findCategory(vid).getPicture();
+	}
+	
 	@PostMapping("/changePassword")
 	public ReturnVO changePassword(@RequestBody MemberVO memberDTO) {
 		return memberService.changeMemberPwd(memberDTO);
