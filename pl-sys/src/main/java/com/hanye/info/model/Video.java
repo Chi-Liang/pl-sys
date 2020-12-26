@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Nationalized;
@@ -37,6 +38,12 @@ public class Video {
 
 	@Column(length = 200)
 	private String fileUrl;
+	
+	@Column(length = 1000)
+	private String fileName;
+	
+	@Lob
+	private byte[] picture;
 
 	@ManyToOne
 	private Category category;
@@ -97,4 +104,20 @@ public class Video {
 		this.category = category;
 	}
 
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+	
 }

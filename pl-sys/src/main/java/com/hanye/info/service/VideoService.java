@@ -1,13 +1,18 @@
 package com.hanye.info.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.model.Category;
@@ -37,6 +42,8 @@ public class VideoService {
 			VideoVO vo = new VideoVO();
 			entityToVo.copy(video, vo, new BeanConverter());
 			vo.setCname(video.getCategory().getName());
+			vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoVideo/" + vo.getVid());
+//			vo.setPictureUrl("http://localhost:8080/api/getPhotoVideo/" + vo.getVid());
 			voList.add(vo);
 		}
 		
@@ -57,7 +64,22 @@ public class VideoService {
 		voToEntity.copy(videoVO, video, null);
 		Category category = categoryRepository.findById(videoVO.getCid()).get();
 		video.setCategory(category);
-
+		MultipartFile file = videoVO.getFile();
+		String fileName = "";
+		
+		try {
+			if(!file.isEmpty()) {
+				video.setPicture(file.getBytes());
+				fileName = uploadPicture(file);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(!StringUtils.isEmpty(fileName)) {
+			video.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+//			KnowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+		}
 		videoRepository.save(video);
 	}
 	
@@ -66,7 +88,20 @@ public class VideoService {
 		voToEntity.copy(videoVO, video, null);
 		Category category = categoryRepository.findById(videoVO.getCid()).get();
 		video.setCategory(category);
-		
+		MultipartFile file = videoVO.getFile();
+		String fileName = "";
+		try {
+			if(!file.isEmpty()) {
+				video.setPicture(file.getBytes());
+				fileName = uploadPicture(file);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(!StringUtils.isEmpty(fileName)) {
+			video.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+//			knowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+		}
 		videoRepository.save(video);
 	}
 	
@@ -88,5 +123,25 @@ public class VideoService {
 			return new ReturnVideoVO("fail",e.getMessage(),null);
 		}
 	}
+	
+	private String uploadPicture(MultipartFile file) {
+		if (file.isEmpty()) {
+			return "";
+		}
+		String fileName = file.getOriginalFilename(); // 檔名
+		String suffixName = fileName.substring(fileName.lastIndexOf(".")); // 字尾名
+		String filePath = "C:\\image\\"; // 上傳後的路徑
+		fileName = UUID.randomUUID() + fileName; // 新檔名
+		File dest = new File(filePath + fileName);
+		if (!dest.getParentFile().exists()) {
+			dest.getParentFile().mkdirs();
+		}
+		try {
+			file.transferTo(dest);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileName;
+	} 
 	
 }

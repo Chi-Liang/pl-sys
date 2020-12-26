@@ -1,5 +1,7 @@
 package com.hanye.info.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class VideoVO {
 	
 	private Long vid;
@@ -10,6 +12,10 @@ public class VideoVO {
 	private String fileUrl;
 	private Long cid;
 	private String cname;
+	private MultipartFile file;
+	private String fileName;
+	private byte[] picture;
+	private String pictureUrl;
 
 	public Long getVid() {
 		return vid;
@@ -76,4 +82,36 @@ public class VideoVO {
 		this.cname = cname;
 	}
 
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+
+	public String getPictureUrl() {
+		return pictureUrl;
+	}
+
+	public void setPictureUrl(String pictureUrl) {
+		this.pictureUrl = pictureUrl;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	
 }
