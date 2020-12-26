@@ -16,9 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.model.Category;
+import com.hanye.info.model.KnowledgeArticle;
 import com.hanye.info.model.Video;
 import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.VideoRepository;
+import com.hanye.info.vo.KnowledgeArticleVO;
 import com.hanye.info.vo.ReturnVideoVO;
 import com.hanye.info.vo.VideoVO;
 
@@ -42,8 +44,6 @@ public class VideoService {
 			VideoVO vo = new VideoVO();
 			entityToVo.copy(video, vo, new BeanConverter());
 			vo.setCname(video.getCategory().getName());
-			vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoVideo/" + vo.getVid());
-//			vo.setPictureUrl("http://localhost:8080/api/getPhotoVideo/" + vo.getVid());
 			voList.add(vo);
 		}
 		
@@ -78,7 +78,7 @@ public class VideoService {
 		
 		if(!StringUtils.isEmpty(fileName)) {
 			video.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
-//			KnowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+//			video.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
 		}
 		videoRepository.save(video);
 	}
@@ -100,7 +100,7 @@ public class VideoService {
 		}
 		if(!StringUtils.isEmpty(fileName)) {
 			video.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
-//			knowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+//			video.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
 		}
 		videoRepository.save(video);
 	}
@@ -118,10 +118,19 @@ public class VideoService {
 			entityToVo.copy(video, vo, new BeanConverter());
 			vo.setCid(cid);
 			vo.setCname(category.getName());
+			vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoVideo/" + vo.getVid());
+//			vo.setPictureUrl("http://localhost:8080/api/getPhotoVideo/" + vo.getVid());
 			return new ReturnVideoVO("success","",vo);
 		}catch (Exception e) {
 			return new ReturnVideoVO("fail",e.getMessage(),null);
 		}
+	}
+	
+	public VideoVO findCategory(Long id) {
+		Video video = videoRepository.findById(id).get();
+		VideoVO videoVO = new VideoVO();
+		entityToVo.copy(video, videoVO, new BeanConverter());
+		return videoVO;
 	}
 	
 	private String uploadPicture(MultipartFile file) {

@@ -169,8 +169,8 @@ public class APIController {
 	
 	@RequestMapping(value = "/getPhotoVideo/{vid}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
-	public byte[] getPhotoVideo(@PathVariable("cid") Long cid) {
-		return videoService.findVedioByCategory(cid).getVideoVO().getPicture();
+	public byte[] getPhotoVideo(@PathVariable("vid") Long vid) {
+		return videoService.findCategory(vid).getPicture();
 	}
 	
 	@PostMapping("/changePassword")
