@@ -38,6 +38,8 @@ public class KnowledgeArticleService {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private KnowledgeArticleRepository knowledgeArticleRepository;
+	@Autowired
+	private UploadPictureService uploadPictureService;
 	
 	
 	private static BeanCopier voToEntity = BeanCopier.create(KnowledgeArticleVO.class, KnowledgeArticle.class, false);
@@ -51,8 +53,10 @@ public class KnowledgeArticleService {
 			for(KnowledgeArticle knowledgeArticle:knowledgeArticleList) {
 				KnowledgeArticleVO vo = new KnowledgeArticleVO();
 				entityToVo.copy(knowledgeArticle, vo, new BeanConverter());
-				vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoKnowledgeArticle/" + vo.getLid());
-//				vo.setPictureUrl("http://localhost:8080/api/getPhotoKnowledgeArticle/" + vo.getLid());
+				if(vo.getPicture() != null) {
+					vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoKnowledgeArticle/" + vo.getLid());
+//					vo.setPictureUrl("http://localhost:8080/api/getPhotoKnowledgeArticle/" + vo.getLid());
+				}
 				voList.add(vo);
 			}
 			return new ReturnKnowledgeArticleVO("success","",voList);
@@ -71,7 +75,7 @@ public class KnowledgeArticleService {
 		try {
 			if(!file.isEmpty()) {
 				KnowledgeArticle.setPicture(file.getBytes());
-				fileName = uploadPicture(file);
+				fileName = uploadPictureService.uploadPicture(file);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,7 +105,7 @@ public class KnowledgeArticleService {
 		try {
 			if(!file.isEmpty()) {
 				knowledgeArticle.setPicture(file.getBytes());
-				fileName = uploadPicture(file);
+				fileName = uploadPictureService.uploadPicture(file);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -112,26 +116,6 @@ public class KnowledgeArticleService {
 		}
 		knowledgeArticleRepository.save(knowledgeArticle);
 	}
-	
-	private String uploadPicture(MultipartFile file) {
-		if (file.isEmpty()) {
-			return "";
-		}
-		String fileName = file.getOriginalFilename(); // 檔名
-		String suffixName = fileName.substring(fileName.lastIndexOf(".")); // 字尾名
-		String filePath = "C:\\image\\"; // 上傳後的路徑
-		fileName = UUID.randomUUID() + fileName; // 新檔名
-		File dest = new File(filePath + fileName);
-		if (!dest.getParentFile().exists()) {
-			dest.getParentFile().mkdirs();
-		}
-		try {
-			file.transferTo(dest);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return fileName;
-	} 
 	
 	public void deleteCategory(Long id) {
 		knowledgeArticleRepository.deleteById(id);
