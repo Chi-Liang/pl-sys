@@ -85,7 +85,11 @@ public class VideoService {
 	
 	public void editVideo(VideoVO videoVO) {
 		Video video = videoRepository.findById(videoVO.getVid()).get();
+		String tempFliename  = video.getFileName();
+		byte[] tempPicture  = video.getPicture();
 		voToEntity.copy(videoVO, video, null);
+		video.setFileName(tempFliename);
+		video.setPicture(tempPicture);
 		Category category = categoryRepository.findById(videoVO.getCid()).get();
 		video.setCategory(category);
 		MultipartFile file = videoVO.getFile();
