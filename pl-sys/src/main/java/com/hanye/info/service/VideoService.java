@@ -33,7 +33,7 @@ public class VideoService {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private UploadPictureService uploadPictureService;
-	
+	//xxxxxxx
 	
 	private static BeanCopier voToEntity = BeanCopier.create(VideoVO.class, Video.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(Video.class, VideoVO.class, true);
