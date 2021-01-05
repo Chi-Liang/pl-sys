@@ -118,7 +118,7 @@ public class MemberService {
 			memberRepository.save(member);
 			return new ReturnVO("success","");
 		}catch(Exception e) {
-			return new ReturnVO("fail","");
+			return new ReturnVO("fail",e.getMessage());
 		}
 	}
 	
