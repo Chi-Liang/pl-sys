@@ -1,7 +1,9 @@
 package com.hanye.info.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,6 +84,14 @@ public class LatestInfoService {
 			if(!file.isEmpty()) {
 				latestInfo.setPicture(file.getBytes());
 				fileName = uploadPictureService.uploadPicture(file);
+			}else {
+				File file1 = new File("C:\\image\\latestInfo.jpg");
+			   	InputStream inputStream = new FileInputStream(file1);
+			   	MultipartFile multipartFile = new MockMultipartFile(file1.getName(), file1.getName(),
+						"jpg", inputStream);
+			   	latestInfo.setPicture(multipartFile.getBytes());
+			   	fileName = "latestInfo.jpg";
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
