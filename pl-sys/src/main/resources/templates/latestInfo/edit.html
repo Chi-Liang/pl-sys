@@ -59,7 +59,7 @@
 											<label>已上傳圖片:</label>
 											<input class="form-control" type="text" th:value="*{fileName}" disabled="disabled" >
 											<label>選擇圖片:</label>
-											<img style="float: right;" th:src="@{*{fileName}}"/>
+											<img style="float: right;" th:src="@{*{fileName}}" width="70%" />
 											<input type="file" name="file" />
 										</div>
 										<input type="hidden" th:field="*{lid}">
