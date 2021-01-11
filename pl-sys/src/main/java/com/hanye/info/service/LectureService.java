@@ -49,9 +49,8 @@ public class LectureService {
 	private static BeanCopier voToEntity = BeanCopier.create(LectureVO.class, Lecture.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(Lecture.class, LectureVO.class, true);
 	
-	public ReturnLectureVO findAll() {
+	public List<LectureVO> findAll() {
 		
-		try {
 			List<Lecture> lectureList = 
 					StreamSupport.stream(lectureRepository.findAll().spliterator(), false).collect(Collectors.toList());
 			List<LectureVO> voList = new ArrayList<LectureVO>();
@@ -60,6 +59,21 @@ public class LectureService {
 				entityToVo.copy(lecture, vo, new BeanConverter());
 				voList.add(vo);
 			}
+			return voList;
+	}
+	
+	public ReturnLectureVO findFilterStartTime() {
+		
+		try {
+			List<LectureVO> voList = findAll();
+			Date now = new Date();
+		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 00:00:00"); 
+		    String today = sdf.format(now);
+			voList = voList
+					 .stream()
+					 .filter(c -> (c.getStartTime().compareTo(today))>=0 )
+					 .collect(Collectors.toList());
+			
 			return new ReturnLectureVO("success","",voList);
 		} catch (Exception e) {
 			return new ReturnLectureVO("fail",e.getMessage(),null);

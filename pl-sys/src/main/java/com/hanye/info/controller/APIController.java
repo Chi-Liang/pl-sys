@@ -125,7 +125,7 @@ public class APIController {
 	
 	@PostMapping("/lecture/list")
 	public ReturnLectureVO findLectureList() {
-		return lectureService.findAll();
+		return lectureService.findFilterStartTime();
 	}
 	
 	@PostMapping("/latestInfo/list")

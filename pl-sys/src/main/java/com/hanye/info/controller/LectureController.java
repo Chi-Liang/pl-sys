@@ -39,7 +39,7 @@ public class LectureController {
 			model.addAttribute("errorMsg", PLExceptionCode.DATA_NOT_FOUND.getMsg());
 		}
 		model.addAttribute("pageError", pageError);
-		model.addAttribute("lectureList", lectureService.findAll().getLectureVOList());
+		model.addAttribute("lectureList", lectureService.findAll());
 
 		return "lecture/list";
 	}
