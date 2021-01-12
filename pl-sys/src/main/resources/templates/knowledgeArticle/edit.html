@@ -56,11 +56,21 @@
 											<textarea rows="10" cols="80" th:field="*{detail}" >
     										</textarea>
 											<p class="help-block"></p>
-											<label>已上傳圖片:</label>
-											<input class="form-control" type="text" th:value="*{fileName}" disabled="disabled" >
-											<label>選擇圖片:</label>
-											<img style="float: right;" th:src="@{*{fileName}}" width="70%;" />
-											<input type="file" name="file" />
+											<label>已上傳大圖片:</label>
+											<input class="form-control" type="text" th:value="*{bigFileName}" disabled="disabled" >
+											<label>已上傳小圖片:</label>
+											<input class="form-control" type="text" th:value="*{smallFileName}" disabled="disabled" >
+											<label>選擇大圖片:</label>
+											<input type="file" name="bigFile" />
+											<p class="help-block"></p>
+											<label>選擇小圖片:</label>
+											<input type="file" name="smallFile" />
+											<p class="help-block"></p>
+											<label>已上傳大圖片:</label>
+											<img th:src="@{*{bigFileName}}" />
+											<p class="help-block"></p>
+											<label>已上傳小圖片:</label>
+											<img th:src="@{*{smallFileName}}" />
 										</div>
 										<input type="hidden" th:field="*{lid}">
 										<button type="submit" class="btn btn-default" >Submit</button>

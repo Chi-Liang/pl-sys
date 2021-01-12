@@ -61,9 +61,13 @@ public class LatestInfoService {
 			for(LatestInfo latestNews:latestNewsList) {
 				LatestInfoVO vo = new LatestInfoVO();
 				entityToVo.copy(latestNews, vo, new BeanConverter());
-				if(vo.getPicture() != null) {
-					vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoLatestInfo/" + vo.getLid());
-//					vo.setPictureUrl("http://localhost:8080/api/getPhotoLatestInfo/" + vo.getLid());
+				if(vo.getBigPicture() != null) {
+					vo.setBigPictureUrl("https://www.fundodo.net/pl-admin-test/api/getBigPhotoLatestInfo/" + vo.getLid());
+//					vo.setBigPictureUrl("http://localhost:8080/api/getBigPhotoLatestInfo/" + vo.getLid());
+				}
+				if(vo.getSmallPicture() != null) {
+					vo.setSmallPictureUrl("https://www.fundodo.net/pl-admin-test/api/getSmallPhotoLatestInfo/" + vo.getLid());
+//					vo.setSmallPictureUrl("http://localhost:8080/api/getSmallPhotoLatestInfo/" + vo.getLid());
 				}
 				voList.add(vo);
 			}
@@ -78,28 +82,46 @@ public class LatestInfoService {
 		LatestInfo latestInfo = new LatestInfo();
 		voToEntity.copy(latestInfoVO, latestInfo, null);
 		latestInfo.setCreateDate(new Date());
-		MultipartFile file = latestInfoVO.getFile();
-		String fileName = "" ;
+		MultipartFile bigFile = latestInfoVO.getBigFile();
+		MultipartFile smallFile = latestInfoVO.getSmallFile();
+		String bigFileName = "" ;
+		String smallFileName = "" ;
 		try {
-			if(!file.isEmpty()) {
-				latestInfo.setPicture(file.getBytes());
-				fileName = uploadPictureService.uploadPicture(file);
+			if(!bigFile.isEmpty()) {
+				latestInfo.setBigPicture(bigFile.getBytes());
+				bigFileName = uploadPictureService.uploadPicture(bigFile);
 			}else {
-				File file1 = new File("C:\\image\\latestInfo.jpg");
+				File file1 = new File("C:\\image\\big.jpg");
 			   	InputStream inputStream = new FileInputStream(file1);
 			   	MultipartFile multipartFile = new MockMultipartFile(file1.getName(), file1.getName(),
 						"jpg", inputStream);
-			   	latestInfo.setPicture(multipartFile.getBytes());
-			   	fileName = "latestInfo.jpg";
+			   	latestInfo.setBigPicture(multipartFile.getBytes());
+			   	bigFileName = "big.jpg";
+				
+			}
+			if(!smallFile.isEmpty()) {
+				latestInfo.setSmallPicture(smallFile.getBytes());
+				smallFileName = uploadPictureService.uploadPicture(smallFile);
+			}else {
+				File file2 = new File("C:\\image\\small.jpg");
+			   	InputStream inputStream = new FileInputStream(file2);
+			   	MultipartFile multipartFile = new MockMultipartFile(file2.getName(), file2.getName(),
+						"jpg", inputStream);
+			   	latestInfo.setSmallPicture(multipartFile.getBytes());
+			   	smallFileName = "small.jpg";
 				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		if(!StringUtils.isEmpty(fileName)) {
-			latestInfo.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
-//			latestInfo.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+		if(!StringUtils.isEmpty(bigFileName)) {
+			latestInfo.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigFileName);
+//			latestInfo.setBigFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
+		}
+		if(!StringUtils.isEmpty(smallFileName)) {
+			latestInfo.setSmallFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
+//			latestInfo.setSmallFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
 		}
 		latestInfoRepository.save(latestInfo);
 	}
@@ -116,19 +138,29 @@ public class LatestInfoService {
 		LatestInfo latestInfo = latestInfoRepository.findById(latestInfoVO.getLid()).get();
 		latestInfo.setTitle(latestInfoVO.getTitle());
 		latestInfo.setDetail(latestInfoVO.getDetail());
-		MultipartFile file = latestInfoVO.getFile();
-		String fileName = "" ;
+		MultipartFile bigFile = latestInfoVO.getBigFile();
+		MultipartFile smallFile = latestInfoVO.getSmallFile();
+		String bigFileName = "" ;
+		String smallFileName = "" ;
 		try {
-			if(!file.isEmpty()) {
-				latestInfo.setPicture(file.getBytes());
-				fileName = uploadPictureService.uploadPicture(file);
+			if(!bigFile.isEmpty()) {
+				latestInfo.setBigPicture(bigFile.getBytes());
+				bigFileName = uploadPictureService.uploadPicture(bigFile);
+			}
+			if(!smallFile.isEmpty()) {
+				latestInfo.setSmallPicture(smallFile.getBytes());
+				smallFileName = uploadPictureService.uploadPicture(smallFile);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(!StringUtils.isEmpty(fileName)) {
-			latestInfo.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
-//			latestInfo.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+		if(!StringUtils.isEmpty(bigFileName)) {
+			latestInfo.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigFileName);
+//			latestInfo.setBigFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
+		}
+		if(!StringUtils.isEmpty(smallFileName)) {
+			latestInfo.setSmallFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
+//			latestInfo.setSmallFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
 		}
 		latestInfoRepository.save(latestInfo);
 	}

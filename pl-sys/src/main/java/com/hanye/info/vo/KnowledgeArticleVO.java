@@ -8,11 +8,14 @@ public class KnowledgeArticleVO {
 	private String title;
 	private String detail;
 	private String createDate;
-	private MultipartFile file;
-	private String fileName;
-	private byte[] picture;
-	private String pictureUrl;
-	
+	private MultipartFile bigFile;
+	private MultipartFile smallFile;
+	private String bigFileName;
+	private String smallFileName;
+	private byte[] bigPicture;
+	private byte[] smallPicture;
+	private String bigPictureUrl;
+	private String smallPictureUrl;
 	public Long getLid() {
 		return lid;
 	}
@@ -37,29 +40,53 @@ public class KnowledgeArticleVO {
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	public MultipartFile getFile() {
-		return file;
+	public MultipartFile getBigFile() {
+		return bigFile;
 	}
-	public void setFile(MultipartFile file) {
-		this.file = file;
+	public void setBigFile(MultipartFile bigFile) {
+		this.bigFile = bigFile;
 	}
-	public String getFileName() {
-		return fileName;
+	public MultipartFile getSmallFile() {
+		return smallFile;
 	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setSmallFile(MultipartFile smallFile) {
+		this.smallFile = smallFile;
 	}
-	public byte[] getPicture() {
-		return picture;
+	public String getBigFileName() {
+		return bigFileName;
 	}
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
+	public void setBigFileName(String bigFileName) {
+		this.bigFileName = bigFileName;
 	}
-	public String getPictureUrl() {
-		return pictureUrl;
+	public String getSmallFileName() {
+		return smallFileName;
 	}
-	public void setPictureUrl(String pictureUrl) {
-		this.pictureUrl = pictureUrl;
+	public void setSmallFileName(String smallFileName) {
+		this.smallFileName = smallFileName;
+	}
+	public byte[] getBigPicture() {
+		return bigPicture;
+	}
+	public void setBigPicture(byte[] bigPicture) {
+		this.bigPicture = bigPicture;
+	}
+	public byte[] getSmallPicture() {
+		return smallPicture;
+	}
+	public void setSmallPicture(byte[] smallPicture) {
+		this.smallPicture = smallPicture;
+	}
+	public String getBigPictureUrl() {
+		return bigPictureUrl;
+	}
+	public void setBigPictureUrl(String bigPictureUrl) {
+		this.bigPictureUrl = bigPictureUrl;
+	}
+	public String getSmallPictureUrl() {
+		return smallPictureUrl;
+	}
+	public void setSmallPictureUrl(String smallPictureUrl) {
+		this.smallPictureUrl = smallPictureUrl;
 	}
 	
 }

@@ -32,10 +32,16 @@ public class KnowledgeArticle {
 	private Date createDate;
 	
 	@Column(length = 1000)
-	private String fileName;
+	private String bigFileName;
+	
+	@Column(length = 1000)
+	private String smallFileName;
 	
 	@Lob
-	private byte[] picture;
+	private byte[] bigPicture;
+	
+	@Lob
+	private byte[] smallPicture;
 
 	public Long getLid() {
 		return lid;
@@ -69,20 +75,36 @@ public class KnowledgeArticle {
 		this.createDate = createDate;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public String getBigFileName() {
+		return bigFileName;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setBigFileName(String bigFileName) {
+		this.bigFileName = bigFileName;
 	}
 
-	public byte[] getPicture() {
-		return picture;
+	public String getSmallFileName() {
+		return smallFileName;
 	}
 
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
+	public void setSmallFileName(String smallFileName) {
+		this.smallFileName = smallFileName;
 	}
-	
+
+	public byte[] getBigPicture() {
+		return bigPicture;
+	}
+
+	public void setBigPicture(byte[] bigPicture) {
+		this.bigPicture = bigPicture;
+	}
+
+	public byte[] getSmallPicture() {
+		return smallPicture;
+	}
+
+	public void setSmallPicture(byte[] smallPicture) {
+		this.smallPicture = smallPicture;
+	}
+
 }
