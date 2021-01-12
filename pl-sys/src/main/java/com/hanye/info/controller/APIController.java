@@ -155,10 +155,16 @@ public class APIController {
 		return uploadPictureService.getPhoto(imgUrl);
 	}
 	
-	@RequestMapping(value = "/getPhotoLatestInfo/{lid}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@RequestMapping(value = "/getBigPhotoLatestInfo/{lid}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public byte[] getPhotoLatestInfo(@PathVariable("lid") Long lid) {
-		return latestInfoService.findCategory(lid).getPicture();
+		return latestInfoService.findCategory(lid).getBigPicture();
+	}
+	
+	@RequestMapping(value = "/getSmallPhotoLatestInfo/{lid}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getSmallPhotoLatestInfo(@PathVariable("lid") Long lid) {
+		return latestInfoService.findCategory(lid).getSmallPicture();
 	}
 	
 	@RequestMapping(value = "/getBigPhotoKnowledgeArticle/{lid}", produces = MediaType.IMAGE_JPEG_VALUE)
