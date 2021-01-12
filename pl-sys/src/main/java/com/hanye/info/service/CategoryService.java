@@ -1,5 +1,8 @@
 package com.hanye.info.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,7 +12,10 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.exception.PLException;
@@ -35,6 +41,9 @@ public class CategoryService {
 	
 	@Autowired
 	private VideoRepository videoRepository;
+	
+	@Autowired
+	private UploadPictureService uploadPictureService;
 	
 	private static BeanCopier voToEntity = BeanCopier.create(CategoryVO.class, Category.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(Category.class, CategoryVO.class, true);
@@ -63,14 +72,53 @@ public class CategoryService {
 	public void saveCategory(CategoryVO categoryVO) {
 		Category category = new Category();
 		voToEntity.copy(categoryVO, category, null);
+		MultipartFile file = categoryVO.getFile();
+		String fileName = "";
 		
+		try {
+			if(!file.isEmpty()) {
+				category.setPicture(file.getBytes());
+				fileName = uploadPictureService.uploadPicture(file);
+			}else{
+				File file1 = new File("C:\\image\\small.jpg");
+			   	InputStream inputStream = new FileInputStream(file1);
+			   	MultipartFile multipartFile = new MockMultipartFile(file1.getName(), file1.getName(),
+						"jpg", inputStream);
+			   	category.setPicture(multipartFile.getBytes());
+			   	fileName = "small.jpg";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(!StringUtils.isEmpty(fileName)) {
+			category.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+//			category.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+		}
 		categoryRepository.save(category);
 	}
 	
 	public void editCategory(CategoryVO categoryVO) {
 		Category category = categoryRepository.findById(categoryVO.getCid()).get();
+		String tempFliename  = category.getFileName();
+		byte[] tempPicture  = category.getPicture();
 		category.setName(categoryVO.getName());
-		
+		category.setFileName(tempFliename);
+		category.setPicture(tempPicture);
+		MultipartFile file = categoryVO.getFile();
+		String fileName = "";
+		try {
+			if(!file.isEmpty()) {
+				category.setPicture(file.getBytes());
+				fileName = uploadPictureService.uploadPicture(file);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(!StringUtils.isEmpty(fileName)) {
+			category.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+//			category.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+		}	
 		categoryRepository.save(category);
 	}
 	
@@ -95,6 +143,10 @@ public class CategoryService {
 			for(Category category:categories) {
 				CategoryVO vo = new CategoryVO();
 				entityToVo.copy(category, vo, new BeanConverter());
+				if(vo.getPicture() != null) {
+				vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoCategory/" + vo.getCid());
+//				vo.setPictureUrl("http://localhost:8080/api/getPhotoCategory/" + vo.getCid());
+			}
 				voList.add(vo);
 			}
 			

@@ -66,48 +66,48 @@ public class VideoService {
 		voToEntity.copy(videoVO, video, null);
 		Category category = categoryRepository.findById(videoVO.getCid()).get();
 		video.setCategory(category);
-		MultipartFile file = videoVO.getFile();
-		String fileName = "";
-		
-		try {
-			if(!file.isEmpty()) {
-				video.setPicture(file.getBytes());
-				fileName = uploadPictureService.uploadPicture(file);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		if(!StringUtils.isEmpty(fileName)) {
-			video.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
-//			video.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
-		}
+//		MultipartFile file = videoVO.getFile();
+//		String fileName = "";
+//		
+//		try {
+//			if(!file.isEmpty()) {
+//				video.setPicture(file.getBytes());
+//				fileName = uploadPictureService.uploadPicture(file);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		if(!StringUtils.isEmpty(fileName)) {
+//			video.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+////			video.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+//		}
 		videoRepository.save(video);
 	}
 	
 	public void editVideo(VideoVO videoVO) {
 		Video video = videoRepository.findById(videoVO.getVid()).get();
-		String tempFliename  = video.getFileName();
-		byte[] tempPicture  = video.getPicture();
+//		String tempFliename  = video.getFileName();
+//		byte[] tempPicture  = video.getPicture();
 		voToEntity.copy(videoVO, video, null);
-		video.setFileName(tempFliename);
-		video.setPicture(tempPicture);
+//		video.setFileName(tempFliename);
+//		video.setPicture(tempPicture);
 		Category category = categoryRepository.findById(videoVO.getCid()).get();
 		video.setCategory(category);
-		MultipartFile file = videoVO.getFile();
-		String fileName = "";
-		try {
-			if(!file.isEmpty()) {
-				video.setPicture(file.getBytes());
-				fileName = uploadPictureService.uploadPicture(file);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if(!StringUtils.isEmpty(fileName)) {
-			video.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
-//			video.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
-		}
+//		MultipartFile file = videoVO.getFile();
+//		String fileName = "";
+//		try {
+//			if(!file.isEmpty()) {
+//				video.setPicture(file.getBytes());
+//				fileName = uploadPictureService.uploadPicture(file);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		if(!StringUtils.isEmpty(fileName)) {
+//			video.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+////			video.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+//		}
 		videoRepository.save(video);
 	}
 	
@@ -124,10 +124,10 @@ public class VideoService {
 			entityToVo.copy(video, vo, new BeanConverter());
 			vo.setCid(cid);
 			vo.setCname(category.getName());
-			if(vo.getPicture() != null) {
-				vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoVideo/" + vo.getVid());
-//				vo.setPictureUrl("http://localhost:8080/api/getPhotoVideo/" + vo.getVid());
-			}
+//			if(vo.getPicture() != null) {
+//				vo.setPictureUrl("https://www.fundodo.net/pl-admin-test/api/getPhotoVideo/" + vo.getVid());
+////				vo.setPictureUrl("http://localhost:8080/api/getPhotoVideo/" + vo.getVid());
+//			}
 			return new ReturnVideoVO("success","",vo);
 		}catch (Exception e) {
 			return new ReturnVideoVO("fail",e.getMessage(),null);
