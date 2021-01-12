@@ -148,12 +148,12 @@ public class KnowledgeArticleService {
 			e.printStackTrace();
 		}
 		if(!StringUtils.isEmpty(bigFileName)) {
-//			knowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigFileName);
-			knowledgeArticle.setBigFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
+			knowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigFileName);
+//			knowledgeArticle.setBigFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
 		}
 		if(!StringUtils.isEmpty(smallFileName)) {
-//			knowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
-			knowledgeArticle.setSmallFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
+			knowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
+//			knowledgeArticle.setSmallFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
 		}
 		knowledgeArticleRepository.save(knowledgeArticle);
 	}
