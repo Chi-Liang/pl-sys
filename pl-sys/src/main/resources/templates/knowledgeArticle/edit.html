@@ -61,10 +61,10 @@
 											<label>已上傳小圖片:</label>
 											<input class="form-control" type="text" th:value="*{smallFileName}" disabled="disabled" >
 											<label>選擇大圖片:</label>
-											<input type="file" name="file" />
+											<input type="file" name="bigFile" />
 											<p class="help-block"></p>
 											<label>選擇小圖片:</label>
-											<input type="file" name="file" />
+											<input type="file" name="smallFile" />
 											<p class="help-block"></p>
 											<label>已上傳大圖片:</label>
 											<img th:src="@{*{bigFileName}}" />

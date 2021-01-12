@@ -58,11 +58,11 @@ public class KnowledgeArticleService {
 				entityToVo.copy(knowledgeArticle, vo, new BeanConverter());
 				if(vo.getBigPicture() != null) {
 					vo.setBigPictureUrl("https://www.fundodo.net/pl-admin-test/api/getBigPhotoKnowledgeArticle/" + vo.getLid());
-//					vo.setPictureUrl("http://localhost:8080/api/getBigPhotoKnowledgeArticle/" + vo.getLid());
+//					vo.setBigPictureUrl("http://localhost:8080/api/getBigPhotoKnowledgeArticle/" + vo.getLid());
 				}
 				if(vo.getSmallPicture() != null) {
 					vo.setSmallPictureUrl("https://www.fundodo.net/pl-admin-test/api/getSmallPhotoKnowledgeArticle/" + vo.getLid());
-//					vo.setPictureUrl("http://localhost:8080/api/getSmallPhotoKnowledgeArticle/" + vo.getLid());
+//					vo.setSmallPictureUrl("http://localhost:8080/api/getSmallPhotoKnowledgeArticle/" + vo.getLid());
 				}
 				voList.add(vo);
 			}
@@ -94,14 +94,14 @@ public class KnowledgeArticleService {
 			   	bigFileName = "big.jpg";
 			}
 			if(!smallFile.isEmpty()) {
-				KnowledgeArticle.setBigPicture(smallFile.getBytes());
+				KnowledgeArticle.setSmallPicture(smallFile.getBytes());
 				smallFileName = uploadPictureService.uploadPicture(smallFile);
 			}else {
 				File file2 = new File("C:\\image\\small.jpg");
 			   	InputStream inputStream = new FileInputStream(file2);
 			   	MultipartFile multipartFile = new MockMultipartFile(file2.getName(), file2.getName(),
 						"jpg", inputStream);
-			   	KnowledgeArticle.setBigPicture(multipartFile.getBytes());
+			   	KnowledgeArticle.setSmallPicture(multipartFile.getBytes());
 			   	smallFileName = "small.jpg";
 			}
 		} catch (Exception e) {
@@ -110,11 +110,11 @@ public class KnowledgeArticleService {
 		
 		if(!StringUtils.isEmpty(bigFileName)) {
 			KnowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigFileName);
-//			KnowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
+//			KnowledgeArticle.setBigFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
 		}
 		if(!StringUtils.isEmpty(smallFileName)) {
-			KnowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
-//			KnowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
+			KnowledgeArticle.setSmallFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
+//			KnowledgeArticle.setSmallFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
 		}
 		knowledgeArticleRepository.save(KnowledgeArticle);
 	}
@@ -141,19 +141,19 @@ public class KnowledgeArticleService {
 				bigFileName = uploadPictureService.uploadPicture(bigFile);
 			}
 			if(!smallFile.isEmpty()) {
-				knowledgeArticle.setBigPicture(smallFile.getBytes());
+				knowledgeArticle.setSmallPicture(smallFile.getBytes());
 				smallFileName = uploadPictureService.uploadPicture(smallFile);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		if(!StringUtils.isEmpty(bigFileName)) {
-			knowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigFileName);
-//			knowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
+//			knowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigFileName);
+			knowledgeArticle.setBigFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
 		}
 		if(!StringUtils.isEmpty(smallFileName)) {
-			knowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
-//			knowledgeArticle.setFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
+//			knowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
+			knowledgeArticle.setSmallFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
 		}
 		knowledgeArticleRepository.save(knowledgeArticle);
 	}
