@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -26,7 +27,16 @@ public class Category {
 	@Nationalized
 	@Column(length = 50)
 	private String name;
-
+	
+	@Column(length = 200)
+	private String fileUrl;
+	
+	@Column(length = 1000)
+	private String fileName;
+	
+	@Lob
+	private byte[] picture;
+	
 	@OneToMany(mappedBy = "category")
 	private Set<Video> videos = new HashSet<Video>();
 	
@@ -65,5 +75,28 @@ public class Category {
 		this.membes = membes;
 	}
 
+	public String getFileUrl() {
+		return fileUrl;
+	}
 
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+	
 }

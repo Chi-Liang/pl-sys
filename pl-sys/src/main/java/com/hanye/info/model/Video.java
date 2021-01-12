@@ -36,14 +36,14 @@ public class Video {
 	@Column(length = 200)
 	private String videoUrl;
 
-	@Column(length = 200)
-	private String fileUrl;
-	
-	@Column(length = 1000)
-	private String fileName;
-	
-	@Lob
-	private byte[] picture;
+//	@Column(length = 200)
+//	private String fileUrl;
+//	
+//	@Column(length = 1000)
+//	private String fileName;
+//	
+//	@Lob
+//	private byte[] picture;
 
 	@ManyToOne
 	private Category category;
@@ -88,14 +88,6 @@ public class Video {
 		this.videoUrl = videoUrl;
 	}
 
-	public String getFileUrl() {
-		return fileUrl;
-	}
-
-	public void setFileUrl(String fileUrl) {
-		this.fileUrl = fileUrl;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
@@ -104,20 +96,4 @@ public class Video {
 		this.category = category;
 	}
 
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public byte[] getPicture() {
-		return picture;
-	}
-
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
-	}
-	
 }

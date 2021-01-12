@@ -179,10 +179,16 @@ public class APIController {
 		return knowledgeArticleService.findCategory(lid).getSmallPicture();
 	}
 	
-	@RequestMapping(value = "/getPhotoVideo/{vid}", produces = MediaType.IMAGE_JPEG_VALUE)
+//	@RequestMapping(value = "/getPhotoVideo/{vid}", produces = MediaType.IMAGE_JPEG_VALUE)
+//	@ResponseBody
+//	public byte[] getPhotoVideo(@PathVariable("vid") Long vid) {
+//		return videoService.findCategory(vid).getPicture();
+//	}
+	
+	@RequestMapping(value = "/getPhotoCategory/{cid}", produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
-	public byte[] getPhotoVideo(@PathVariable("vid") Long vid) {
-		return videoService.findCategory(vid).getPicture();
+	public byte[] getPhotoVideo(@PathVariable("cid") Long cid) {
+		return categoryService.findCategory(cid).getPicture();
 	}
 	
 	@PostMapping("/changePassword")
