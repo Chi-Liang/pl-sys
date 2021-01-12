@@ -117,7 +117,7 @@ public class LatestInfoService {
 		
 		if(!StringUtils.isEmpty(bigFileName)) {
 			latestInfo.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigFileName);
-//			latestInfo.setFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
+//			latestInfo.setBigFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
 		}
 		if(!StringUtils.isEmpty(smallFileName)) {
 			latestInfo.setSmallFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
@@ -141,15 +141,15 @@ public class LatestInfoService {
 		MultipartFile bigFile = latestInfoVO.getBigFile();
 		MultipartFile smallFile = latestInfoVO.getSmallFile();
 		String bigFileName = "" ;
-		String bigsmallName = "" ;
+		String smallFileName = "" ;
 		try {
 			if(!bigFile.isEmpty()) {
 				latestInfo.setBigPicture(bigFile.getBytes());
 				bigFileName = uploadPictureService.uploadPicture(bigFile);
 			}
 			if(!smallFile.isEmpty()) {
-				latestInfo.setBigPicture(smallFile.getBytes());
-				bigFileName = uploadPictureService.uploadPicture(smallFile);
+				latestInfo.setSmallPicture(smallFile.getBytes());
+				smallFileName = uploadPictureService.uploadPicture(smallFile);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -158,9 +158,9 @@ public class LatestInfoService {
 			latestInfo.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigFileName);
 //			latestInfo.setBigFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
 		}
-		if(!StringUtils.isEmpty(bigsmallName)) {
-			latestInfo.setSmallFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + bigsmallName);
-//			latestInfo.setSmallFileName("http://localhost:8080/api/getPhoto/" + bigsmallName);
+		if(!StringUtils.isEmpty(smallFileName)) {
+			latestInfo.setSmallFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
+//			latestInfo.setSmallFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
 		}
 		latestInfoRepository.save(latestInfo);
 	}
