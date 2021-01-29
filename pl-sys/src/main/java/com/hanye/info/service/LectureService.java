@@ -84,7 +84,7 @@ public class LectureService {
 	public void saveCategory(LectureVO lectureVO) {
 		Lecture lecture = new Lecture();
 		voToEntity.copy(lectureVO, lecture, null);
-		setTime(lecture,lectureVO);
+//		setTime(lecture,lectureVO);
 		lectureRepository.save(lecture);
 	}
 	
@@ -98,7 +98,7 @@ public class LectureService {
 	
 	public void editCategory(LectureVO lectureVO) {
 		Lecture lecture = lectureRepository.findById(lectureVO.getId()).get();
-		setTime(lecture,lectureVO);
+//		setTime(lecture,lectureVO);
 		lecture.setSession(lectureVO.getSession());
 		lectureRepository.save(lecture);
 	}
@@ -106,14 +106,14 @@ public class LectureService {
 		lectureRepository.deleteById(id);
 	}
 	
-	private void setTime(Lecture lecture,LectureVO lectureVO) {
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm" );
-			lecture.setStartTime(sdf.parse(lectureVO.getStartTime()));
-			lecture.setEndTime(sdf.parse(lectureVO.getEndTime()));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	private void setTime(Lecture lecture,LectureVO lectureVO) {
+//		try {
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm" );
+//			lecture.setStartTime(sdf.parse(lectureVO.getStartTime()));
+//			lecture.setEndTime(sdf.parse(lectureVO.getEndTime()));
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 }
