@@ -162,7 +162,7 @@ public class MemberService {
 				}
 			}
 			memberVO.setFreeOrPaid("0");
-			memberVO.setPoints("50");
+			memberVO.setPoints("100");
 			saveMember(memberVO);
 			return new ReturnVO("success", "");
 			
