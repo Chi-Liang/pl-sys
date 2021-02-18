@@ -33,8 +33,10 @@ import com.hanye.info.service.LectureService;
 import com.hanye.info.service.MemberService;
 import com.hanye.info.service.PersonInfoService;
 import com.hanye.info.service.UploadPictureService;
+import com.hanye.info.service.VideoCarouselService;
 import com.hanye.info.service.VideoService;
 import com.hanye.info.vo.ReturnVO;
+import com.hanye.info.vo.ReturnVideoCarouselVO;
 import com.hanye.info.vo.ReturnVideoVO;
 import com.hanye.info.vo.VideoListVO;
 import com.hanye.info.vo.CategoryVO;
@@ -88,6 +90,10 @@ public class APIController {
 	
 	@Autowired
 	private UploadPictureService uploadPictureService;
+	
+	@Autowired
+	private VideoCarouselService videoCarouselService;
+
 	
 	@PostMapping("/category/list")
 	public ReturnCategoryVO findCategoryByMember(@RequestBody CheckMemberVO checkMemberVO) {
@@ -194,6 +200,12 @@ public class APIController {
 	@PostMapping("/changePassword")
 	public ReturnVO changePassword(@RequestBody MemberVO memberDTO) {
 		return memberService.changeMemberPwd(memberDTO);
+		
+	}
+	
+	@PostMapping("/videoCarousel")
+	public ReturnVideoCarouselVO videoCarousel() {
+		return videoCarouselService.findAll();
 		
 	}
 	
