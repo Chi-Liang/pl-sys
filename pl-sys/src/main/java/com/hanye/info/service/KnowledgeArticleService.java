@@ -152,7 +152,7 @@ public class KnowledgeArticleService {
 //			knowledgeArticle.setBigFileName("http://localhost:8080/api/getPhoto/" + bigFileName);
 		}
 		if(!StringUtils.isEmpty(smallFileName)) {
-			knowledgeArticle.setBigFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
+			knowledgeArticle.setSmallFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + smallFileName);
 //			knowledgeArticle.setSmallFileName("http://localhost:8080/api/getPhoto/" + smallFileName);
 		}
 		knowledgeArticleRepository.save(knowledgeArticle);
