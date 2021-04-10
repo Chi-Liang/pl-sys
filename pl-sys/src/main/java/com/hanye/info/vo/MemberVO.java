@@ -14,6 +14,7 @@ public class MemberVO {
 	private String categoryNames;
 	private String freeOrPaid;
 	private String points;
+	private String whichGroup;
 
 	public String getMid() {
 		return mid;
@@ -110,6 +111,13 @@ public class MemberVO {
 	public void setPoints(String points) {
 		this.points = points;
 	}
-	
+
+	public String getWhichGroup() {
+		return whichGroup;
+	}
+
+	public void setWhichGroup(String whichGroup) {
+		this.whichGroup = whichGroup;
+	}
 	
 }

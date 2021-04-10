@@ -11,7 +11,8 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.exception.PLException;
@@ -44,7 +45,8 @@ public class LectureService {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private LectureRepository lectureRepository;
-	
+	@Autowired
+	private UploadPictureService uploadPictureService;
 	
 	private static BeanCopier voToEntity = BeanCopier.create(LectureVO.class, Lecture.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(Lecture.class, LectureVO.class, true);
@@ -85,6 +87,20 @@ public class LectureService {
 		Lecture lecture = new Lecture();
 		voToEntity.copy(lectureVO, lecture, null);
 //		setTime(lecture,lectureVO);
+		MultipartFile file = lectureVO.getFile();
+		String fileName = "";
+		try {
+			if(!file.isEmpty()) {
+				lecture.setPicture(file.getBytes());
+				fileName = uploadPictureService.uploadPicture(file);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(!StringUtils.isEmpty(fileName)) {
+			lecture.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+//			lecture.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+		}	
 		lectureRepository.save(lecture);
 	}
 	

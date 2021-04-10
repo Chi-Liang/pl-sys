@@ -60,7 +60,8 @@ public class Member {
 	private String freeOrPaid;
 	@Column(length = 10)
 	private String points;
-	
+	@Column(length = 1)
+	private String whichGroup;
 	
 	public String getMid() {
 		return mid;
@@ -150,5 +151,12 @@ public class Member {
 		this.points = points;
 	}
 
+	public String getWhichGroup() {
+		return whichGroup;
+	}
+
+	public void setWhichGroup(String whichGroup) {
+		this.whichGroup = whichGroup;
+	}
 	
 }

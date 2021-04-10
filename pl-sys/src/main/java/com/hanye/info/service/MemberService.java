@@ -107,6 +107,7 @@ public class MemberService {
 		member.setUpdateDate(new Date());
 		member.setPoints(memberVO.getPoints());
 		member.setFreeOrPaid(memberVO.getFreeOrPaid());
+		member.setWhichGroup(memberVO.getWhichGroup());
 		memberRepository.save(member);
 	}
 	
@@ -138,6 +139,7 @@ public class MemberService {
 				memberVO.setName(member.get().getName());
 				memberVO.setEmail(member.get().getEmail());
 				memberVO.setTel(member.get().getTel());
+				memberVO.setWhichGroup(member.get().getWhichGroup());
 				return new ReturnLoginVO("success","",memberVO);
 			}
 			else
@@ -163,6 +165,7 @@ public class MemberService {
 			}
 			memberVO.setFreeOrPaid("0");
 			memberVO.setPoints("100");
+			memberVO.setWhichGroup("1");
 			saveMember(memberVO);
 			return new ReturnVO("success", "");
 			

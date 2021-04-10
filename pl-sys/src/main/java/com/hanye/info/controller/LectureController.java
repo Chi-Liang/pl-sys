@@ -47,6 +47,7 @@ public class LectureController {
 	@GetMapping("/add")
 	public String add(Model model) {
 		LectureVO lecture = new LectureVO();
+		lecture.setWhichGroup("1");
 		model.addAttribute("lecture", lecture);
 		
 		return "lecture/add";
