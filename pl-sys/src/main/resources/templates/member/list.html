@@ -82,6 +82,7 @@
 											<th>建立日期</th>
 											<th>修改日期</th>
 											<th>免費/付費</th>
+											<th>group1/group2</th>
 											<th>操作</th>
 										</tr>
 									</thead>
@@ -99,7 +100,10 @@
 													<p th:case="0">免費</p>
 													<p th:case="1">付費</p>
 											</td>
-											
+											<td th:switch="${member.whichGroup}">
+													<p th:case="1">group1</p>
+													<p th:case="2">group2</p>
+											</td>
 											<td>
 												<button class="btn btn-success" th:onclick="toEdit([[${member.mid}]])">編輯</button>
 												<button class="btn btn-warning" th:onclick="toChangePwd([[${member.mid}]])">密碼變更</button>

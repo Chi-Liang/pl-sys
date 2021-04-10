@@ -67,6 +67,7 @@
 											<th>開始時間</th>
 											<th>結束時間</th>
 											<th>場次</th>
+											<th>group1/group2</th>
 											<th>操作</th>
 										</tr>
 									</thead>
@@ -74,7 +75,11 @@
 										<tr class="odd gradeX" th:each="lecture : ${lectureList}">
 											<td th:text="${lecture.startTime}"></td>
 											<td th:text="${lecture.endTime}"></td>
-											<td th:text="${lecture.session}"></td>
+											<td th:text="${lecture.whichGroup} == '1' ? ${lecture.session} : ${lecture.session2}"></td>
+											<td th:switch="${lecture.whichGroup}">
+													<p th:case="1">group1</p>
+													<p th:case="2">group2</p>
+											</td>
 											<td>
 												<!-- <button class="btn btn-success" th:onclick="toEdit([[${lecture.id}]])">編輯</button> -->
 												<button class="btn btn-danger" th:onclick="deleteCategory([[${lecture.id}]])">刪除</button>
