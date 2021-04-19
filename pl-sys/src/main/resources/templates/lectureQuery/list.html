@@ -54,6 +54,7 @@
 											<th>E-Mail</th>
 											<th>報名時間</th>
 											<th>場次</th>
+											<th>group1/group2</th>
 											<th>我對此房地產的課有興趣，但這次來不及，請下次再通知我</th>
 											<th>請問從哪裡得知消息? 誰介紹你的?</th>
 											<!-- <th>操作</th> -->
@@ -68,6 +69,10 @@
 											<td th:text="${lectureQuery.email}"></td>
 											<td th:text="${lectureQuery.createDate}"></td>
 											<td th:text="${lectureQuery.session}"></td>
+											<td th:switch="${lectureQuery.whichGroup}">
+													<p th:case="1">group1</p>
+													<p th:case="2">group2</p>
+											</td>
 											<td th:text="${lectureQuery.nextTime}"></td>
 											<td th:text="${lectureQuery.news}"></td>
 											<!-- <td>

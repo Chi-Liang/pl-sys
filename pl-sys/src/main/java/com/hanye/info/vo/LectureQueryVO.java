@@ -12,6 +12,7 @@ public class LectureQueryVO {
 		private String nextTime;
 		private String news;
 		private String createDate;
+		private String whichGroup;
 		
 		public Long getId() {
 			return id;
@@ -73,6 +74,11 @@ public class LectureQueryVO {
 		public void setCreateDate(String createDate) {
 			this.createDate = createDate;
 		}
-		
+		public String getWhichGroup() {
+			return whichGroup;
+		}
+		public void setWhichGroup(String whichGroup) {
+			this.whichGroup = whichGroup;
+		}
 		
 }

@@ -48,6 +48,9 @@ public class LectureQuery {
 	@Column(length = 1000)
 	private String news;
 	
+	@Column(length = 1)
+	private String whichGroup;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
 	private Date createDate;
@@ -130,6 +133,14 @@ public class LectureQuery {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getWhichGroup() {
+		return whichGroup;
+	}
+
+	public void setWhichGroup(String whichGroup) {
+		this.whichGroup = whichGroup;
 	}
 	
 }
