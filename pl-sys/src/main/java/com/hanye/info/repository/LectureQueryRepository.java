@@ -15,6 +15,6 @@ import com.hanye.info.model.LectureQuery;
 public interface LectureQueryRepository extends JpaRepository<LectureQuery, Long> {
 	//List<LectureQuery> findByMid(String mid);
 	
-	@Query("SELECT a FROM LectureQuery a ORDER BY a.createDate")
+	@Query("SELECT a FROM LectureQuery a ORDER BY a.createDate DESC")
 	List<LectureQuery> findAllOrderByCreateDate();
 }
