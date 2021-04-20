@@ -19,6 +19,7 @@ import com.hanye.info.service.VideoService;
 import com.hanye.info.vo.CategoryVO;
 import com.hanye.info.vo.LectureVO;
 import com.hanye.info.vo.MemberVO;
+import com.hanye.info.vo.ModPictureVO;
 
 @Controller
 @RequestMapping("/auth/lecture")
@@ -78,6 +79,18 @@ public class LectureController {
 	public String delSubmit(@RequestParam Long id) {
 		lectureService.deleteCategory(id);
 		
+		return "forward:/auth/lecture/list";
+	}
+	
+	@GetMapping("/modPicture")
+	public String modPicture(Model model) {
+		model.addAttribute("modPicture", lectureService.findModPicture().getModPictureVO());
+		return "lecture/modPicture";
+	}
+	
+	@PostMapping("/modPictureSubmit")
+	public String modPictureSubmit(@ModelAttribute ModPictureVO modPictureVO) {	
+		lectureService.modPicture(modPictureVO);
 		return "forward:/auth/lecture/list";
 	}
 	

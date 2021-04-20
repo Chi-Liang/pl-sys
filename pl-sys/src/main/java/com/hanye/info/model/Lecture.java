@@ -36,15 +36,6 @@ public class Lecture {
 	@Column(length = 50)
 	private String session;
 	
-	@Column(length = 200)
-	private String fileUrl;
-	
-	@Column(length = 1000)
-	private String fileName;
-	
-	@Lob
-	private byte[] picture;
-	
 	@Column(length = 1)
 	private String whichGroup;
 	
@@ -81,30 +72,6 @@ public class Lecture {
 
 	public void setSession(String session) {
 		this.session = session;
-	}
-
-	public String getFileUrl() {
-		return fileUrl;
-	}
-
-	public void setFileUrl(String fileUrl) {
-		this.fileUrl = fileUrl;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public byte[] getPicture() {
-		return picture;
-	}
-
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
 	}
 
 	public String getWhichGroup() {

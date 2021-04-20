@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{defaultLayout}">
+
+<head>
+<title>報名講座-維護group圖片</title>
+<link th:href="@{/css/dataTables/dataTables.bootstrap.css}"
+	rel="stylesheet">
+<link th:href="@{/css/dataTables/dataTables.responsive.css}"
+	rel="stylesheet">
+<script th:src="@{/js/dataTables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/dataTables/dataTables.bootstrap.min.js}"></script>
+
+</head>
+<body>
+	 <div layout:fragment="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">報名講座-維護group圖片</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">報名講座圖片資訊</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<form id="lectureForm" role="form" th:action="@{/auth/lecture/modPictureSubmit}"  
+											th:object="${modPicture}" method="post" enctype="multipart/form-data" >
+										<div class="form-group">
+											<p class="help-block"></p>
+											<label>group1已上傳圖片:</label>
+											<input class="form-control" type="text" th:value="*{group1FileName}" disabled="disabled" >
+											<label>group2已上傳圖片:</label>
+											<input class="form-control" type="text" th:value="*{group2FileName}" disabled="disabled" >
+											<label>group1選擇圖片(最適寬度1200px):</label>
+											<input type="file" name="group1File" />
+											<p class="help-block"></p>
+											<label>group2選擇圖片(最適寬度380px):</label>
+											<input type="file" name="group2File" />
+											<p class="help-block"></p>
+											<label>group1已上傳圖片:</label>
+											<img th:src="@{*{group1FileName}}" />
+											<p class="help-block"></p>
+											<label>group2已上傳圖片:</label>
+											<img th:src="@{*{group2FileName}}" />
+										</div>
+										<input type="hidden" th:field="*{id}">
+										<button type="submit" class="btn btn-default">Submit</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> 
+</body>
+</html>

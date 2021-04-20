@@ -49,6 +49,7 @@ import com.hanye.info.vo.LoginVO;
 import com.hanye.info.vo.MemberVO;
 import com.hanye.info.vo.PersonInfoVO;
 import com.hanye.info.vo.ReturnCategoryVO;
+import com.hanye.info.vo.ReturnGroupVO;
 import com.hanye.info.vo.ReturnKnowledgeArticleVO;
 import com.hanye.info.vo.ReturnLatestInfoVO;
 import com.hanye.info.vo.ReturnLectureVO;
@@ -209,4 +210,8 @@ public class APIController {
 		
 	}
 	
+	@PostMapping("/lecture/findGroupPicture")
+	public ReturnGroupVO findGroupPicture() {
+		return lectureService.findModPicture();
+	}
 }

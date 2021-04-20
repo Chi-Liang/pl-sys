@@ -13,10 +13,6 @@ public class LectureVO {
 	private String startTime;
 	private String endTime;
 	private String session;
-	private MultipartFile file;
-	private String fileName;
-	private byte[] picture;
-	private String pictureUrl;
 	private String whichGroup;
 	private String session2;
 	public Long getId() {
@@ -42,30 +38,6 @@ public class LectureVO {
 	}
 	public void setSession(String session) {
 		this.session = session;
-	}
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-	public byte[] getPicture() {
-		return picture;
-	}
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
-	}
-	public String getPictureUrl() {
-		return pictureUrl;
-	}
-	public void setPictureUrl(String pictureUrl) {
-		this.pictureUrl = pictureUrl;
-	}
-	public MultipartFile getFile() {
-		return file;
-	}
-	public void setFile(MultipartFile file) {
-		this.file = file;
 	}
 	public String getWhichGroup() {
 		return whichGroup;
