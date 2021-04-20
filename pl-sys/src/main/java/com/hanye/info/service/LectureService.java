@@ -1,5 +1,6 @@
 package com.hanye.info.service;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
@@ -21,19 +23,24 @@ import com.hanye.info.model.Category;
 import com.hanye.info.model.KnowledgeArticle;
 import com.hanye.info.model.Lecture;
 import com.hanye.info.model.Member;
+import com.hanye.info.model.ModPicture;
 import com.hanye.info.model.OnlineCourse;
 import com.hanye.info.model.PersonInfo;
 import com.hanye.info.model.Video;
 import com.hanye.info.repository.CategoryRepository;
 import com.hanye.info.repository.KnowledgeArticleRepository;
 import com.hanye.info.repository.LectureRepository;
+import com.hanye.info.repository.ModPictureRepository;
 import com.hanye.info.repository.PersonInfoRepository;
 import com.hanye.info.repository.VideoRepository;
 import com.hanye.info.vo.CategoryVO;
 import com.hanye.info.vo.KnowledgeArticleVO;
 import com.hanye.info.vo.LectureVO;
+import com.hanye.info.vo.LoginVO;
+import com.hanye.info.vo.ModPictureVO;
 import com.hanye.info.vo.OnlineCourseVO;
 import com.hanye.info.vo.PersonInfoVO;
+import com.hanye.info.vo.ReturnGroupVO;
 import com.hanye.info.vo.ReturnLectureVO;
 
 @Service
@@ -47,9 +54,14 @@ public class LectureService {
 	private LectureRepository lectureRepository;
 	@Autowired
 	private UploadPictureService uploadPictureService;
+	@Autowired
+	private ModPictureRepository modPictureRepository;
 	
 	private static BeanCopier voToEntity = BeanCopier.create(LectureVO.class, Lecture.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(Lecture.class, LectureVO.class, true);
+	
+	private static BeanCopier voToEntityPicture = BeanCopier.create(ModPictureVO.class, ModPicture.class, false);
+	private static BeanCopier entityToVoPicture = BeanCopier.create(ModPicture.class, ModPictureVO.class, true);
 	
 	public List<LectureVO> findAll() {
 		
@@ -62,6 +74,21 @@ public class LectureService {
 				voList.add(vo);
 			}
 			return voList;
+	}
+	
+	public ReturnGroupVO findModPicture() {
+		try {
+			List<ModPicture> modPictureList = 
+					StreamSupport.stream(modPictureRepository.findAll().spliterator(), false).collect(Collectors.toList());
+			ModPictureVO vo = new ModPictureVO();
+			if(!CollectionUtils.isEmpty(modPictureList)) {
+				entityToVoPicture.copy(modPictureList.get(0), vo, new BeanConverter());
+			}
+			return new ReturnGroupVO("success","",vo);
+			
+		} catch (Exception e) {
+			return new ReturnGroupVO("fail",e.getMessage(),null); 
+		}
 	}
 	
 	public ReturnLectureVO findFilterStartTime() {
@@ -87,23 +114,36 @@ public class LectureService {
 		Lecture lecture = new Lecture();
 		voToEntity.copy(lectureVO, lecture, null);
 //		setTime(lecture,lectureVO);
-		MultipartFile file = lectureVO.getFile();
-		String fileName = "";
-		try {
-			if(!file.isEmpty()) {
-				lecture.setPicture(file.getBytes());
-				fileName = uploadPictureService.uploadPicture(file);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if(!StringUtils.isEmpty(fileName)) {
-			lecture.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
-//			lecture.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
-		}	
+//		MultipartFile file = lectureVO.getFile();
+//		String fileName = "";
+//		try {
+//			if(!file.isEmpty()) {
+//				lecture.setPicture(file.getBytes());
+//				fileName = uploadPictureService.uploadPicture(file);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		if(!StringUtils.isEmpty(fileName)) {
+//			lecture.setFileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + fileName);
+////			lecture.setFileName("http://localhost:8080/api/getPhoto/" + fileName);
+//		}	
 		lectureRepository.save(lecture);
 	}
 	
+	public void modPicture(ModPictureVO modPictureVO) {
+		ModPicture modPicture = new ModPicture();
+		MultipartFile group1File = modPictureVO.getGroup1File();
+		MultipartFile group2File = modPictureVO.getGroup2File();
+		if(modPictureVO.getId() != null) {
+			modPicture = modPictureRepository.findById(modPictureVO.getId()).get();
+		}else {
+			voToEntityPicture.copy(modPictureVO, modPicture, null);
+		}
+		setModPicture(modPicture, group1File, group2File);
+		modPictureRepository.save(modPicture);
+	}
+
 	public LectureVO findCategory(Long id) {
 		Lecture lecture = lectureRepository.findById(id).get();
 		LectureVO lectureVO = new LectureVO();
@@ -120,6 +160,26 @@ public class LectureService {
 	}
 	public void deleteCategory(Long id) {
 		lectureRepository.deleteById(id);
+	}
+	
+	private void setModPicture(ModPicture modPicture, MultipartFile group1File, MultipartFile group2File) {
+		try {
+			if(!group1File.isEmpty()) {
+				modPicture.setGroup1Picture(group1File.getBytes());
+				String group1FileName = uploadPictureService.uploadPicture(group1File);
+				modPicture.setGroup1FileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + group1FileName);
+//				modPicture.setGroup1FileName("http://localhost:8080/api/getPhoto/" + group1FileName);
+			}
+			if(!group2File.isEmpty()) {
+				modPicture.setGroup2Picture(group2File.getBytes());
+				String group2FileName = uploadPictureService.uploadPicture(group2File);
+				modPicture.setGroup2FileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + group2FileName);
+//				modPicture.setGroup2FileName("http://localhost:8080/api/getPhoto/" + group2FileName);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 //	private void setTime(Lecture lecture,LectureVO lectureVO) {
