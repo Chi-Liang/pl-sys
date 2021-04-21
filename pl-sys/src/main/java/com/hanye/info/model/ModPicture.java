@@ -22,6 +22,12 @@ public class ModPicture {
 	private Long id;
 	
 	@Column(length = 1000)
+	private String group1Title;
+	
+	@Column(length = 1000)
+	private String group2Title;
+	
+	@Column(length = 1000)
 	private String group1FileName;
 	
 	@Column(length = 1000)
@@ -32,7 +38,6 @@ public class ModPicture {
 	
 	@Lob
 	private byte[] group2Picture;
-
 	
 	public Long getId() {
 		return id;
@@ -72,6 +77,22 @@ public class ModPicture {
 
 	public void setGroup2Picture(byte[] group2Picture) {
 		this.group2Picture = group2Picture;
+	}
+	
+	public String getGroup1Title() {
+		return group1Title;
+	}
+
+	public void setGroup1Title(String group1Title) {
+		this.group1Title = group1Title;
+	}
+
+	public String getGroup2Title() {
+		return group2Title;
+	}
+
+	public void setGroup2Title(String group2Title) {
+		this.group2Title = group2Title;
 	}
 
 }

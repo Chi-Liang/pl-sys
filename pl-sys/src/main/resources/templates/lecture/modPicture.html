@@ -18,7 +18,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">上班族的跨國會議必修</h1>
+					<h1 class="page-header">報名講座-維護group圖片</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -32,6 +32,11 @@
 											th:object="${modPicture}" method="post" enctype="multipart/form-data" >
 										<div class="form-group">
 											<p class="help-block"></p>
+											
+											<label>group1 title:</label>
+											<input class="form-control" type="text" th:field="*{group1Title}" >
+											<label>group2 title:</label>
+											<input class="form-control" type="text" th:field="*{group2Title}" >
 											<label>group1已上傳圖片:</label>
 											<input class="form-control" type="text" th:value="*{group1FileName}" disabled="disabled" >
 											<label>group2已上傳圖片:</label>

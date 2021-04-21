@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ModPictureVO {
 	
 	private Long id;
+	private String group1Title;
+	private String group2Title;
 	private MultipartFile group1File;
 	private MultipartFile group2File;
 	private String group1FileName;
@@ -53,5 +55,16 @@ public class ModPictureVO {
 	public void setGroup2Picture(byte[] group2Picture) {
 		this.group2Picture = group2Picture;
 	}
-	
+	public String getGroup1Title() {
+		return group1Title;
+	}
+	public void setGroup1Title(String group1Title) {
+		this.group1Title = group1Title;
+	}
+	public String getGroup2Title() {
+		return group2Title;
+	}
+	public void setGroup2Title(String group2Title) {
+		this.group2Title = group2Title;
+	}
 }
