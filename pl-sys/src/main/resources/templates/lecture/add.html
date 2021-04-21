@@ -21,6 +21,9 @@
                     endTime: {
                         required: true
                     },
+                    whichGroup: {
+                        required: true
+                    },
                     session: {
                     	required: function(){
                     		return checkSessionRequired("1");
@@ -39,6 +42,9 @@
                     endTime: {
                         required: "此欄位必填"
                     },
+                    whichGroup: {
+                        required: "此欄位必填"
+                    },
                     session: {
                         required: "此欄位必填"
                     },
@@ -52,6 +58,7 @@
             $('#startdate,#endDate').datetimepicker({
                 "dateFormat": "yy/mm/dd",
                 "timeFormat": "HH:00",
+                "hour":"08",
   			    "yearRange":"-10:+10",
   			    "changeMonth": true,
   			    "changeYear": true
@@ -70,6 +77,16 @@
     		}
             return false;
         } 
+        
+        function setGroupVal(value) {
+        	
+        	$('input[name="whichGroup"]')[value-1].checked = true;
+        	if(value == 1){
+        		$("#group2").val("");
+        	}else if(value == 2){
+        		$("#group1").val("");
+        	}
+        }
          
     </script>
 </head>
@@ -98,7 +115,7 @@
 											
 											<div class="radio">
 												<label> <input type="radio" name="whichGroup" value="1" th:field="*{whichGroup}" > group1</input>
-														<select th:field="*{session}" >
+														<select id="group1" th:field="*{session}" th:onchange="'setGroupVal(1)'" >
 															<option th:value="''" th:text="''"></option>
 														    <option th:value="'台北1平日場'" th:text="台北1平日場"></option>
 														    <option th:value="'台北1假日場'" th:text="台北1假日場"></option>
@@ -109,7 +126,7 @@
 														</select>
 												</label>
 												<label> <input type="radio" name="whichGroup" value="2" th:field="*{whichGroup}" >group2</input>
-														<select th:field="*{session2}">
+														<select id="group2" th:field="*{session2}" th:onchange="'setGroupVal(2)'" >
 															<option th:value="''" th:text="''"></option>
 														    <option th:value="'台北2平日場'" th:text="台北2平日場"></option>
 														    <option th:value="'台北2假日場'" th:text="台北2假日場"></option>
