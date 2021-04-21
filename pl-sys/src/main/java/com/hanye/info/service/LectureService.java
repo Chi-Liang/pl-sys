@@ -133,14 +133,12 @@ public class LectureService {
 	
 	public void modPicture(ModPictureVO modPictureVO) {
 		ModPicture modPicture = new ModPicture();
-		MultipartFile group1File = modPictureVO.getGroup1File();
-		MultipartFile group2File = modPictureVO.getGroup2File();
 		if(modPictureVO.getId() != null) {
 			modPicture = modPictureRepository.findById(modPictureVO.getId()).get();
 		}else {
 			voToEntityPicture.copy(modPictureVO, modPicture, null);
 		}
-		setModPicture(modPicture, group1File, group2File);
+		setModPicture(modPictureVO,modPicture);
 		modPictureRepository.save(modPicture);
 	}
 
@@ -162,20 +160,22 @@ public class LectureService {
 		lectureRepository.deleteById(id);
 	}
 	
-	private void setModPicture(ModPicture modPicture, MultipartFile group1File, MultipartFile group2File) {
+	private void setModPicture(ModPictureVO modPictureVO,ModPicture modPicture) {
 		try {
-			if(!group1File.isEmpty()) {
-				modPicture.setGroup1Picture(group1File.getBytes());
-				String group1FileName = uploadPictureService.uploadPicture(group1File);
+			if(!modPictureVO.getGroup1File().isEmpty()) {
+				modPicture.setGroup1Picture(modPictureVO.getGroup1File().getBytes());
+				String group1FileName = uploadPictureService.uploadPicture(modPictureVO.getGroup1File());
 				modPicture.setGroup1FileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + group1FileName);
 //				modPicture.setGroup1FileName("http://localhost:8080/api/getPhoto/" + group1FileName);
 			}
-			if(!group2File.isEmpty()) {
-				modPicture.setGroup2Picture(group2File.getBytes());
-				String group2FileName = uploadPictureService.uploadPicture(group2File);
+			if(!modPictureVO.getGroup2File().isEmpty()) {
+				modPicture.setGroup2Picture(modPictureVO.getGroup2File().getBytes());
+				String group2FileName = uploadPictureService.uploadPicture(modPictureVO.getGroup2File());
 				modPicture.setGroup2FileName("https://www.fundodo.net/pl-admin-test/api/getPhoto/" + group2FileName);
 //				modPicture.setGroup2FileName("http://localhost:8080/api/getPhoto/" + group2FileName);
 			}
+			modPicture.setGroup1Title(modPictureVO.getGroup1Title());
+			modPicture.setGroup2Title(modPictureVO.getGroup2Title());
 			
 		}catch(Exception e) {
 			e.printStackTrace();
