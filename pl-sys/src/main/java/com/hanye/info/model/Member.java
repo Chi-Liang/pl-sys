@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -54,6 +55,7 @@ public class Member {
                     name = "member_id", referencedColumnName = "mid"),
             inverseJoinColumns = @JoinColumn(
                     name = "category_id", referencedColumnName = "cid"))
+	@OrderBy("cid ASC")
 	private Set<Category> categories = new HashSet<Category>();
 	
 	@Column(length = 1)
