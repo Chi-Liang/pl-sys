@@ -129,17 +129,17 @@ public class MemberService {
 	
 	public ReturnLoginVO checkMember(CheckMemberVO checkMemberVO) {
 		try {
-			Optional<Member> member = memberRepository.findById(checkMemberVO.getMid());
-			if(member.isEmpty()) return new ReturnLoginVO("fail","帳號不存在",null);
+			Member member = memberRepository.findByJPQL(checkMemberVO.getMid());
+			if(member == null) return new ReturnLoginVO("fail","帳號不存在",null);
 			
 			if(new BCryptPasswordEncoder().matches(
-					checkMemberVO.getPwd().toString(), member.get().getPwd())) {
+					checkMemberVO.getPwd().toString(), member.getPwd())) {
 				MemberVO memberVO = new MemberVO();
-				memberVO.setMid(member.get().getMid());
-				memberVO.setName(member.get().getName());
-				memberVO.setEmail(member.get().getEmail());
-				memberVO.setTel(member.get().getTel());
-				memberVO.setWhichGroup(member.get().getWhichGroup());
+				memberVO.setMid(member.getMid());
+				memberVO.setName(member.getName());
+				memberVO.setEmail(member.getEmail());
+				memberVO.setTel(member.getTel());
+				memberVO.setWhichGroup(member.getWhichGroup());
 				return new ReturnLoginVO("success","",memberVO);
 			}
 			else
