@@ -1,5 +1,7 @@
 package com.hanye.info.service;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -10,6 +12,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,6 +44,9 @@ public class MemberService {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	private static BeanCopier voToEntity = BeanCopier.create(MemberVO.class, Member.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(Member.class, MemberVO.class, true);
@@ -172,6 +184,95 @@ public class MemberService {
 		}catch (Exception e) {
 			return new ReturnVO("fail", e.getMessage());
 		}
+	}
+	
+	public void downloadExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFSheet sheet = workbook.createSheet("註冊會員維護");
+
+		List<MemberVO> memberList = memberService.findAll();
+		memberList.sort((s1, s2) -> -s2.getMid().compareTo(s1.getMid()));
+		Object[] titles = { "帳號", "名稱", "電話", "信箱", "住址", "影片群組","建立日期","修改日期","免費/付費","group1/group2" };
+		Row row = sheet.createRow(0);
+		int colTitle = 0;
+		Cell cell = null;
+		for (Object title : titles) {
+			cell = row.createCell(colTitle++);
+			cell.setCellValue((String) title);
+		}
+
+		int rowNum = 1;
+		for (MemberVO member : memberList) {
+			int colNum = 0;
+			row = sheet.createRow(rowNum++);
+			cell = row.createCell(colNum++);
+			cell.setCellValue(member.getMid() != null ? member.getMid() : "");
+
+			cell = row.createCell(colNum++);
+			cell.setCellValue(member.getName()!= null ? member.getName() : "");
+
+			cell = row.createCell(colNum++);
+			cell.setCellValue(member.getTel()!= null ? member.getTel() : "");
+
+			cell = row.createCell(colNum++);
+			cell.setCellValue(member.getEmail()!= null ? member.getEmail() : "");
+
+			cell = row.createCell(colNum++);
+			cell.setCellValue(member.getAddress()!= null ? member.getAddress() : "");
+
+			cell = row.createCell(colNum++);
+			cell.setCellValue(member.getCategoryNames()!= null ? member.getCategoryNames() : "");
+			
+			cell = row.createCell(colNum++);
+			cell.setCellValue(member.getCreateDate()!= null ? member.getCreateDate() : "");
+			
+			cell = row.createCell(colNum++);
+			cell.setCellValue(member.getUpdateDate()!= null ? member.getUpdateDate() : "");
+			
+			String freeOrPaid = "";
+			if("0".equals(member.getFreeOrPaid())){
+				freeOrPaid = "免費";
+			}else if("1".equals(member.getFreeOrPaid())) {
+				freeOrPaid = "付費";
+			}
+			cell = row.createCell(colNum++);
+			cell.setCellValue(freeOrPaid);
+			
+			String whichGroup = "";
+			if("1".equals(member.getWhichGroup())){
+				whichGroup = "group1";
+			}else if("2".equals(member.getWhichGroup())) {
+				whichGroup = "group2";
+			}
+			cell = row.createCell(colNum++);
+			cell.setCellValue(whichGroup);
+			
+		}
+
+		String filename = "註冊會員維護.xlsx";
+		String headerFileName = new String(filename.getBytes(), "ISO8859-1");
+		response.setHeader("Content-Disposition", "attachment; filename=" + headerFileName);
+
+		OutputStream out = null;
+		try {
+			out = response.getOutputStream();
+			workbook.write(out);
+		} catch (IOException e) {
+			throw new RuntimeException("下載失敗");
+		} finally {
+			try {
+				if(out != null) {
+					out.close();
+				}
+				if(workbook != null) {
+					workbook.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 }

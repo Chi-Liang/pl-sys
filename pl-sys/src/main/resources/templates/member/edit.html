@@ -13,6 +13,11 @@
 			return aint>=0&& (aint+"")==value;
 		}, "Please enter a valid number.");
 		
+		$("#clickAll").click(function() {
+			$("input[name='categories']").each(function(){
+			     $(this).prop("checked",$("#clickAll").prop("checked"));
+		    });
+		});
 		
 		$("#memberForm").validate({
 			rules : {
@@ -62,6 +67,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">註冊會員編輯</h1>
+					<button class="btn btn-success" onclick="javascript:history.back()">回上一頁</button>
 				</div>
 			</div>
 			<div class="row">
@@ -87,7 +93,9 @@
                                     		</select>
 										</div> -->
 										<div class="form-group">
-											<label>影片群組</label> 
+											<label>影片群組</label>   
+											<p class="help-block"></p>
+											<input type="checkbox" id="clickAll" th:text="'全選/全不選'" />
                                         	<div class="checkbox" th:each="category : ${categoryList}">
                                         		<label>
                                         			<input type="checkbox" th:field="*{categories}" th:value="${category.cid}" th:text="${category.name}">

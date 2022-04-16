@@ -38,7 +38,7 @@ public class CategoryController {
 	public String addSubmit(@ModelAttribute CategoryVO categoryDTO) {	
 		categoryService.saveCategory(categoryDTO);
 		
-		return "forward:/auth/category/list";
+		return "redirect:/auth/category/list";
 	}
 	
 	@GetMapping("/edit")
@@ -52,14 +52,14 @@ public class CategoryController {
 	public String editSubmit(@ModelAttribute CategoryVO categoryDTO) {	
 		categoryService.editCategory(categoryDTO);
 		
-		return "forward:/auth/category/list";
+		return "redirect:/auth/category/list";
 	}
 	
 	@PostMapping("/delSubmit")
 	public String delSubmit(@RequestParam Long cid) {
 		categoryService.deleteCategory(cid);
 		
-		return "forward:/auth/category/list";
+		return "redirect:/auth/category/list";
 	}
 	
 }

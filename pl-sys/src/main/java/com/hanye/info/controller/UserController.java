@@ -38,7 +38,7 @@ public class UserController {
 	public String addSubmit(@ModelAttribute UserVO userDTO) {	
 		userService.saveUser(userDTO);
 		
-		return "forward:/auth/user/list";
+		return "redirect:/auth/user/list";
 	}
 	
 	@GetMapping("/edit")
@@ -52,7 +52,7 @@ public class UserController {
 	public String editSubmit(@ModelAttribute UserVO userDTO) {	
 		userService.editUser(userDTO);
 		
-		return "forward:/auth/user/list";
+		return "redirect:/auth/user/list";
 	}
 	
 	@GetMapping("/changePwd")
@@ -66,13 +66,13 @@ public class UserController {
 	public String changePwdSubmit(@ModelAttribute UserVO userDTO) {
 		userService.changeUserPwd(userDTO);
 		
-		return "forward:/auth/user/list";
+		return "redirect:/auth/user/list";
 	}
 	
 	@PostMapping("/delSubmit")
 	public String delSubmit(@RequestParam String uid) {
 		userService.deleteUser(uid);
 		
-		return "forward:/auth/user/list";
+		return "redirect:/auth/user/list";
 	}
 }

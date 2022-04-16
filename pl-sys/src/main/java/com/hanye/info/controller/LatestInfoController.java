@@ -71,7 +71,7 @@ public class LatestInfoController {
 	public String addSubmit(@ModelAttribute LatestInfoVO latestInfoDTO) {	
 		latestInfoService.saveCategory(latestInfoDTO);
 		
-		return "forward:/auth/latestInfo/list";
+		return "redirect:/auth/latestInfo/list";
 	}
 	
 	@GetMapping("/edit")
@@ -85,7 +85,7 @@ public class LatestInfoController {
 	public String editSubmit(@ModelAttribute LatestInfoVO latestInfoDTO) {	
 		latestInfoService.editCategory(latestInfoDTO);
 		
-		return "forward:/auth/latestInfo/list";
+		return "redirect:/auth/latestInfo/list";
 	}
 	
 //	@PostMapping("/uploadPicture")
@@ -115,7 +115,7 @@ public class LatestInfoController {
 	public String delSubmit(@RequestParam Long id) {
 		latestInfoService.deleteCategory(id);
 		
-		return "forward:/auth/latestInfo/list";
+		return "redirect:/auth/latestInfo/list";
 	}
 
 }

@@ -2,6 +2,9 @@ package com.hanye.info.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +56,7 @@ public class MemberController {
 	public String addSubmit(@ModelAttribute MemberVO memberDTO) {	
 		memberService.saveMember(memberDTO);
 		
-		return "forward:/auth/member/list";
+		return "redirect:/auth/member/list";
 	}
 	
 	@GetMapping("/edit")
@@ -68,7 +71,7 @@ public class MemberController {
 	public String editSubmit(@ModelAttribute MemberVO memberDTO) {	
 		memberService.editMember(memberDTO);
 		
-		return "forward:/auth/member/list";
+		return "redirect:/auth/member/list";
 	}
 	
 	@GetMapping("/changePwd")
@@ -82,13 +85,19 @@ public class MemberController {
 	public String changePwdSubmit(@ModelAttribute MemberVO memberDTO) {
 		memberService.changeMemberPwd(memberDTO);
 		
-		return "forward:/auth/member/list";
+		return "redirect:/auth/member/list";
 	}
 	
 	@PostMapping("/delSubmit")
 	public String delSubmit(@RequestParam String mid) {
 		memberService.deleteMember(mid);
 		
-		return "forward:/auth/member/list";
+		return "redirect:/auth/member/list";
+	}
+	
+	@PostMapping("/downloadExcel")
+	public void downloadExcel(HttpServletRequest request, 
+	HttpServletResponse response) throws Exception { 
+		memberService.downloadExcel(request,response);
 	}
 }

@@ -131,6 +131,9 @@
 		<form th:action="@{/auth/member/delSubmit}" id="delForm" method="post">
 			<input type="hidden" id="delMid" name="mid"/>
 		</form>
+		<form th:action="@{/auth/member/downloadExcel}" method="post" >
+			<input type="submit" class="btn btn-success" style="margin-left: 90%;" value="下載"/>
+		</form>
 	</div>
 </body>
 </html>

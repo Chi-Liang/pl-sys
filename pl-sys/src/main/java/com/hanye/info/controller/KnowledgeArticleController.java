@@ -55,7 +55,7 @@ public class KnowledgeArticleController {
 	public String addSubmit(@ModelAttribute KnowledgeArticleVO KnowledgeArticleVO) {	
 		knowledgeArticleService.saveCategory(KnowledgeArticleVO);
 		
-		return "forward:/auth/knowledgeArticle/list";
+		return "redirect:/auth/knowledgeArticle/list";
 	}
 	
 	@GetMapping("/edit")
@@ -69,14 +69,14 @@ public class KnowledgeArticleController {
 	public String editSubmit(@ModelAttribute KnowledgeArticleVO knowledgeArticleVO) {	
 		knowledgeArticleService.editCategory(knowledgeArticleVO);
 		
-		return "forward:/auth/knowledgeArticle/list";
+		return "redirect:/auth/knowledgeArticle/list";
 	}
 	
 	@PostMapping("/delSubmit")
 	public String delSubmit(@RequestParam Long id) {
 		knowledgeArticleService.deleteCategory(id);
 		
-		return "forward:/auth/knowledgeArticle/list";
+		return "redirect:/auth/knowledgeArticle/list";
 	}
 
 }

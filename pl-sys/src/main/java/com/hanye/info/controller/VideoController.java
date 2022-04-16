@@ -53,7 +53,7 @@ public class VideoController {
 	public String addSubmit(@ModelAttribute VideoVO videoDTO) {
 		videoService.saveVideo(videoDTO);
 
-		return "forward:/auth/video/list";
+		return "redirect:/auth/video/list";
 	}
 
 	@GetMapping("/edit")
@@ -68,13 +68,13 @@ public class VideoController {
 	public String editSubmit(@ModelAttribute VideoVO videoDTO) {
 		videoService.editVideo(videoDTO);
 
-		return "forward:/auth/video/list";
+		return "redirect:/auth/video/list";
 	}
 
 	@PostMapping("/delSubmit")
 	public String delSubmit(@RequestParam Long vid) {
 		videoService.deleteVideo(vid);
 
-		return "forward:/auth/video/list";
+		return "redirect:/auth/video/list";
 	}
 }

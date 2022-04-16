@@ -79,6 +79,10 @@
 		<form th:action="@{/auth/personInfo/query}" id="toQueryForm">
 			<input type="hidden" id="queryMid" name="mid"/>
 		</form>
+		<form th:action="@{/auth/personInfo/downloadExcel}" method="post" >
+			<input type="submit" class="btn btn-success" style="margin-left: 90%;" value="下載"/>
+		</form>
+        
 	</div>
 </body>
 </html>

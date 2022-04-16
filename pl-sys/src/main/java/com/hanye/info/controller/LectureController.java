@@ -58,7 +58,7 @@ public class LectureController {
 	public String addSubmit(@ModelAttribute LectureVO lectureDTO) {	
 		lectureService.saveCategory(lectureDTO);
 		
-		return "forward:/auth/lecture/list";
+		return "redirect:/auth/lecture/list";
 	}
 	
 	@GetMapping("/edit")
@@ -72,14 +72,14 @@ public class LectureController {
 	public String editSubmit(@ModelAttribute LectureVO lectureDTO) {	
 		lectureService.editCategory(lectureDTO);
 		
-		return "forward:/auth/lecture/list";
+		return "redirect:/auth/lecture/list";
 	}
 	
 	@PostMapping("/delSubmit")
 	public String delSubmit(@RequestParam Long id) {
 		lectureService.deleteCategory(id);
 		
-		return "forward:/auth/lecture/list";
+		return "redirect:/auth/lecture/list";
 	}
 	
 	@GetMapping("/modPicture")
@@ -91,7 +91,7 @@ public class LectureController {
 	@PostMapping("/modPictureSubmit")
 	public String modPictureSubmit(@ModelAttribute ModPictureVO modPictureVO) {	
 		lectureService.modPicture(modPictureVO);
-		return "forward:/auth/lecture/list";
+		return "redirect:/auth/lecture/list";
 	}
 	
 }
