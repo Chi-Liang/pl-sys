@@ -50,7 +50,12 @@ public class PersonInfoService {
 
 	public List<PersonInfoVO> findAll() {
 		List<PersonInfo> personInfoList = StreamSupport.stream(personInfoRepository.findAll().spliterator(), false)
-				.collect(Collectors.toList());
+				.map(p -> {
+					if(p.getCommunicationAddress() != null && "同上".equals(p.getCommunicationAddress().strip())) {
+						p.setCommunicationAddress(p.getResidenceAddress());
+					}
+					return p;
+				}).collect(Collectors.toList());
 		List<PersonInfoVO> voList = new ArrayList<PersonInfoVO>();
 		for (PersonInfo personInfo : personInfoList) {
 			PersonInfoVO vo = new PersonInfoVO();
