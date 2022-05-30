@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>pl-sys</name>
+	<name>pl-sys-test</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -72,7 +72,36 @@
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-mock</artifactId>
+			<version>2.0.8</version>
+		</dependency>
+	<!-- 	<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.14</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.14</version>
+		</dependency>  -->
+		 <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-base</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
 	</dependencies>
 
 	<profiles>
@@ -83,8 +112,8 @@
 			</activation>
 			<properties>
 				<env.current>dev</env.current>
-		<!-- 		<project.jdbc.url>jdbc:mysql://192.168.99.101:32768/pl_sys?characterEncoding=UTF-8</project.jdbc.url> -->
-				<project.jdbc.url>jdbc:mysql://localhost:3306/pl_sys?characterEncoding=UTF-8&amp;serverTimezone=UTC</project.jdbc.url>
+				<!-- <project.jdbc.url>jdbc:mysql://192.168.99.101:32768/pl_sys?characterEncoding=UTF-8</project.jdbc.url> -->
+				<project.jdbc.url>jdbc:mysql://localhost:3308/pl_sys?characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=UTC</project.jdbc.url>
 				<project.jdbc.user>root</project.jdbc.user>
 				<project.jdbc.password>25262728</project.jdbc.password>
 			</properties>
@@ -104,7 +133,7 @@
 			<id>prod</id>
 			<properties>
 				<env.current>prod</env.current>
-				<project.jdbc.url>jdbc:mysql://localhost:3306/hanyecom_pl_sys?characterEncoding=UTF-8&amp;useSSL=false</project.jdbc.url>
+				<project.jdbc.url>jdbc:mysql://localhost:3306/hanyecom_pl_sys?characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=UTC</project.jdbc.url>
 				<project.jdbc.user>hanyecom_max</project.jdbc.user>
 				<project.jdbc.password>max_amy_10300321</project.jdbc.password>
 			</properties>
@@ -112,11 +141,20 @@
 	</profiles>
 
 	<build>
-		<finalName>pl-admin</finalName>
+		<finalName>pl-admin-test</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
