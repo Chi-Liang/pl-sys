@@ -38,7 +38,7 @@ public class MemberController {
 			model.addAttribute("errorMsg", PLExceptionCode.CATEGORY_NOT_FOUND.getMsg());
 		}
 		model.addAttribute("pageError", pageError);
-		model.addAttribute("memberList", memberService.findAll());
+		model.addAttribute("memberList", memberService.findAllByNativeSql());
 		
 		return "member/list";
 	}

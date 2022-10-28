@@ -37,6 +37,9 @@ public class Category {
 	@Lob
 	private byte[] picture;
 	
+	@Column(length = 1)
+	private String whichWebSite;
+	
 	@OneToMany(mappedBy = "category")
 	private Set<Video> videos = new HashSet<Video>();
 	
@@ -97,6 +100,14 @@ public class Category {
 
 	public void setPicture(byte[] picture) {
 		this.picture = picture;
+	}
+
+	public String getWhichWebSite() {
+		return whichWebSite;
+	}
+
+	public void setWhichWebSite(String whichWebSite) {
+		this.whichWebSite = whichWebSite;
 	}
 	
 }

@@ -47,9 +47,8 @@ public class LatestInfoController {
 	
 	@RequestMapping("/list")
 	public String list(Model model) {
-		List<MemberVO> memberList = memberService.findAll();
 		boolean pageError = false;
-		if(memberList.size() == 0) {
+		if(!memberService.checkExistMember()) {
 			pageError = true;
 			model.addAttribute("errorMsg", PLExceptionCode.DATA_NOT_FOUND.getMsg());
 		}

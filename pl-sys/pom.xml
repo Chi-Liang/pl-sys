@@ -113,7 +113,7 @@
 			<properties>
 				<env.current>dev</env.current>
 				<!-- <project.jdbc.url>jdbc:mysql://192.168.99.101:32768/pl_sys?characterEncoding=UTF-8</project.jdbc.url> -->
-				<project.jdbc.url>jdbc:mysql://localhost:3308/pl_sys?characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=UTC</project.jdbc.url>
+				<project.jdbc.url>jdbc:mysql://localhost:3308/pl_sys?characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</project.jdbc.url>
 				<project.jdbc.user>root</project.jdbc.user>
 				<project.jdbc.password>25262728</project.jdbc.password>
 			</properties>

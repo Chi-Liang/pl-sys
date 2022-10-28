@@ -1,5 +1,7 @@
 package com.hanye.info.vo;
 
+import javax.persistence.Column;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class CategoryVO {
@@ -10,6 +12,7 @@ public class CategoryVO {
 	private String fileName;
 	private byte[] picture;
 	private String pictureUrl;
+	private String whichWebSite = "1";
 
 	public Long getCid() {
 		return cid;
@@ -57,6 +60,14 @@ public class CategoryVO {
 
 	public void setPictureUrl(String pictureUrl) {
 		this.pictureUrl = pictureUrl;
+	}
+
+	public String getWhichWebSite() {
+		return whichWebSite;
+	}
+
+	public void setWhichWebSite(String whichWebSite) {
+		this.whichWebSite = whichWebSite;
 	}
 	
 }

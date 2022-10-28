@@ -105,6 +105,7 @@ public class CategoryService {
 		category.setName(categoryVO.getName());
 		category.setFileName(tempFliename);
 		category.setPicture(tempPicture);
+		category.setWhichWebSite(categoryVO.getWhichWebSite());
 		MultipartFile file = categoryVO.getFile();
 		String fileName = "";
 		try {

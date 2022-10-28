@@ -69,6 +69,27 @@ public class MemberService {
 		
 		return voList;
 	}
+	
+	public List<MemberVO> findAllByNativeSql() {
+		List<Object[]> voList = memberRepository.findAllByNativeSql();
+		return voList.stream().map( vo -> {
+			BeanConverter beanConverter = new BeanConverter();
+			MemberVO memberVO = new MemberVO();
+			memberVO.setMid((String)vo[0]);
+			memberVO.setName((String)vo[1]);
+			memberVO.setTel((String)vo[2]);
+			memberVO.setEmail((String)vo[3]);
+			memberVO.setAddress((String)vo[4]);
+			memberVO.setCreateDate((String)beanConverter.convert(vo[5], null, null));
+			memberVO.setUpdateDate((String)beanConverter.convert(vo[6], null, null));
+			memberVO.setFreeOrPaid((String)vo[7]);
+			memberVO.setPoints((String)vo[8]);
+			memberVO.setWhichGroup((String)vo[9]);
+			memberVO.setCategoryNames((String)vo[10]);
+			return memberVO;
+		}).collect(Collectors.toList());
+		
+	}
 
 	public MemberVO findMember(String mid) {
 		Member member = memberRepository.findById(mid).get();
@@ -186,12 +207,18 @@ public class MemberService {
 		}
 	}
 	
+	
+	public boolean checkExistMember() {
+		long count = memberRepository.count();
+		return count > 0;
+	}
+	
 	public void downloadExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("註冊會員維護");
 
-		List<MemberVO> memberList = memberService.findAll();
+		List<MemberVO> memberList = memberService.findAllByNativeSql();
 		memberList.sort((s1, s2) -> -s2.getMid().compareTo(s1.getMid()));
 		Object[] titles = { "帳號", "名稱", "電話", "信箱", "住址", "影片群組","建立日期","修改日期","免費/付費","group1/group2" };
 		Row row = sheet.createRow(0);
@@ -274,5 +301,5 @@ public class MemberService {
 		}
 
 	}
-
+	
 }
