@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	layout:decorate="~{defaultLayout}">
+
+<head>
+<title>合約書新增</title>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#contractGroupForm").validate({
+                rules: {
+                    groupName: {
+                        required: true
+                    },
+                    file: {
+                        required: true
+                    }
+                },
+                messages : {
+                	groupName: {
+                        required: "此欄位必填"
+                    },
+                    file: {
+                        required: "請選擇合約書"
+                    }
+                }
+
+            });
+        });
+    </script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">合約書新增</h1>
+					<button class="btn btn-success" onclick="javascript:history.back()">回上一頁</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">合約書資訊</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<form id="contractGroupForm" role="form" th:action="@{/auth/contractGroup/addSubmit}" th:object="${contractGroup}" method="post"
+									              enctype="multipart/form-data">
+									              
+										<div class="form-group">
+											<label>合約書名稱</label> <input class="form-control" th:field="*{groupName}">
+											<p class="help-block"></p>
+										</div>
+										<div class="form-group">
+											<label>選擇合約書:</label>
+											<input type="file" name="file" />
+											<p class="help-block"></p>
+										</div>
+										<button type="submit" class="btn btn-default">Submit</button>
+										<button type="reset" class="btn btn-default">Reset</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
