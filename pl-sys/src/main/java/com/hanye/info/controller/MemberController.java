@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hanye.info.exception.PLExceptionCode;
 import com.hanye.info.service.CategoryService;
+import com.hanye.info.service.ContractGroupService;
 import com.hanye.info.service.MemberService;
 import com.hanye.info.vo.CategoryVO;
 import com.hanye.info.vo.MemberVO;
@@ -28,6 +29,8 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private ContractGroupService contractGroupService;
 	
 	@RequestMapping("/list")
 	public String list(Model model) {
@@ -48,6 +51,7 @@ public class MemberController {
 		MemberVO member = new MemberVO();
 		model.addAttribute("member", member);
 		model.addAttribute("categoryList", categoryService.findAll());
+		model.addAttribute("contractGroupList", contractGroupService.findAll());
 		
 		return "member/add";
 	}
@@ -63,7 +67,7 @@ public class MemberController {
 	public String edit(@RequestParam String mid, Model model) {
 		model.addAttribute("member", memberService.findMember(mid));
 		model.addAttribute("categoryList", categoryService.findAll());
-		
+		model.addAttribute("contractGroupList", contractGroupService.findAll());
 		return "member/edit";
 	}
 	

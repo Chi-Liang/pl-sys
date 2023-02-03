@@ -15,6 +15,7 @@ public class MemberVO {
 	private String freeOrPaid;
 	private String points;
 	private String whichGroup;
+	private String[] contractGroups;
 
 	public String getMid() {
 		return mid;
@@ -118,6 +119,14 @@ public class MemberVO {
 
 	public void setWhichGroup(String whichGroup) {
 		this.whichGroup = whichGroup;
+	}
+
+	public String[] getContractGroups() {
+		return contractGroups;
+	}
+
+	public void setContractGroups(String[] contractGroups) {
+		this.contractGroups = contractGroups;
 	}
 	
 }

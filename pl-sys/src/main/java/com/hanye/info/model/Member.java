@@ -65,6 +65,9 @@ public class Member {
 	@Column(length = 1)
 	private String whichGroup;
 	
+	@Column(length = 1000)
+	private String contracts;
+	
 	public String getMid() {
 		return mid;
 	}
@@ -159,6 +162,14 @@ public class Member {
 
 	public void setWhichGroup(String whichGroup) {
 		this.whichGroup = whichGroup;
+	}
+
+	public String getContracts() {
+		return contracts;
+	}
+
+	public void setContracts(String contracts) {
+		this.contracts = contracts;
 	}
 	
 }

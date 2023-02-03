@@ -183,6 +183,17 @@
 											</div>
 										</div>
 										
+										<div class="form-group">
+											<label>合約書群組</label> 
+											<p class="help-block"></p>
+											
+											<div class="checkbox" th:each="contractGroup : ${contractGroupList}">
+                                        		<label>
+                                        			<input type="checkbox" th:field="*{contractGroups}" th:value="${contractGroup.groupId}" th:text="${contractGroup.groupName}">
+                                        		</label>
+                                        	</div>
+                                        </div>
+										
 										<button type="submit" class="btn btn-default">Submit</button>
 										<button type="reset" class="btn btn-default">Reset</button>
 									</form>

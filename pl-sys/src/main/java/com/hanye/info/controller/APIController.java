@@ -104,7 +104,7 @@ public class APIController {
 	
 	@PostMapping("/member/check")
 	public ReturnLoginVO checkMember(@RequestBody CheckMemberVO checkMemberVO) {
-		return memberService.checkMember(checkMemberVO);
+		return memberService.checkMember(checkMemberVO,false);
 	}
 	
 	@PostMapping("/video/list")
@@ -213,5 +213,10 @@ public class APIController {
 	@PostMapping("/lecture/findGroupPicture")
 	public ReturnGroupVO findGroupPicture() {
 		return lectureService.findModPicture();
+	}
+	
+	@PostMapping("/member/check/contract")
+	public ReturnLoginVO checkMemberContract(@RequestBody CheckMemberVO checkMemberVO) {
+		return memberService.checkMember(checkMemberVO,true);
 	}
 }

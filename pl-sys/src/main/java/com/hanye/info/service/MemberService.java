@@ -15,6 +15,7 @@ import java.util.stream.StreamSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -23,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.StringUtils;
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.exception.PLExceptionCode;
 import com.hanye.info.model.Category;
@@ -104,6 +104,12 @@ public class MemberService {
 			i++;
 		}
 		
+		String contracts = member.getContracts();
+		if(!StringUtils.isEmpty(contracts)) {
+			String[] contractArray = contracts.split(",");
+			memberVO.setContractGroups(contractArray);
+		}
+		
 		memberVO.setCategories(categoryValues);
 		
 		return memberVO;
@@ -121,6 +127,9 @@ public class MemberService {
 				categories.add(category);
 			}
 		}
+		
+		String contractGroups = setContractGroups(memberVO);
+		member.setContracts(contractGroups);
 		member.setCategories(categories);
 		memberRepository.save(member);
 	}
@@ -133,6 +142,9 @@ public class MemberService {
 			Category category = categoryRepository.findById(answer).get();
 			categories.add(category);
 		}
+		
+		String contractGroups = setContractGroups(memberVO);
+		member.setContracts(contractGroups);
 		member.setCategories(categories);
 		member.setTel(memberVO.getTel());
 		member.setEmail(memberVO.getEmail());
@@ -143,7 +155,7 @@ public class MemberService {
 		member.setWhichGroup(memberVO.getWhichGroup());
 		memberRepository.save(member);
 	}
-	
+
 	public ReturnVO changeMemberPwd(MemberVO memberVO) {
 		try {
 			Member member = memberRepository.findById(memberVO.getMid()).get();
@@ -160,10 +172,15 @@ public class MemberService {
 		memberRepository.deleteById(mid);
 	}
 	
-	public ReturnLoginVO checkMember(CheckMemberVO checkMemberVO) {
+	public ReturnLoginVO checkMember(CheckMemberVO checkMemberVO,boolean isContract) {
 		try {
 			Member member = memberRepository.findByJPQL(checkMemberVO.getMid());
+			
 			if(member == null) return new ReturnLoginVO("fail","帳號不存在",null);
+			
+			if(isContract && StringUtils.isEmpty(member.getContracts())) {
+				return new ReturnLoginVO("fail","合約書未開通",null);
+			}
 			
 			if(new BCryptPasswordEncoder().matches(
 					checkMemberVO.getPwd().toString(), member.getPwd())) {
@@ -299,7 +316,15 @@ public class MemberService {
 				e.printStackTrace();
 			}
 		}
-
+	}
+	
+	private String setContractGroups(MemberVO memberVO) {
+		String contractGroups = "";
+		String[] contractArray = memberVO.getContractGroups();
+		if(contractArray != null && contractArray.length > 0 ) {
+			contractGroups = StringUtils.join(contractArray,",");
+		}
+		return contractGroups;
 	}
 	
 }
