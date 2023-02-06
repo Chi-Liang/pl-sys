@@ -71,7 +71,7 @@
 									></option>
 								</select>
 								<button type="button" class="btn btn-success" id="edit-btn"
-									th:onclick="toEdit([[${checkGroupId}]])">編輯</button>
+									th:onclick="toEdit([[${checkGroupId}]])" th:disabled="${checkGroupId} == ''" >編輯</button>
 							</p>
 
 							<div class="table-responsive">
