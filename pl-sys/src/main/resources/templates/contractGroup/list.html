@@ -27,6 +27,11 @@
 		$("#editGroupId").val(editGroupId);
 		$("#toEditForm").submit();
 	}
+	
+	function toDownloadDocx(docxGroupId) {
+		$("#docxGroupId").val(docxGroupId);
+		$("#toDownloadDocxForm").submit();
+	}
 
 	function queryContract() {
 		$("#queryGroupId").val($("#selectGroupId").val());
@@ -72,6 +77,9 @@
 								</select>
 								<button type="button" class="btn btn-success" id="edit-btn"
 									th:onclick="toEdit([[${checkGroupId}]])" th:disabled="${checkGroupId} == ''" >編輯</button>
+									
+								<button type="button" class="btn btn-success" id="edit-btn"
+									th:onclick="toDownloadDocx([[${checkGroupId}]])" th:disabled="${checkGroupId} == ''" >下載</button>	
 							</p>
 
 							<div class="table-responsive">
@@ -113,7 +121,11 @@
 			<input type="hidden" id="downloadGroupId" name="groupId" />
 			<input type="hidden" id="downloadUserId" name="userId" />
 		</form>
-
+		
+		<form th:action="@{/auth/contractGroup/downloadDocx}" id="toDownloadDocxForm" method="post" >
+			<input type="hidden" id="docxGroupId" name="groupId" />
+		</form>
+		
 	</div>
 </body>
 </html>

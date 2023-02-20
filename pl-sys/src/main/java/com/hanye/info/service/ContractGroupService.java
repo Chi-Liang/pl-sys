@@ -137,6 +137,21 @@ public class ContractGroupService {
 
 	}
 	
+    public void downloadDocx(HttpServletRequest request, HttpServletResponse response,Long groupId) throws Exception {
+		
+		ContractGroup contractGroup = contractGroupRepository.findById(groupId).get();
+		byte[] data = contractGroup.getContent();
+		String groupName = contractGroup.getGroupName();
+		
+		String filename = groupName  + ".docx";
+		String headerFileName = new String(filename.getBytes(), "ISO8859-1");
+		response.setHeader("Content-Disposition", "attachment; filename=" + headerFileName);
+		InputStream is = new ByteArrayInputStream(data);
+		IOUtils.copy(is, response.getOutputStream());
+		
+
+	}
+	
 	private void setContractContent(ContractGroupVO contractGroupVO, ContractGroup contractGroup) {
 		
 		MultipartFile file = contractGroupVO.getFile();

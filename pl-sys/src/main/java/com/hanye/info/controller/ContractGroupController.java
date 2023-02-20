@@ -77,4 +77,10 @@ public class ContractGroupController {
 		contractGroupService.downloadPdf(request,response,contractVO);
 	}
 	
+	@PostMapping("/downloadDocx")
+	public void downloadDocx(HttpServletRequest request, 
+	HttpServletResponse response,@RequestParam Long groupId) throws Exception { 
+		contractGroupService.downloadDocx(request,response,groupId);
+	}	
+	
 }
