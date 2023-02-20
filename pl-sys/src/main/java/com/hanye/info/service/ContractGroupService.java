@@ -143,7 +143,7 @@ public class ContractGroupService {
 		byte[] data = contractGroup.getContent();
 		String groupName = contractGroup.getGroupName();
 		
-		String filename = groupName  + ".docx";
+		String filename = groupName  + ".doc";
 		String headerFileName = new String(filename.getBytes(), "ISO8859-1");
 		response.setHeader("Content-Disposition", "attachment; filename=" + headerFileName);
 		InputStream is = new ByteArrayInputStream(data);
