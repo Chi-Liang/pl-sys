@@ -44,6 +44,8 @@ import com.hanye.info.vo.ContactUsVO;
 import com.hanye.info.vo.ContractGroupVO;
 import com.hanye.info.vo.ContractVO;
 import com.hanye.info.vo.PersonInfoVO;
+import com.hanye.info.vo.ReturnContractGroupVO;
+import com.hanye.info.vo.ReturnLoginVO;
 import com.hanye.info.vo.ReturnVO;
 
 @Service
@@ -93,6 +95,23 @@ public class ContractGroupService {
 //		}
 //		
 //		contractRepository.save(aa);
+		
+	}
+	
+	public ReturnContractGroupVO findContractByUserId(String mid) {
+		try {
+			List<ContractGroup> contractGroupList = contractGroupRepository.findContractByUserId(mid);
+			List<ContractGroupVO> voList = new ArrayList<ContractGroupVO>();
+			for (ContractGroup contractGroup : contractGroupList) {
+				ContractGroupVO vo = new ContractGroupVO();
+				vo.setGroupId(contractGroup.getGroupId());
+				vo.setGroupName(contractGroup.getGroupName());
+				voList.add(vo);
+			}
+			return new ReturnContractGroupVO("success", "", voList);
+		} catch (Exception e) {
+			return new ReturnContractGroupVO("fail", e.getMessage(), null);
+		}
 		
 	}
 	
