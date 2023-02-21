@@ -126,9 +126,11 @@ public class ContractGroupService {
 	
 	public void downloadPdf(HttpServletRequest request, HttpServletResponse response,ContractVO contractVO) throws Exception {
 		
-		byte[] data = contractRepository.findById(contractVO.getGroupId()).get().getContent();
+		Contract contract = contractRepository.findById(contractVO.getGroupId()).get();
 		
-		String filename = contractVO.getUserId()  + ".pdf";
+		byte[] data = contract.getContent();
+		
+		String filename = contract.getFileName();
 		String headerFileName = new String(filename.getBytes(), "ISO8859-1");
 		response.setHeader("Content-Disposition", "attachment; filename=" + headerFileName);
 		InputStream is = new ByteArrayInputStream(data);
@@ -141,9 +143,8 @@ public class ContractGroupService {
 		
 		ContractGroup contractGroup = contractGroupRepository.findById(groupId).get();
 		byte[] data = contractGroup.getContent();
-		String groupName = contractGroup.getGroupName();
 		
-		String filename = groupName  + ".doc";
+		String filename = contractGroup.getFileName();
 		String headerFileName = new String(filename.getBytes(), "ISO8859-1");
 		response.setHeader("Content-Disposition", "attachment; filename=" + headerFileName);
 		InputStream is = new ByteArrayInputStream(data);
@@ -157,6 +158,7 @@ public class ContractGroupService {
 		MultipartFile file = contractGroupVO.getFile();
 		try {
 			if(!file.isEmpty()) {
+				contractGroup.setFileName(file.getOriginalFilename());
 				contractGroup.setContent(file.getBytes());
 			}
 		} catch (IOException e) {

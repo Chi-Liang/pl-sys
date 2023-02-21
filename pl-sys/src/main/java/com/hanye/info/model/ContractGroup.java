@@ -19,6 +19,9 @@ public class ContractGroup {
 	
 	@Lob
 	private byte[] content;
+	
+	@Column
+	private String fileName;
 
 	public Long getGroupId() {
 		return groupId;
@@ -42,6 +45,14 @@ public class ContractGroup {
 
 	public void setContent(byte[] content) {
 		this.content = content;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 }

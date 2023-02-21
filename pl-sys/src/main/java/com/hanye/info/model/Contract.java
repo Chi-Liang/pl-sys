@@ -22,6 +22,9 @@ public class Contract {
 	
 	@Lob
 	private byte[] content;
+	
+	@Column
+	private String fileName;
 
 	public Long getId() {
 		return id;
@@ -53,6 +56,14 @@ public class Contract {
 
 	public void setContent(byte[] content) {
 		this.content = content;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }
