@@ -60,8 +60,8 @@ public class Member {
 	
 	@Column(length = 1)
 	private String freeOrPaid;
-	@Column(length = 10)
-	private String points;
+//	@Column(length = 10)
+//	private String points;
 	@Column(length = 1)
 	private String whichGroup;
 	
@@ -148,13 +148,13 @@ public class Member {
 		this.freeOrPaid = freeOrPaid;
 	}
 
-	public String getPoints() {
-		return points;
-	}
-
-	public void setPoints(String points) {
-		this.points = points;
-	}
+//	public String getPoints() {
+//		return points;
+//	}
+//
+//	public void setPoints(String points) {
+//		this.points = points;
+//	}
 
 	public String getWhichGroup() {
 		return whichGroup;

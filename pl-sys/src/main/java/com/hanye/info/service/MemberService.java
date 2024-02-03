@@ -28,7 +28,9 @@ import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.exception.PLExceptionCode;
 import com.hanye.info.model.Category;
 import com.hanye.info.model.Member;
+import com.hanye.info.model.MemberPoint;
 import com.hanye.info.repository.CategoryRepository;
+import com.hanye.info.repository.MemberPointRepository;
 import com.hanye.info.repository.MemberRepository;
 import com.hanye.info.vo.ReturnVO;
 import com.hanye.info.vo.CheckMemberVO;
@@ -47,6 +49,9 @@ public class MemberService {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private MemberPointRepository memberPointRepository;
 	
 	private static BeanCopier voToEntity = BeanCopier.create(MemberVO.class, Member.class, false);
 	private static BeanCopier entityToVo = BeanCopier.create(Member.class, MemberVO.class, true);
@@ -117,6 +122,9 @@ public class MemberService {
 
 	public void saveMember(MemberVO memberVO) {
 		Member member = new Member();
+		MemberPoint memberPoint = new MemberPoint();
+		memberPoint.setMid(memberVO.getMid());
+		memberPoint.setPoints(memberVO.getPoints());
 		voToEntity.copy(memberVO, member, null);
 		member.setPwd(new BCryptPasswordEncoder().encode(member.getPwd()));
 		member.setCreateDate(new Date());
@@ -132,6 +140,7 @@ public class MemberService {
 		member.setContracts(contractGroups);
 		member.setCategories(categories);
 		memberRepository.save(member);
+		memberPointRepository.save(memberPoint);
 	}
 	
 	public void editMember(MemberVO memberVO) {
@@ -150,7 +159,6 @@ public class MemberService {
 		member.setEmail(memberVO.getEmail());
 		member.setAddress(memberVO.getAddress());
 		member.setUpdateDate(new Date());
-		member.setPoints(memberVO.getPoints());
 		member.setFreeOrPaid(memberVO.getFreeOrPaid());
 		member.setWhichGroup(memberVO.getWhichGroup());
 		memberRepository.save(member);
@@ -170,6 +178,7 @@ public class MemberService {
 	
 	public void deleteMember(String mid) {
 		memberRepository.deleteById(mid);
+		memberPointRepository.deleteById(mid);
 	}
 	
 	public ReturnLoginVO checkMember(CheckMemberVO checkMemberVO,boolean isContract) {

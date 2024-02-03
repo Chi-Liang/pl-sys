@@ -21,8 +21,10 @@ import org.springframework.util.StringUtils;
 
 import com.hanye.info.convert.BeanConverter;
 import com.hanye.info.model.Member;
+import com.hanye.info.model.MemberPoint;
 import com.hanye.info.model.PersonInfo;
 import com.hanye.info.repository.CategoryRepository;
+import com.hanye.info.repository.MemberPointRepository;
 import com.hanye.info.repository.MemberRepository;
 import com.hanye.info.repository.PersonInfoRepository;
 import com.hanye.info.repository.VideoRepository;
@@ -41,6 +43,8 @@ public class PersonInfoService {
 	private PersonInfoRepository personInfoRepository;
 	@Autowired
 	private MemberRepository memberRepository;
+	@Autowired
+	private MemberPointRepository memberPointRepository;
 	
 	@Autowired
 	private PersonInfoService personInfoService;
@@ -83,7 +87,7 @@ public class PersonInfoService {
 			if (personInfo == null) {
 				throw new RuntimeException("找不到個人資訊");
 			}
-			Member member = memberRepository.findById(mid).get();
+			MemberPoint member = memberPointRepository.findById(mid).get();
 			personInfo.setPoints(member.getPoints());
 			return new ReturnPersonInfoVO("success", "", personInfo);
 		} catch (Exception e) {
